@@ -74,7 +74,7 @@ function RegisterAsDB() {
                 id="floatingInput"
                 placeholder="John"
               />
-              <label className="ms-3" for="floatingInput">
+              <label className="ms-3" htmlFor="floatingInput">
                 First Name
               </label>
             </div>
@@ -88,7 +88,7 @@ function RegisterAsDB() {
                 id="floatingInput"
                 placeholder="Doe"
               />
-              <label className="ms-3" for="floatingInput">
+              <label className="ms-3" htmlFor="floatingInput">
                 Last Name
               </label>
             </div>
@@ -104,7 +104,7 @@ function RegisterAsDB() {
               id="floatingInput"
               placeholder="name@example.com"
             />
-            <label for="floatingInput">Email</label>
+            <label htmlFor="floatingInput">Email</label>
           </div>
           {/* Password */}
           <div className="row">
@@ -118,7 +118,7 @@ function RegisterAsDB() {
                 id="floatingPassword"
                 placeholder="Password"
               />
-              <label className="ms-3" for="floatingPassword">
+              <label className="ms-3" htmlFor="floatingPassword">
                 Password
               </label>
             </div>
@@ -132,7 +132,7 @@ function RegisterAsDB() {
                 id="floatingPassword"
                 placeholder="Password"
               />
-              <label className="ms-3" for="floatingPassword">
+              <label className="ms-3" htmlFor="floatingPassword">
                 Confirm Password
               </label>
             </div>
@@ -148,7 +148,7 @@ function RegisterAsDB() {
               id="floatingInput"
               placeholder="1234"
             />
-            <label for="floatingInput">Contact</label>
+            <label htmlFor="floatingInput">Contact</label>
           </div>
           {/* Address */}
           <div className="form-floating mb-3">
@@ -161,7 +161,7 @@ function RegisterAsDB() {
               id="floatingInput"
               placeholder="pune"
             />
-            <label for="floatingInput">Address</label>
+            <label htmlFor="floatingInput">Address</label>
           </div>
           {/* pincode need modifications */}
           <div className="form-floating mb-3">
@@ -174,14 +174,15 @@ function RegisterAsDB() {
               id="floatingInput"
               placeholder="pune"
             />
-            <label for="floatingInput">Pincode</label>
+            <label htmlFor="floatingInput">Pincode</label>
           </div>
 
           <div className="row">
             <div className="col">
               <button
                 onClick={onRegister}
-                className="mt-2 rounded-5 btn btn-success"
+                className="mt-2 rounded-5 btn"
+                id="action-btn"
               >
                 Register as Delivery boy
               </button>

@@ -1,66 +1,51 @@
 import React from "react";
 
 function Vendor({ property }) {
-  console.log(property);
   return (
-    <div class="col-xl-3 col-sm-6 m-2 " style={{ display: "inline-block" }}>
-      <div class="card">
-        <div class="card-body">
-          <div class="dropdown float-end">
-            <a
-              class="text-muted dropdown-toggle font-size-16"
-              href="#"
-              role="button"
-              data-bs-toggle="dropdown"
-              aria-haspopup="true"
-            >
-              <i class="bx bx-dots-horizontal-rounded"></i>
-            </a>
-            <div class="dropdown-menu dropdown-menu-end">
-              <a class="dropdown-item" href="#">
-                Edit
-              </a>
-              <a class="dropdown-item" href="#">
-                Action
-              </a>
-              <a class="dropdown-item" href="#">
-                Remove
-              </a>
-            </div>
-          </div>
-          <div class="d-flex align-items-center">
-            <div>
+    <div className="col-xl-3 col-sm-6 m-2" style={{ display: "inline-block" }}>
+      <div className="card text-center">
+        <div className="card-body">
+          <div className="d-flex align-items-center justify-content-center mb-3">
+            <div className="avatar-md rounded-circle overflow-hidden">
               <img
-                src="https://bootdey.com/img/Content/avatar/avatar1.png"
+                src="https://logowik.com/content/uploads/images/674_kfc.jpg"
                 alt=""
-                class="avatar-md rounded-circle img-thumbnail"
+                className="img-fluid"
+                style={{ maxWidth: "100%", height: "auto" }}
               />
             </div>
-            <div class="flex-1 ms-3">
-              <h5 class="font-size-16 mb-1">{property.businessName}</h5>
-              <span class="badge badge-soft-success mb-0">{}</span>
-            </div>
           </div>
-          <div class="mt-3 pt-1">
-            <p class="text-muted mb-0">
-              <i class="mdi mdi-phone font-size-15 align-middle pe-2 text-primary"></i>{" "}
+          <div className="ms-3">
+            <h5 className="font-size-16 mb-1">{property.businessName}</h5>
+            <span className="badge badge-soft-success mb-2">Open</span>
+          </div>
+          <div className="mt-3 pt-1">
+            <p className="text-muted mb-1">
+              <i className="mdi mdi-phone font-size-15 align-middle pe-2 text-primary"></i>{" "}
               {property.phoneNumber}
             </p>
-            <p class="text-muted mb-0 mt-2">
-              <i class="mdi mdi-email font-size-15 align-middle pe-2 text-primary"></i>{" "}
+            <p className="text-muted mb-1">
+              <i className="mdi mdi-email font-size-15 align-middle pe-2 text-primary"></i>{" "}
               {property.email}
             </p>
-            <p class="text-muted mb-0 mt-2">
-              <i class="mdi mdi-google-maps font-size-15 align-middle pe-2 text-primary"></i>{" "}
+            <p className="text-muted mb-0">
+              <i className="mdi mdi-google-maps font-size-15 align-middle pe-2 text-primary"></i>{" "}
               {property.businessAddress}
             </p>
           </div>
-          <div class="d-flex gap-2 pt-4">
-            <button type="button" class="btn btn-soft-primary btn-sm w-50">
-              <i class="bx bx-user me-1"></i> Profile
+          <div className="d-flex justify-content-center mt-4">
+            <button
+              type="button"
+              className="btn btn-outline-primary btn-sm w-50 me-2 rounded-5"
+            >
+              <i className="bx bx-user me-1"></i> Profile
             </button>
-            <button type="button" class="btn btn-primary btn-sm w-50">
-              <i class="bx bx-message-square-dots me-1"></i> Contact
+            <button
+              type="button"
+              className="btn btn-primary btn-sm w-50 rounded-5"
+              style={{ backgroundColor: "#f56e6e", borderColor: "#f56e6e" }}
+            >
+              <i className="bx bx-message-square-dots me-1"></i> Contact
             </button>
           </div>
         </div>

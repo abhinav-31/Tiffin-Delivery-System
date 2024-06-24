@@ -58,7 +58,7 @@ function LoginModal({ onClose, onToggleRegister }) {
               id="floatingInput"
               placeholder="name@example.com"
             />
-            <label for="floatingInput">Email address</label>
+            <label htmlFor="floatingInput">Email address</label>
           </div>
           <div className="form-floating mb-3">
             <input
@@ -70,11 +70,11 @@ function LoginModal({ onClose, onToggleRegister }) {
               id="floatingPassword"
               placeholder="Password"
             />
-            <label for="floatingPassword">Password</label>
+            <label htmlFor="floatingPassword">Password</label>
           </div>
           <div>
             Don't have an account yet?
-            <button class="btn btn-link" onClick={onToggleRegister}>
+            <button className="btn btn-link" onClick={onToggleRegister}>
               Register
             </button>
           </div>

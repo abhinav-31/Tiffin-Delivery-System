@@ -44,19 +44,19 @@ function CartItem({ cartItem, updateBill }) {
               </div>
               <div className="flex-grow-1 align-self-center overflow-hidden">
                 <div>
-                  <h5 className="text-truncate font-size-18">
+                  <h5 className="text-truncate font-size-20 fw-bold">
                     {cartItem.title}
                   </h5>
                   <p className="text-muted mb-0">
-                    {Array(cartItem.rating).fill(
-                      <i className="bx bxs-star text-warning"></i>
-                    )}
+                    {Array.from({ length: cartItem.rating }, (_, index) => (
+                      <i key={index} className="bx bxs-star text-warning"></i>
+                    ))}
                   </p>
                 </div>
               </div>
               <div className="flex-shrink-0 ms-2">
                 <ul className="list-inline mb-0 font-size-16">
-                  <li className="list-inline-item">
+                  {/* <li className="list-inline-item">
                     <button
                       // onClick={cancelBooking}
                       style={{ position: "absolute", right: 15, bottom: 15 }}
@@ -64,7 +64,7 @@ function CartItem({ cartItem, updateBill }) {
                     >
                       Remove
                     </button>
-                  </li>
+                  </li> */}
                   <li className="list-inline-item">
                     <a href="#" className="text-muted px-1">
                       <i className="mdi mdi-heart-outline"></i>
@@ -78,7 +78,7 @@ function CartItem({ cartItem, updateBill }) {
               <div className="row">
                 <div className="col-md-4">
                   <div className="mt-3">
-                    <p className="text-muted mb-2">Price</p>
+                    <p className="text-muted mb-2 font-size-16">Price</p>
                     <h5 className="mb-0 mt-2">
                       <span className="text-muted me-2">
                         <del className="font-size-16 fw-normal">
@@ -91,11 +91,8 @@ function CartItem({ cartItem, updateBill }) {
                 </div>
                 <div className="col-md-5">
                   <div className="mt-3">
-                    <p className="text-muted mb-2">Quantity</p>
+                    <p className="text-muted mb-2 font-size-16">Quantity</p>
                     <div className="d-inline-flex">
-                      {/* <select className="form-select form-select-sm w-xl">
-                                    <option value="1">{cartItem.quantity}</option>
-                                  </select> */}
                       <Counter
                         quantity={quantity}
                         onQuantityChange={handleQuantityChange}

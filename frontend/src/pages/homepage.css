@@ -1,3 +1,72 @@
+/* Homepage styling */
+
+.content {
+  margin-top: 20px;
+}
+
+.tiffin-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.tiffin-image {
+  flex: 1;
+  margin-right: 20px;
+}
+
+.tiffin-image img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.tiffin-content {
+  flex: 2;
+}
+
+.content-heading {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.highlight {
+  color: #f56e6e; /* Highlight color */
+  font-style: italic;
+}
+
+.content-text {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: #555;
+}
+
+.services-section {
+  margin-top: 40px;
+}
+
+.motov4_fancy_heading h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.motov4_feature_data h3 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.motov4_feature_data p {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: #555;
+}
+
+/* Adjust as needed for additional styling */
 .content {
   /* Padding to push content below the fixed navbar */
   padding-top: 5rem; /* Adjust as per your navbar height */
@@ -72,4 +141,52 @@ a {
   white-space: nowrap;
   vertical-align: baseline;
   border-radius: 0.75rem;
+}
+.tiffin-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 20px;
+  background-color: #f0f0f0;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.tiffin-image {
+  flex: 1;
+  margin-right: 20px;
+}
+
+.tiffin-image img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.tiffin-content {
+  flex: 2;
+}
+
+.content-heading {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.highlight {
+  color: #f56e6e; /* Highlight color */
+  font-style: italic;
+}
+
+.content-text {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: #555;
+}
+
+.italic {
+  font-style: italic;
+}
+.content-container {
+  margin-top: 5rem;
 }

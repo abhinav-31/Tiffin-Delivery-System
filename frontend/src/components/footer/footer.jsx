@@ -4,7 +4,7 @@ import "./css/style.css";
 function Footer() {
   return (
     <div>
-      <div className="footer-14398">
+      <div className="footer-14398 fw-bold">
         <div className="container">
           <div className="row mb-5">
             <div className="col-md-3">
@@ -25,15 +25,6 @@ function Footer() {
                 <li>
                   <a href="#">Features</a>
                 </li>
-                <li>
-                  <a href="#">Examples</a>
-                </li>
-                <li>
-                  <a href="#">Website editors</a>
-                </li>
-                <li>
-                  <a href="#">Online retail</a>
-                </li>
               </ul>
             </div>
             <div className="col-md-2 ml-auto">
@@ -45,15 +36,6 @@ function Footer() {
                 <li>
                   <a href="#">News</a>
                 </li>
-                <li>
-                  <a href="#">Awards</a>
-                </li>
-                <li>
-                  <a href="#">Testimonials</a>
-                </li>
-                <li>
-                  <a href="#">Online retail</a>
-                </li>
               </ul>
             </div>
             <div className="col-md-2 ml-auto">
@@ -64,15 +46,6 @@ function Footer() {
                 </li>
                 <li>
                   <a href="#">Services</a>
-                </li>
-                <li>
-                  <a href="#">Team</a>
-                </li>
-                <li>
-                  <a href="#">Career</a>
-                </li>
-                <li>
-                  <a href="#">Contacts</a>
                 </li>
               </ul>
             </div>
@@ -124,12 +97,7 @@ function Footer() {
           <div className="row">
             <div className="col-md-7">
               <p>
-                <small>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                  Voluptate, fuga. Ex at maxime eum odio quibusdam pariatur
-                  expedita explicabo harum! Consectetur ducimus delectus nemo,
-                  totam odit!
-                </small>
+                <small>©Tiffinity2024</small>
               </p>
             </div>
           </div>

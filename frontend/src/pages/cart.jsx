@@ -85,13 +85,13 @@ function Cart() {
                   );
                 })}
 
-                {cart.items.length == 0 && (
+                {cart.items.length === 0 && (
                   <h4 className="page-title">
                     There no menuItems added to cart
                   </h4>
                 )}
               </div>
-              {cart.length != 0 && (
+              {cart.length !== 0 && (
                 <div>
                   <div className="col-sm-6">
                     <a

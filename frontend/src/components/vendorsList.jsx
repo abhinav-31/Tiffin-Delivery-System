@@ -202,7 +202,7 @@ function VendorsList() {
     loadVendors();
   }, []);
   return vendors.map((vendor) => {
-    return <Vendor property={vendor} />;
+    return <Vendor key={vendor.id} property={vendor} />;
   });
 }
 

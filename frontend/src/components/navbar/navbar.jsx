@@ -24,7 +24,7 @@ function NavBar() {
   };
 
   return (
-    <div className="n">
+    <div className="">
       <div
         className="navbar navbar-expand-md fixed-top navbar-dark bg-dark"
         style={{ color: "red" }}

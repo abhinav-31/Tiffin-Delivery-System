@@ -1,0 +1,33 @@
+AddMenu.css
+
+.container-add-menu {
+    margin-top: 5rem;
+  }
+  
+  .card-add-menu {
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+  
+  .card-header-add-menu {
+    background-color: #3c3d3d;
+    color: white;
+  }
+  
+  .form-group-add-menu {
+    margin-bottom: 3rem;
+    margin-left: 10px;
+  }
+  
+  .btn-primary-add-menu,
+  .btn-secondary-add-menu {
+    width: 100%; /* Both buttons take full width of their respective columns */
+  }
+  
+  .btn-secondary-add-menu {
+    margin-top: 0.5rem; /* Small top margin between the two buttons */
+    margin-left: 0.5rem; /* Small left margin between the two buttons */
+  }
+  
+  .alert-info-add-menu {
+    margin-bottom: 1rem;
+  }

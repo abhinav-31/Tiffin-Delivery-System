@@ -1,0 +1,40 @@
+.container-add-breakfast {
+  margin-top: 50px;
+}
+
+.card-add-breakfast {
+  border-radius: 10px;
+  background-color: #f9f9f9;
+}
+
+.card-header-add-breakfast {
+  background-color:#2a2c2b;
+  color: white;
+  border-radius: 10px 10px 0 0;
+}
+
+.form-group-add-breakfast .col-form-label {
+  font-weight: bold;
+  color: #333;
+}
+
+.btn-primary-add-breakfast {
+  width: 100%;
+  /* background-color:#066d2d; */
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+.btn-secondary-add-breakfast {
+  width: 100%;
+  background-color: #6c757d;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+.btn-primary-add-breakfast:hover,
+.btn-secondary-add-breakfast:hover {
+  opacity: 0.8;
+}

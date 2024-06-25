@@ -1,0 +1,48 @@
+/* ReviewPage.css */
+
+.review-container {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 50px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+  
+  .reviews-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .review-item {
+    flex: 0 0 calc(50% - 20px); /* Two reviews per row with margin */
+    padding: 15px;
+    margin: 10px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .menu-name {
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .stars {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .star {
+    font-size: 24px;
+    color: #ffc107;
+    margin-right: 5px;
+  }
+  
+  .filled {
+    color: #ff9800;
+  }
+  

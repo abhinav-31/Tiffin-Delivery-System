@@ -1,0 +1,23 @@
+/* ViewOrders.css */
+
+.container-view-orders {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+  }
+  
+  .card-view-orders {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .button-accept {
+    margin-right: 4px; /* 2px right margin between Accept and Reject buttons */
+    margin-left: 10px;
+  }
+  
+  .button-reject {
+    margin-left: 2px; /* 2px left margin between Accept and Reject buttons */
+  }
+  

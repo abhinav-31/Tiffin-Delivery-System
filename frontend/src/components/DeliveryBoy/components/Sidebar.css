@@ -1,0 +1,10 @@
+#sidebar-container {
+    min-height: 100vh;
+    width: 250px;
+  }
+  
+  #page-content-wrapper {
+    width: 100%;
+    padding: 20px;
+  }
+  

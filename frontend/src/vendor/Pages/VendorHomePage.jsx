@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './VendorHomePage.css'; // Import your custom CSS for styling
-import breakfastImage from '../images/breakfast.jpg'; // Importing breakfast image
-import lunchImage from '../images/lunch.jpeg'; // Importing lunch image
-import dinnerImage from '../images/dinner.jpg'; // Importing dinner image
+import React, { useState } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./VendorHomePage.css"; // Import your custom CSS for styling
+import breakfastImage from "../images/breakfast.jpg"; // Importing breakfast image
+import lunchImage from "../images/lunch.jpeg"; // Importing lunch image
+import dinnerImage from "../images/dinner.jpg"; // Importing dinner image
 
 const VendorHomePage = () => {
   const [breakfastOpen, setBreakfastOpen] = useState(false);
@@ -39,45 +39,63 @@ const VendorHomePage = () => {
               <div className="row">
                 <div className="col-md-4 mb-4">
                   <div className="card vendor-section">
-                    <img src={breakfastImage} className="card-img-top" alt="Breakfast" />
+                    <img
+                      src={breakfastImage}
+                      className="card-img-top"
+                      alt="Breakfast"
+                    />
                     <div className="card-body">
                       <h4>Breakfast</h4>
-                      <p>Status: {breakfastOpen ? 'Open' : 'Closed'}</p>
+                      <p>Status: {breakfastOpen ? "Open" : "Closed"}</p>
                       <button
-                        className={`btn ${breakfastOpen ? 'btn-success' : 'btn-danger'}`}
+                        className={`btn ${
+                          breakfastOpen ? "btn-success" : "btn-danger"
+                        }`}
                         onClick={toggleBreakfast}
                       >
-                        {breakfastOpen ? 'Close' : 'Open'}
+                        {breakfastOpen ? "Close" : "Open"}
                       </button>
                     </div>
                   </div>
                 </div>
                 <div className="col-md-4 mb-4">
                   <div className="card vendor-section">
-                    <img src={lunchImage} className="card-img-top" alt="Lunch" />
+                    <img
+                      src={lunchImage}
+                      className="card-img-top"
+                      alt="Lunch"
+                    />
                     <div className="card-body">
                       <h4>Lunch</h4>
-                      <p>Status: {lunchOpen ? 'Open' : 'Closed'}</p>
+                      <p>Status: {lunchOpen ? "Open" : "Closed"}</p>
                       <button
-                        className={`btn ${lunchOpen ? 'btn-success' : 'btn-danger'}`}
+                        className={`btn ${
+                          lunchOpen ? "btn-success" : "btn-danger"
+                        }`}
                         onClick={toggleLunch}
                       >
-                        {lunchOpen ? 'Close' : 'Open'}
+                        {lunchOpen ? "Close" : "Open"}
                       </button>
                     </div>
                   </div>
                 </div>
                 <div className="col-md-4 mb-4">
                   <div className="card vendor-section">
-                    <img src={dinnerImage} className="card-img-top" alt="Dinner" />
+                    <img
+                      src={dinnerImage}
+                      className="card-img-top"
+                      alt="Dinner"
+                    />
                     <div className="card-body">
                       <h4>Dinner</h4>
-                      <p>Status: {dinnerOpen ? 'Open' : 'Closed'}</p>
+                      <p>Status: {dinnerOpen ? "Open" : "Closed"}</p>
                       <button
-                        className={`btn ${dinnerOpen ? 'btn-success' : 'btn-danger'}`}
+                        className={`btn ${
+                          dinnerOpen ? "btn-success" : "btn-danger"
+                        }`}
                         onClick={toggleDinner}
                       >
-                        {dinnerOpen ? 'Close' : 'Open'}
+                        {dinnerOpen ? "Close" : "Open"}
                       </button>
                     </div>
                   </div>

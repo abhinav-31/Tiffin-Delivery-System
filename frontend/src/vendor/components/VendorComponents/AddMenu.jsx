@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './AddMenu.css'; // Import your CSS file
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./AddMenu.css"; // Import your CSS file
 
 const AddMenu = () => {
   const initialMenuState = {
@@ -40,11 +40,15 @@ const AddMenu = () => {
       formErrors.chapati = "Please select the number of chapatis.";
     }
 
-    textFields.forEach(field => {
+    textFields.forEach((field) => {
       if (!menu[field]) {
-        formErrors[field] = `${field.charAt(0).toUpperCase() + field.slice(1)} field is required.`;
+        formErrors[field] = `${
+          field.charAt(0).toUpperCase() + field.slice(1)
+        } field is required.`;
       } else if (!textRegex.test(menu[field])) {
-        formErrors[field] = `${field.charAt(0).toUpperCase() + field.slice(1)} must contain only letters.`;
+        formErrors[field] = `${
+          field.charAt(0).toUpperCase() + field.slice(1)
+        } must contain only letters.`;
       }
     });
 
@@ -67,9 +71,11 @@ const AddMenu = () => {
 
     // Hide success message after 3 seconds
     clearTimeout(messageTimeout);
-    setMessageTimeout(setTimeout(() => {
-      setShowSuccessMessage(false);
-    }, 3000));
+    setMessageTimeout(
+      setTimeout(() => {
+        setShowSuccessMessage(false);
+      }, 3000)
+    );
   };
 
   const handleCancel = () => {
@@ -90,9 +96,17 @@ const AddMenu = () => {
             </div>
             <div className="card-body">
               {showSuccessMessage && (
-                <div className="alert alert-success alert-dismissible fade show" role="alert">
+                <div
+                  className="alert alert-success alert-dismissible fade show"
+                  role="alert"
+                >
                   {message}
-                  <button type="button" className="btn-close" aria-label="Close" onClick={() => setShowSuccessMessage(false)}></button>
+                  <button
+                    type="button"
+                    className="btn-close"
+                    aria-label="Close"
+                    onClick={() => setShowSuccessMessage(false)}
+                  ></button>
                 </div>
               )}
               <form onSubmit={handleSubmit}>
@@ -102,7 +116,9 @@ const AddMenu = () => {
                   </label>
                   <div className="col-sm-9">
                     <select
-                      className={`form-control ${errors.chapati ? 'is-invalid' : ''}`}
+                      className={`form-control ${
+                        errors.chapati ? "is-invalid" : ""
+                      }`}
                       id="chapati"
                       name="chapati"
                       value={menu.chapati}
@@ -116,7 +132,9 @@ const AddMenu = () => {
                         </option>
                       ))}
                     </select>
-                    {errors.chapati && <div className="invalid-feedback">{errors.chapati}</div>}
+                    {errors.chapati && (
+                      <div className="invalid-feedback">{errors.chapati}</div>
+                    )}
                   </div>
                 </div>
                 <div className="form-group form-group-add-menu row mb-3">
@@ -126,14 +144,18 @@ const AddMenu = () => {
                   <div className="col-sm-9">
                     <input
                       type="text"
-                      className={`form-control ${errors.rice ? 'is-invalid' : ''}`}
+                      className={`form-control ${
+                        errors.rice ? "is-invalid" : ""
+                      }`}
                       id="rice"
                       name="rice"
                       value={menu.rice}
                       onChange={handleChange}
                       required
                     />
-                    {errors.rice && <div className="invalid-feedback">{errors.rice}</div>}
+                    {errors.rice && (
+                      <div className="invalid-feedback">{errors.rice}</div>
+                    )}
                   </div>
                 </div>
                 <div className="form-group form-group-add-menu row mb-3">
@@ -143,14 +165,18 @@ const AddMenu = () => {
                   <div className="col-sm-9">
                     <input
                       type="text"
-                      className={`form-control ${errors.dal ? 'is-invalid' : ''}`}
+                      className={`form-control ${
+                        errors.dal ? "is-invalid" : ""
+                      }`}
                       id="dal"
                       name="dal"
                       value={menu.dal}
                       onChange={handleChange}
                       required
                     />
-                    {errors.dal && <div className="invalid-feedback">{errors.dal}</div>}
+                    {errors.dal && (
+                      <div className="invalid-feedback">{errors.dal}</div>
+                    )}
                   </div>
                 </div>
                 <div className="form-group form-group-add-menu row mb-3">
@@ -160,14 +186,18 @@ const AddMenu = () => {
                   <div className="col-sm-9">
                     <input
                       type="text"
-                      className={`form-control ${errors.subji ? 'is-invalid' : ''}`}
+                      className={`form-control ${
+                        errors.subji ? "is-invalid" : ""
+                      }`}
                       id="subji"
                       name="subji"
                       value={menu.subji}
                       onChange={handleChange}
                       required
                     />
-                    {errors.subji && <div className="invalid-feedback">{errors.subji}</div>}
+                    {errors.subji && (
+                      <div className="invalid-feedback">{errors.subji}</div>
+                    )}
                   </div>
                 </div>
                 <div className="form-group form-group-add-menu row mb-3">
@@ -177,19 +207,26 @@ const AddMenu = () => {
                   <div className="col-sm-9">
                     <input
                       type="text"
-                      className={`form-control ${errors.sweet ? 'is-invalid' : ''}`}
+                      className={`form-control ${
+                        errors.sweet ? "is-invalid" : ""
+                      }`}
                       id="sweet"
                       name="sweet"
                       value={menu.sweet}
                       onChange={handleChange}
                       required
                     />
-                    {errors.sweet && <div className="invalid-feedback">{errors.sweet}</div>}
+                    {errors.sweet && (
+                      <div className="invalid-feedback">{errors.sweet}</div>
+                    )}
                   </div>
                 </div>
                 <div className="form-group form-group-add-menu row justify-content-center mb-3">
                   <div className="col-sm-5 mb-2 mb-sm-0">
-                    <button type="submit" className="btn btn-primary btn-primary-add-menu">
+                    <button
+                      type="submit"
+                      className="btn btn-primary btn-primary-add-menu"
+                    >
                       Add
                     </button>
                   </div>

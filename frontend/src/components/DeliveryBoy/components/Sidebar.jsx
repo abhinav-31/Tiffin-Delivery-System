@@ -14,12 +14,12 @@ const Sidebar = () => {
             Home
           </Link>
 
-          <Link
+          {/* <Link
             to="/viewdborder"
             className="list-group-item list-group-item-action bg-dark text-white"
           >
             View Orders
-          </Link>
+          </Link> */}
           <Link
             to="/dbreview"
             className="list-group-item list-group-item-action bg-dark text-white"
@@ -27,7 +27,7 @@ const Sidebar = () => {
             Reviews/Feedback
           </Link>
           <Link
-            to="/orderhistory"
+            to="/dborderhistory"
             className="list-group-item list-group-item-action bg-dark text-white"
           >
             Order History

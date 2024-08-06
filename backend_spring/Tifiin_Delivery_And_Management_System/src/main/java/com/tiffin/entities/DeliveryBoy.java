@@ -10,11 +10,13 @@ import jakarta.validation.constraints.Size;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.MapsId;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
@@ -24,13 +26,12 @@ import lombok.AllArgsConstructor;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class DeliveryBoy {
-    @Id
-    private Long id;
+@ToString
+public class DeliveryBoy extends BaseEntity{
+  
 
     @OneToOne
     @JoinColumn(name = "delivery_id")
-    @MapsId
     @NotNull
     private User deliveryBoy;
 

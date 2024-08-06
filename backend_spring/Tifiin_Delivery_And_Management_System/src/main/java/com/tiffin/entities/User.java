@@ -49,4 +49,8 @@ public class User extends BaseEntity {
 	@ElementCollection(fetch = FetchType.LAZY)
 	@CollectionTable(name = "user_addresses", joinColumns = @JoinColumn(name = "user_id"))
 	private List<Address> addresses = new ArrayList<>();
+	
+	public void addAddress(Address address) {
+		addresses.add(address);
+	}
 }

@@ -1,5 +1,5 @@
 package com.tiffin.enums;
 
 public enum DeliveryStatus {
-	AVAILABLE, BUSY
+	AVAILABLE, BUSY, NOT_AVAILABLE
 }

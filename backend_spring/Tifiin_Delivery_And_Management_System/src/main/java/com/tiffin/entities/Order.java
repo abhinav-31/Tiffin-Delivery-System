@@ -51,4 +51,22 @@ public class Order extends BaseEntity {
     @Embedded
     @Valid
     private Address deliveryAddress; // Delivery address for the order
+    
+    // helper method 
+    public void addOrderDetails(OrderDetails addOd) {
+//    	OrderDetails addOd = new OrderDetails();
+    	addOd.setOrder(this);
+    	orderDetails.add(addOd);
+    }
+
+	public Order(@NotNull User customer, @NotNull User vendor, DeliveryBoy deliveryBoy, @NotNull OrderStatus status,
+			Payment payment, @Valid Address deliveryAddress) {
+		super();
+		this.customer = customer;
+		this.vendor = vendor;
+		this.deliveryBoy = deliveryBoy;
+		this.status = status;
+		this.deliveryAddress = deliveryAddress;
+	}
+    
 }

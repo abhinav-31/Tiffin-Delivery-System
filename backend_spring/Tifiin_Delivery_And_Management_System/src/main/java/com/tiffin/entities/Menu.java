@@ -47,4 +47,9 @@ public class Menu extends BaseEntity {
 	private byte[] menuImage;
 	@OneToMany(mappedBy = "menuItem")
 	private Set<OrderDetails> orderDetails; // Links to OrderDetails to track quantities in orders
+	public void addOrderDetails(OrderDetails addOd) {
+//    	OrderDetails addOd = new OrderDetails();
+    	addOd.setMenuItem(this);
+    	orderDetails.add(addOd);
+    }
 }

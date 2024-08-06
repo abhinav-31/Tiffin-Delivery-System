@@ -39,7 +39,7 @@ public class AddressReqDTO {
 	    @Size(min = 6, max = 6, message = "ZipCode must have 6 digits")
 	    private String zipcode;
 
-	    @Pattern(regexp = "^\\+?[0-9]*$", message = "Phone number can only contain digits and optional leading '+'")
+	    @Pattern(regexp = "^\\+?[0-9]{10}$", message = "Phone number can only contain digits and optional leading '+'")
 	    @Column(length = 11)
 	    private String phoneNo;
 

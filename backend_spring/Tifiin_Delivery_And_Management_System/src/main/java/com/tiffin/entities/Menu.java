@@ -9,6 +9,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.Lob;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
@@ -42,6 +43,8 @@ public class Menu extends BaseEntity {
 	@NotNull
 	private User vendor; // The vendor who offers this menu item
 
+	@Lob // => large object , col type : longblob
+	private byte[] menuImage;
 	@OneToMany(mappedBy = "menuItem")
 	private Set<OrderDetails> orderDetails; // Links to OrderDetails to track quantities in orders
 }

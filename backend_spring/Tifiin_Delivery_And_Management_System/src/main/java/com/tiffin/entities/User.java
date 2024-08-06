@@ -2,10 +2,6 @@ package com.tiffin.entities;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.ElementCollection;
@@ -21,7 +17,6 @@ import lombok.AllArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tiffin.enums.Role;
 
 @Entity
@@ -33,9 +28,9 @@ import com.tiffin.enums.Role;
 public class User extends BaseEntity {
 	@Column(length = 20, nullable = false)
 
-	private String firstname;
+	private String firstName;
 	@Column(length = 20)
-	private String lastname;
+	private String lastName;
 
 	@Column(length = 30, unique = true, nullable = false)
 	private String email;

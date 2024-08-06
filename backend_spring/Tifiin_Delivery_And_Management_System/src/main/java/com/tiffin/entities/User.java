@@ -32,25 +32,19 @@ import com.tiffin.enums.Role;
 @AllArgsConstructor
 public class User extends BaseEntity {
 	@Column(length = 20, nullable = false)
-	@NotBlank(message = "First Name is required")
+
 	private String firstname;
 	@Column(length = 20)
 	private String lastname;
 
-	@NotBlank(message = "Email is required")
-	@Email(message = "Email should be valid")
-	@JsonProperty("email")
 	@Column(length = 30, unique = true, nullable = false)
 	private String email;
 
-	@NotBlank(message = "Password is required")
-	@Size(min = 6, message = "Password must be at least 6 characters long")
-	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@Column(length = 100, unique = true, nullable = false)
 	private String password;
 
 	@Enumerated(EnumType.STRING)
-	@NotNull
+
 	@Column(nullable = false)
 	private Role role;
 

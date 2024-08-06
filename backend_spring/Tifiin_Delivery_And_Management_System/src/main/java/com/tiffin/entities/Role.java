@@ -1,5 +1,5 @@
 package com.tiffin.entities;
 
 public enum Role {
-ADMIN, CUSTOMER, VENDOR, DELIVERY_BOY
+ROLE_ADMIN, ROLE_CUSTOMER, ROLE_VENDOR, ROLE_DELIVERY_BOY
 }

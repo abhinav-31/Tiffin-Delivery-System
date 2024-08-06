@@ -6,10 +6,12 @@ import java.util.Optional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import com.tiffin.custom_exceptions.ResourceNotFoundException;
 import com.tiffin.dto.AddressReqDTO;
 import com.tiffin.dto.ApiResponse;
+import com.tiffin.dto.UserSignInReqDTO;
 import com.tiffin.dto.UserSignUpReqDTO;
 import com.tiffin.dto.VendorSignUpReqDTO;
 import com.tiffin.entities.Address;
@@ -21,8 +23,9 @@ import com.tiffin.repository.DeliveryBoyRepository;
 import com.tiffin.repository.UserRepository;
 
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 
-@Repository
+@Service
 @Transactional
 public class UserServiceImpl implements UserService {
 	@Autowired
@@ -74,5 +77,11 @@ public class UserServiceImpl implements UserService {
 				.orElseThrow(() -> new ResourceNotFoundException("user does not exist"));
 		u.addAddress(mapper.map(address, Address.class));
 		return new ApiResponse("New Address Added!!!");
+	}
+
+	@Override
+	public ApiResponse signIn(@Valid UserSignInReqDTO userSignIn) {
+		
+		return new ApiResponse("User Validated");
 	}
 }

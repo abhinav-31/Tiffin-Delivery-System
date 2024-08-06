@@ -23,18 +23,18 @@ import org.hibernate.annotations.UpdateTimestamp;
 @AllArgsConstructor
 public abstract class BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @Column(nullable = false, updatable = false)
-    @CreationTimestamp
-    private LocalDate createdTime;
+  @Column(nullable = false, updatable = false)
+  @CreationTimestamp
+  private LocalDate createdTime;
 
-    @Column(nullable = false)
-    @UpdateTimestamp
-    private LocalDate updatedTime;
+  @Column(nullable = false)
+  @UpdateTimestamp
+  private LocalDate updatedTime;
 
-    @Column(nullable = false)
-    private Boolean isDeleted = false;
+  @Column(nullable = false)
+  private Boolean isDeleted = false;
 }

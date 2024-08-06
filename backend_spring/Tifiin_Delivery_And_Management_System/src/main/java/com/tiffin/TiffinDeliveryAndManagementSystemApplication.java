@@ -9,5 +9,4 @@ public class TiffinDeliveryAndManagementSystemApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(TiffinDeliveryAndManagementSystemApplication.class, args);
 	}
-
 }

@@ -47,7 +47,6 @@ public class Order extends BaseEntity {
 
     @OneToOne(mappedBy = "order")
     private Payment payment; // Payment details for the order
-    
 
     @Embedded
     @Valid

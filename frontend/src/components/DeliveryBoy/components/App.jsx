@@ -24,7 +24,6 @@ import "./App.css";
 import DbLayout from "./components/DeliveryBoy/layouts/dbLayouts";
 import DbHomePage from "./components/DeliveryBoy/Pages/DbHomePage";
 import DBReviewPage from "./components/DeliveryBoy/components/Review";
-import DbOrderHistoryPage from "./components/DeliveryBoy/components/OrderHistory";
 
 function App() {
   return (
@@ -51,7 +50,7 @@ function App() {
         <Route element={<DbLayout />}>
           <Route path="/dbhomepage" element={<DbHomePage />} />
           <Route path="/dbreview" element={<DBReviewPage />} />
-          <Route path="/dborderhistory" element={<DbOrderHistoryPage />} />
+          <Route path="/dborderhistory" element={<DBOrderHistory />} />
         </Route>
       </Routes>
 

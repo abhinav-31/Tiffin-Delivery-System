@@ -1,17 +1,28 @@
 package com.tiffin.entities;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.CollectionTable;
+import jakarta.persistence.Column;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.tiffin.enums.Role;
 
 @Entity
 @Table(name = "users")
@@ -19,14 +30,34 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class User extends BaseEntity {
+	@Column(length = 20, nullable = false)
+	@NotBlank(message = "First Name is required")
+	private String firstname;
+	@Column(length = 20)
+	private String lastname;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "u_id")
-    private long uId;
+	@NotBlank(message = "Email is required")
+	@Email(message = "Email should be valid")
+	@JsonProperty("email")
+	@Column(length = 30, unique = true, nullable = false)
+	private String email;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "role")
-    private Role role;
+	@NotBlank(message = "Password is required")
+	@Size(min = 6, message = "Password must be at least 6 characters long")
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+	@Column(length = 100, unique = true, nullable = false)
+	private String password;
+
+	@Enumerated(EnumType.STRING)
+	@NotNull
+	@Column(nullable = false)
+	private Role role;
+
+	@Column(length = 20)
+	private String businessName;
+
+	@ElementCollection(fetch = FetchType.LAZY)
+	@CollectionTable(name = "user_addresses", joinColumns = @JoinColumn(name = "user_id"))
+	private List<Address> addresses = new ArrayList<>();
 }

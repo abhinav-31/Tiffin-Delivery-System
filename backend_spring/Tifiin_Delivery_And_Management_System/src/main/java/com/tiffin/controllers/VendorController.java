@@ -25,8 +25,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.resource.HttpResource;
 
 @RestController
-@RequestMapping("/users")
-public class UserController {
+@RequestMapping("/vendor")
+public class VendorController {
 	@Autowired
 	private UserService userService;
 
@@ -56,6 +56,4 @@ public class UserController {
 	public ResponseEntity<?> addAddress(@RequestBody @Valid AddressReqDTO address, @PathVariable Long userId) {
 		return ResponseEntity.status(HttpStatus.CREATED).body(userService.addCustomerAddresses(address, userId));
 	}
-	
-	
 }

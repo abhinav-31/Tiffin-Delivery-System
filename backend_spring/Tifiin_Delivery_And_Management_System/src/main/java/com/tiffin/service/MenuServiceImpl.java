@@ -1,6 +1,7 @@
 package com.tiffin.service;
 
 import com.tiffin.dto.MenuReqDTO;
+import com.tiffin.dto.MenuResWithImageDTO;
 import com.tiffin.entities.Menu;
 import com.tiffin.entities.User;
 import com.tiffin.repository.MenuRepository;
@@ -54,15 +55,15 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public List<MenuReqDTO> getAllMenus() {
+    public List<MenuResWithImageDTO> getAllMenus() {
         return menuRepository.findAll().stream()
-                .map(menu -> modelMapper.map(menu, MenuReqDTO.class))
+                .map(menu -> modelMapper.map(menu, MenuResWithImageDTO.class))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public MenuReqDTO getMenuById(Long id) {
+    public MenuResWithImageDTO getMenuById(Long id) {
         Menu menu = menuRepository.findById(id).orElseThrow(() -> new RuntimeException("Menu not found"));
-        return modelMapper.map(menu, MenuReqDTO.class);
+        return modelMapper.map(menu, MenuResWithImageDTO.class);
     }
 }

@@ -13,7 +13,7 @@ import lombok.Setter;
 public class MenuDTO {
 
     private Long menuId;
-    @NotBlank(message = "Quantity must be supplied")
+//    @NotBlank(message = "Quantity must be supplied")
     private int quantity;
 
 }

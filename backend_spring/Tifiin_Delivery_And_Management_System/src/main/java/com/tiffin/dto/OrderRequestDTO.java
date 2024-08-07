@@ -13,4 +13,5 @@ public class OrderRequestDTO {
     
    
     private AddressReqDTO address;
+    private PaymentReqDTO payment;
 }

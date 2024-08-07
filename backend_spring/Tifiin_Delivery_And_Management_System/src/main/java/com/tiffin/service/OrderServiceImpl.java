@@ -59,7 +59,7 @@ public class OrderServiceImpl implements OrderService {
 //		  when suitable delivery boy found -> set status to BUSY
 		orderPlaced.setDeliveryAddress(mapper.map(orderRequest.getAddress(), Address.class)); 
 		orderPlaced.setStatus(OrderStatus.PLACED);
-
+		
 		orderRepository.save(orderPlaced);
 
 		for (MenuDTO menuDTO : orderRequest.getMenuItems()) {
@@ -70,7 +70,7 @@ public class OrderServiceImpl implements OrderService {
 			orderDetails.setMenuItem(menu);
 			orderDetails.setQuantity(menuDTO.getQuantity());
 			orderDetails.setOrder(orderPlaced);
-
+			menu.setQuantity(menu.getQuantity() - menuDTO.getQuantity());
 			orderDetailsRepository.save(orderDetails);
 		}
 

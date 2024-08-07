@@ -24,7 +24,7 @@ public class OrderController {
     private OrderService orderService;
 
     @PostMapping("/{customerId}/{vendorId}")
-    public ResponseEntity<?> addOrder(@RequestBody @Valid OrderRequestDTO orderRequest, @PathVariable Long customerId,
+    public ResponseEntity<?> addOrder(@RequestBody  OrderRequestDTO orderRequest, @PathVariable Long customerId,
             @PathVariable Long vendorId) {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(orderService.addOrder(orderRequest, customerId, vendorId));

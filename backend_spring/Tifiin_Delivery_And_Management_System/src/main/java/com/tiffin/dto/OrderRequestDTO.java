@@ -8,9 +8,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class OrderRequestDTO {
-    @Valid
+    
     private List<MenuDTO> menuItems;
     
-    @Valid
+   
     private AddressReqDTO address;
 }

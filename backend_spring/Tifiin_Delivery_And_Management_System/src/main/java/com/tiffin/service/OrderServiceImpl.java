@@ -108,6 +108,17 @@ public class OrderServiceImpl implements OrderService {
 
 		return minDistDeliveryBoy;
 	}
+	
+	@Override
+	public ApiResponse changeStatus(Long orderId) {
+		Order order = orderRepository.findById(orderId).orElseThrow(()-> new ResourceNotFoundException("Order Not Found"));
+		order.setStatus(OrderStatus.DELIVERED);
+		Address deliveryAddress = order.getDeliveryAddress();
+		DeliveryBoy deliveryBoy = order.getDeliveryBoy();
+		deliveryBoy.setCurrentPincode(deliveryAddress.getZipcode());
+		return new ApiResponse("Order Status Changed to " + OrderStatus.DELIVERED);
+		
+	}
 // order delivered
 	// change order status to DELIVERED
 	// change delivery boy status to AVAILABLE + set new pincode as

@@ -30,5 +30,5 @@ public class DeliveryBoyServiceImpl implements DeliveryBoyService {
 		DeliveryBoy dBoy = deliveryBoyRepository.findByDeliveryBoy(deliveryBoy).orElseThrow(()-> new ResourceNotFoundException(""));
 		dBoy.setStatus(DeliveryStatus.AVAILABLE);
 	}
-
+	
 }

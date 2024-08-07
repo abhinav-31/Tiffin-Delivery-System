@@ -12,5 +12,5 @@ import lombok.Setter;
 public class OrderResDTO {
     private User customer;
     private User deliveryBoy;
-    private Address deliveryAddress;
+    private AddressReqDTO deliveryAddress;
 }

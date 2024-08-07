@@ -11,6 +11,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
@@ -25,6 +26,7 @@ import com.tiffin.enums.Role;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class User extends BaseEntity {
 	@Column(length = 20, nullable = false)
 

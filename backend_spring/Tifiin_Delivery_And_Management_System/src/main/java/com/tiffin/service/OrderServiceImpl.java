@@ -3,7 +3,9 @@ package com.tiffin.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import org.hibernate.Hibernate;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -145,19 +147,19 @@ public class OrderServiceImpl implements OrderService {
 		List<OrderResDTO> list = new ArrayList<>();
 		User vendor = userRepository.findById(vendorId)
 				.orElseThrow(() -> new ResourceNotFoundException("Vendor not found!!"));
+
 		List<Order> orders = orderRepository.findByVendor(vendor);
 
 		for (Order o : orders) {
 			if (o.getStatus().equals(status)) {
+				System.out.println(o);
 				OrderResDTO obj = new OrderResDTO();
 				obj.setCustomer(o.getCustomer());
 				obj.setDeliveryBoy(o.getDeliveryBoy().getDeliveryBoy());
-				obj.setDeliveryAddress(o.getDeliveryAddress());
+				obj.setDeliveryAddress(mapper.map(o.getDeliveryAddress(), AddressReqDTO.class));
 				list.add(obj);
-
 			}
 		}
-
 		return list;
 	}
 	

@@ -1,8 +1,11 @@
 package com.tiffin.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import org.hibernate.Hibernate;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +15,7 @@ import com.tiffin.dto.AddressReqDTO;
 import com.tiffin.dto.ApiResponse;
 import com.tiffin.dto.MenuDTO;
 import com.tiffin.dto.OrderRequestDTO;
+import com.tiffin.dto.OrderResDTO;
 import com.tiffin.entities.Address;
 import com.tiffin.entities.DeliveryBoy;
 import com.tiffin.entities.Menu;
@@ -62,7 +66,8 @@ public class OrderServiceImpl implements OrderService {
 		orderPlaced.setDeliveryBoy(d);
 		d.setStatus(DeliveryStatus.BUSY); // delivery boy has become busy for ongoing delivery
 
-        //orderPlaced.setDeliveryBoy(findSuitableDeliveryBoy()); // Implement suitable logic and only AVAILABLE(logged i) db will be fetched
+		// orderPlaced.setDeliveryBoy(findSuitableDeliveryBoy()); // Implement suitable
+		// logic and only AVAILABLE(logged i) db will be fetched
 //		  when suitable delivery boy found -> set status to BUSY
 		orderPlaced.setDeliveryAddress(mapper.map(orderRequest.getAddress(), Address.class));
 		orderPlaced.setStatus(OrderStatus.PLACED);
@@ -108,17 +113,56 @@ public class OrderServiceImpl implements OrderService {
 
 		return minDistDeliveryBoy;
 	}
-	
+
 	@Override
 	public ApiResponse changeStatus(Long orderId) {
-		Order order = orderRepository.findById(orderId).orElseThrow(()-> new ResourceNotFoundException("Order Not Found"));
+		Order order = orderRepository.findById(orderId)
+				.orElseThrow(() -> new ResourceNotFoundException("Order Not Found"));
 		order.setStatus(OrderStatus.DELIVERED);
 		Address deliveryAddress = order.getDeliveryAddress();
 		DeliveryBoy deliveryBoy = order.getDeliveryBoy();
 		deliveryBoy.setCurrentPincode(deliveryAddress.getZipcode());
 		return new ApiResponse("Order Status Changed to " + OrderStatus.DELIVERED);
-		
+
 	}
+
+	@Override
+	public List<OrderResDTO> getOrdersByVendorAndStatus(Long vendorId, OrderStatus status) {
+		List<OrderResDTO> list = new ArrayList<>();
+		User vendor = userRepository.findById(vendorId)
+				.orElseThrow(() -> new ResourceNotFoundException("Vendor not found!!"));
+
+		List<Order> orders = orderRepository.findByVendor(vendor);
+
+		for (Order o : orders) {
+			if (o.getStatus().equals(status)) {
+				System.out.println(o);
+				OrderResDTO obj = new OrderResDTO();
+				obj.setCustomer(o.getCustomer());
+				obj.setDeliveryBoy(o.getDeliveryBoy().getDeliveryBoy());
+				obj.setDeliveryAddress(mapper.map(o.getDeliveryAddress(), AddressReqDTO.class));
+				list.add(obj);
+			}
+		}
+		return list;
+	}
+//	public List<OrderResDTO> getOrdersByVendorAndStatus(Long vendorId, OrderStatus status) {
+//		List<OrderResDTO> list = new ArrayList<>();
+//		User vendor = userRepository.findById(vendorId)
+//				.orElseThrow(() -> new ResourceNotFoundException("Vendor not found!!"));
+//
+//		List<Order> orders = orderRepository.findByVendorAndStatusWithFetch(vendorId, status);
+//		
+//		return orders.stream().map(o -> {
+//			System.out.println(o);
+//			OrderResDTO obj = new OrderResDTO();
+//			obj.setCustomer(o.getCustomer());
+//			obj.setDeliveryBoy(o.getDeliveryBoy().getDeliveryBoy());
+//			obj.setDeliveryAddress(mapper.map(o.getDeliveryAddress(), AddressReqDTO.class));
+//			return obj;
+//		}).collect(Collectors.toList());
+//	}
+
 // order delivered
 	// change order status to DELIVERED
 	// change delivery boy status to AVAILABLE + set new pincode as

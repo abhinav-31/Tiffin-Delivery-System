@@ -62,13 +62,12 @@ public class OrderServiceImpl implements OrderService {
 		orderPlaced.setDeliveryBoy(d);
 		d.setStatus(DeliveryStatus.BUSY); // delivery boy has become busy for ongoing delivery
 
-//        orderPlaced.setDeliveryBoy(findSuitableDeliveryBoy()); // Implement suitable logic and only AVAILABLE(logged i) db will be fetched
+        //orderPlaced.setDeliveryBoy(findSuitableDeliveryBoy()); // Implement suitable logic and only AVAILABLE(logged i) db will be fetched
 //		  when suitable delivery boy found -> set status to BUSY
 		orderPlaced.setDeliveryAddress(mapper.map(orderRequest.getAddress(), Address.class));
 		orderPlaced.setStatus(OrderStatus.PLACED);
-
+		System.out.println(orderPlaced);
 		orderRepository.save(orderPlaced);
-
 		for (MenuDTO menuDTO : orderRequest.getMenuItems()) {
 			Menu menu = menuRepository.findById(menuDTO.getMenuId())
 					.orElseThrow(() -> new ResourceNotFoundException("Menu not found with id " + menuDTO.getMenuId()));
@@ -77,8 +76,11 @@ public class OrderServiceImpl implements OrderService {
 			orderDetails.setMenuItem(menu);
 			orderDetails.setQuantity(menuDTO.getQuantity());
 			orderDetails.setOrder(orderPlaced);
+			if (menu.getQuantity() - menuDTO.getQuantity() >= 0) {
+				menu.setQuantity(menu.getQuantity() - menuDTO.getQuantity());
+				orderDetailsRepository.save(orderDetails);
+			}
 
-			orderDetailsRepository.save(orderDetails);
 		}
 
 		return new ApiResponse("New Order added with ID: " + orderPlaced.getId());
@@ -86,8 +88,8 @@ public class OrderServiceImpl implements OrderService {
 
 	public Optional<DeliveryBoy> findSuitableDeliveryBoy(String vendorPincode) {
 		Optional<DeliveryBoy> minDistDeliveryBoy = Optional.empty();
-		List<String> reference = List.of("411057", "411157", "411058", "411059", "411060", "4110617", "411557",
-				"411082", "411997", "411050");
+		List<String> reference = List.of("411057", "411157", "411058", "411059", "411060", "411061", "411557", "411082",
+				"411997", "411050");
 		int[][] distMatrix = { { 0, 5, 2, 8, 3, 7, 1, 9, 4, 6 }, { 7, 0, 3, 10, 5, 8, 6, 2, 9, 1 },
 				{ 9, 6, 0, 4, 7, 2, 8, 5, 10, 3 }, { 5, 8, 1, 0, 2, 4, 7, 6, 3, 9 }, { 3, 2, 7, 9, 0, 1, 10, 8, 6, 4 },
 				{ 1, 4, 6, 5, 3, 0, 9, 7, 2, 8 }, { 10, 3, 4, 6, 9, 2, 0, 1, 7, 5 }, { 6, 7, 9, 1, 8, 3, 5, 0, 2, 10 },
@@ -103,6 +105,7 @@ public class OrderServiceImpl implements OrderService {
 				minDistDeliveryBoy = Optional.of(d);
 			}
 		}
+
 		return minDistDeliveryBoy;
 	}
 // order delivered

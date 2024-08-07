@@ -14,18 +14,24 @@ import com.tiffin.dto.ApiResponse;
 import com.tiffin.dto.MenuDTO;
 import com.tiffin.dto.OrderRequestDTO;
 import com.tiffin.dto.OrderResDTO;
+import com.tiffin.dto.ReviewDTO;
 import com.tiffin.entities.Address;
 import com.tiffin.entities.DeliveryBoy;
 import com.tiffin.entities.Menu;
 import com.tiffin.entities.Order;
 import com.tiffin.entities.OrderDetails;
+import com.tiffin.entities.Payment;
+import com.tiffin.entities.Review;
 import com.tiffin.entities.User;
 import com.tiffin.enums.DeliveryStatus;
 import com.tiffin.enums.OrderStatus;
+import com.tiffin.enums.PaymentMethod;
 import com.tiffin.repository.DeliveryBoyRepository;
 import com.tiffin.repository.MenuRepository;
 import com.tiffin.repository.OrderDetailsRepository;
 import com.tiffin.repository.OrderRepository;
+import com.tiffin.repository.PaymentRepository;
+import com.tiffin.repository.ReviewRepository;
 import com.tiffin.repository.UserRepository;
 
 import jakarta.transaction.Transactional;
@@ -45,12 +51,17 @@ public class OrderServiceImpl implements OrderService {
 
 	@Autowired
 	private MenuRepository menuRepository;
-
+	@Autowired
+	private PaymentRepository paymentRepository;
+	
+	@Autowired
+	private ReviewRepository reviewRepository;
+	
 	@Autowired
 	ModelMapper mapper;
 
 	@Override
-	public ApiResponse addOrder(OrderRequestDTO orderRequest, Long customerId, Long vendorId) {
+	public ApiResponse addOrder(PaymentMethod paymentMethod,OrderRequestDTO orderRequest, Long customerId, Long vendorId) {
 		User customer = userRepository.findById(customerId)
 				.orElseThrow(() -> new ResourceNotFoundException("Customer Not Found"));
 		User vendor = userRepository.findById(vendorId)
@@ -85,7 +96,12 @@ public class OrderServiceImpl implements OrderService {
 			}
 
 		}
-
+		Payment payment = mapper.map(orderRequest.getPayment(), Payment.class);
+		payment.setAmount(orderRequest.getPayment().getAmount());
+		payment.setPaymentMethod(paymentMethod);
+		payment.setOrder(orderPlaced);
+		paymentRepository.save(payment);
+		
 		return new ApiResponse("New Order added with ID: " + orderPlaced.getId());
 	}
 
@@ -143,6 +159,19 @@ public class OrderServiceImpl implements OrderService {
 		}
 
 		return list;
+	}
+	
+	@Override
+	public ApiResponse addReview(Long orderId, Long customerId, ReviewDTO addReview) {
+		User customer = userRepository.findById(customerId)
+				.orElseThrow(() -> new ResourceNotFoundException("Customer Not Found"));
+		Order order = orderRepository.findOrderByIdAndStatus(orderId,OrderStatus.DELIVERED).orElseThrow(()-> new ResourceNotFoundException("No order exist"));
+		Review review = mapper.map(addReview, Review.class);
+		review.setCustomer(customer);
+		review.setOrder(order);
+		review.setVendor(order.getVendor());
+		reviewRepository.save(review);
+		return new ApiResponse("Review Added for order id "+order.getId() +" by customer : " + customer.getFirstName());
 	}
 // order delivered
 	// change order status to DELIVERED

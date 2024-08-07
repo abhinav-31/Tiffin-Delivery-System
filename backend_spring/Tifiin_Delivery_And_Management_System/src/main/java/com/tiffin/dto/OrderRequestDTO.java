@@ -10,7 +10,7 @@ import lombok.Setter;
 public class OrderRequestDTO {
     
     private List<MenuDTO> menuItems;
-    
-   
     private AddressReqDTO address;
+    private PaymentReqDTO payment;
+    
 }

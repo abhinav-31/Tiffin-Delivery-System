@@ -78,3 +78,6 @@ project/project/
 *.iml
 *.ipr
 .idea/
+
+#ApplicationProperties
+*.properties

@@ -4,6 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
@@ -21,7 +22,7 @@ public class Review extends BaseEntity {
     @Column(length = 5)
     private Integer rating;
 
-    @ManyToOne
+    @OneToMany
     private Order order;
 
     @ManyToOne

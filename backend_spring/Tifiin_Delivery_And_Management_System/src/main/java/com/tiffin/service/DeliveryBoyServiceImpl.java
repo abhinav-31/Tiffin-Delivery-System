@@ -2,6 +2,7 @@ package com.tiffin.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import com.tiffin.custom_exceptions.ResourceNotFoundException;
 import com.tiffin.entities.DeliveryBoy;
@@ -12,7 +13,7 @@ import com.tiffin.repository.UserRepository;
 
 import jakarta.transaction.Transactional;
 
-@Repository
+@Service
 @Transactional
 public class DeliveryBoyServiceImpl implements DeliveryBoyService {
 	@Autowired
@@ -29,5 +30,5 @@ public class DeliveryBoyServiceImpl implements DeliveryBoyService {
 		DeliveryBoy dBoy = deliveryBoyRepository.findByDeliveryBoy(deliveryBoy).orElseThrow(()-> new ResourceNotFoundException(""));
 		dBoy.setStatus(DeliveryStatus.AVAILABLE);
 	}
-
+	
 }

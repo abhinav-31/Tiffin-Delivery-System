@@ -14,4 +14,6 @@ public interface OrderService {
 
 	ApiResponse addOrder(OrderRequestDTO orderRequest, Long customerId, Long vendorId);
 
+	ApiResponse changeStatus(Long orderId);
+
 }

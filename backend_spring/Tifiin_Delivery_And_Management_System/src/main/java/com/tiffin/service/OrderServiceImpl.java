@@ -55,7 +55,8 @@ public class OrderServiceImpl implements OrderService {
 		Order orderPlaced = new Order();
 		orderPlaced.setCustomer(customer);
 		orderPlaced.setVendor(vendor);
-//        orderPlaced.setDeliveryBoy(findSuitableDeliveryBoy()); // Implement suitable logic
+//        orderPlaced.setDeliveryBoy(findSuitableDeliveryBoy()); // Implement suitable logic and only AVAILABLE(logged i) db will be fetched
+//		  when suitable delivery boy found -> set status to BUSY
 		orderPlaced.setDeliveryAddress(mapper.map(orderRequest.getAddress(), Address.class)); 
 		orderPlaced.setStatus(OrderStatus.PLACED);
 
@@ -77,6 +78,7 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	public DeliveryBoy findSuitableDeliveryBoy() {
+		
 		return new DeliveryBoy();
 	}
 

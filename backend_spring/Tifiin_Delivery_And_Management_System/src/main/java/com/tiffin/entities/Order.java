@@ -12,6 +12,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import java.util.HashSet;
@@ -25,6 +26,7 @@ import com.tiffin.enums.OrderStatus;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class Order extends BaseEntity {
 
     @ManyToOne
@@ -35,7 +37,7 @@ public class Order extends BaseEntity {
     @NotNull
     private User vendor; // The vendor fulfilling the order
 
-    @OneToOne // Each order can have one delivery boy
+    @ManyToOne// Each order can have one delivery boy
     private DeliveryBoy deliveryBoy; // The delivery boy assigned to the order
 
     @OneToMany(mappedBy = "order")

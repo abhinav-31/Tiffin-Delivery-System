@@ -27,21 +27,20 @@ import lombok.AllArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class DeliveryBoy extends BaseEntity{
-  
+public class DeliveryBoy extends BaseEntity {
 
-    @OneToOne
-    @JoinColumn(name = "delivery_id")
-    @NotNull
-    private User deliveryBoy;
+	@OneToOne
+	@JoinColumn(name = "delivery_id")
+	@NotNull
+	private User deliveryBoy;
 
-    @Enumerated(EnumType.STRING)
-    @NotNull
-    @Column(length = 10)
-    private DeliveryStatus status;
+	@Enumerated(EnumType.STRING)
+	@NotNull
+	@Column(length = 10)
+	private DeliveryStatus status;
 
-    @NotNull
-    @Size(min = 6, max = 6, message = "ZipCode must have 6 digits")
-    private String currentPincode;
+	@NotNull
+	@Size(min = 6, max = 6, message = "ZipCode must have 6 digits")
+	private String currentPincode;
 
 }

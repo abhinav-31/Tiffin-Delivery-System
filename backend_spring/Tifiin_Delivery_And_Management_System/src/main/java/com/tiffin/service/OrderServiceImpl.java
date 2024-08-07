@@ -16,18 +16,24 @@ import com.tiffin.dto.ApiResponse;
 import com.tiffin.dto.MenuDTO;
 import com.tiffin.dto.OrderRequestDTO;
 import com.tiffin.dto.OrderResDTO;
+import com.tiffin.dto.ReviewDTO;
 import com.tiffin.entities.Address;
 import com.tiffin.entities.DeliveryBoy;
 import com.tiffin.entities.Menu;
 import com.tiffin.entities.Order;
 import com.tiffin.entities.OrderDetails;
+import com.tiffin.entities.Payment;
+import com.tiffin.entities.Review;
 import com.tiffin.entities.User;
 import com.tiffin.enums.DeliveryStatus;
 import com.tiffin.enums.OrderStatus;
+import com.tiffin.enums.PaymentMethod;
 import com.tiffin.repository.DeliveryBoyRepository;
 import com.tiffin.repository.MenuRepository;
 import com.tiffin.repository.OrderDetailsRepository;
 import com.tiffin.repository.OrderRepository;
+import com.tiffin.repository.PaymentRepository;
+import com.tiffin.repository.ReviewRepository;
 import com.tiffin.repository.UserRepository;
 
 import jakarta.transaction.Transactional;
@@ -47,12 +53,18 @@ public class OrderServiceImpl implements OrderService {
 
 	@Autowired
 	private MenuRepository menuRepository;
+	@Autowired
+	private PaymentRepository paymentRepository;
+
+	@Autowired
+	private ReviewRepository reviewRepository;
 
 	@Autowired
 	ModelMapper mapper;
 
 	@Override
-	public ApiResponse addOrder(OrderRequestDTO orderRequest, Long customerId, Long vendorId) {
+	public ApiResponse addOrder(PaymentMethod paymentMethod, OrderRequestDTO orderRequest, Long customerId,
+			Long vendorId) {
 		User customer = userRepository.findById(customerId)
 				.orElseThrow(() -> new ResourceNotFoundException("Customer Not Found"));
 		User vendor = userRepository.findById(vendorId)
@@ -68,7 +80,7 @@ public class OrderServiceImpl implements OrderService {
 
 		// orderPlaced.setDeliveryBoy(findSuitableDeliveryBoy()); // Implement suitable
 		// logic and only AVAILABLE(logged i) db will be fetched
-//		  when suitable delivery boy found -> set status to BUSY
+		// when suitable delivery boy found -> set status to BUSY
 		orderPlaced.setDeliveryAddress(mapper.map(orderRequest.getAddress(), Address.class));
 		orderPlaced.setStatus(OrderStatus.PLACED);
 		System.out.println(orderPlaced);
@@ -87,6 +99,11 @@ public class OrderServiceImpl implements OrderService {
 			}
 
 		}
+		Payment payment = mapper.map(orderRequest.getPayment(), Payment.class);
+		payment.setAmount(orderRequest.getPayment().getAmount());
+		payment.setPaymentMethod(paymentMethod);
+		payment.setOrder(orderPlaced);
+		paymentRepository.save(payment);
 
 		return new ApiResponse("New Order added with ID: " + orderPlaced.getId());
 	}
@@ -146,24 +163,21 @@ public class OrderServiceImpl implements OrderService {
 		}
 		return list;
 	}
-//	public List<OrderResDTO> getOrdersByVendorAndStatus(Long vendorId, OrderStatus status) {
-//		List<OrderResDTO> list = new ArrayList<>();
-//		User vendor = userRepository.findById(vendorId)
-//				.orElseThrow(() -> new ResourceNotFoundException("Vendor not found!!"));
-//
-//		List<Order> orders = orderRepository.findByVendorAndStatusWithFetch(vendorId, status);
-//		
-//		return orders.stream().map(o -> {
-//			System.out.println(o);
-//			OrderResDTO obj = new OrderResDTO();
-//			obj.setCustomer(o.getCustomer());
-//			obj.setDeliveryBoy(o.getDeliveryBoy().getDeliveryBoy());
-//			obj.setDeliveryAddress(mapper.map(o.getDeliveryAddress(), AddressReqDTO.class));
-//			return obj;
-//		}).collect(Collectors.toList());
-//	}
 
-// order delivered
+	@Override
+	public ApiResponse addReview(Long orderId, Long customerId, ReviewDTO addReview) {
+		User customer = userRepository.findById(customerId)
+				.orElseThrow(() -> new ResourceNotFoundException("Customer Not Found"));
+		Order order = orderRepository.findOrderByIdAndStatus(orderId, OrderStatus.DELIVERED)
+				.orElseThrow(() -> new ResourceNotFoundException("No order exist"));
+		Review review = mapper.map(addReview, Review.class);
+		review.setCustomer(customer);
+		review.setOrder(order);
+		review.setVendor(order.getVendor());
+		reviewRepository.save(review);
+		return new ApiResponse("Review Added for order id " + order.getId() + " by customer : " + customer.getFirstName());
+	}
+	// order delivered
 	// change order status to DELIVERED
 	// change delivery boy status to AVAILABLE + set new pincode as
 	// order->deliveryaddress->'s pincode

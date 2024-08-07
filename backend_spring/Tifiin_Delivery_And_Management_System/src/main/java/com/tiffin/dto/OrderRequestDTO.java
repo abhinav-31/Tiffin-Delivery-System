@@ -11,6 +11,6 @@ public class OrderRequestDTO {
     
     private List<MenuDTO> menuItems;
     
-    @Valid
+   
     private AddressReqDTO address;
 }

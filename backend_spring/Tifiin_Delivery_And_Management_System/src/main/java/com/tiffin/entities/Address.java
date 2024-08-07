@@ -7,10 +7,12 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Embeddable
 @Getter
 @Setter
+@ToString
 public class Address {
 
     @NotBlank(message = "Address Line 1 cannot be blank")

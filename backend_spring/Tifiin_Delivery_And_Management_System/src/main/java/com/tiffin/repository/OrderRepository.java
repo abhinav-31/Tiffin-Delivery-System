@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.tiffin.entities.Order;
+import com.tiffin.entities.User;
 import com.tiffin.enums.OrderStatus;
 
 @Repository

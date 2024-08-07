@@ -4,11 +4,11 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.ManyToOne;
-<<<<<<< HEAD
+
 import jakarta.persistence.OneToMany;
-=======
+
 import jakarta.persistence.OneToOne;
->>>>>>> origin
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
@@ -22,20 +22,16 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class Review extends BaseEntity {
 
-    private String comment;
-    @Column(length = 5)
-    private Integer rating;
+	private String comment;
+	@Column(length = 5)
+	private Integer rating;
 
-<<<<<<< HEAD
-    @OneToMany
-=======
-    @OneToOne
->>>>>>> origin
-    private Order order;
+	@OneToOne
+	private Order order;
 
-    @ManyToOne
-    private User customer;
-    
-    @ManyToOne
-    private User vendor;
+	@ManyToOne
+	private User customer;
+
+	@ManyToOne
+	private User vendor;
 }

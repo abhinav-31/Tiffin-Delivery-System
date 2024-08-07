@@ -1,5 +1,6 @@
 package com.tiffin.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,6 +14,7 @@ import com.tiffin.dto.ApiResponse;
 import com.tiffin.dto.MenuDTO;
 import com.tiffin.dto.OrderRequestDTO;
 import com.tiffin.dto.ReviewDTO;
+import com.tiffin.dto.OrderResDTO;
 import com.tiffin.entities.Address;
 import com.tiffin.entities.DeliveryBoy;
 import com.tiffin.entities.Menu;
@@ -147,6 +149,28 @@ public class OrderServiceImpl implements OrderService {
 		review.setVendor(order.getVendor());
 		reviewRepository.save(review);
 		return new ApiResponse("Review Added for order id "+order.getId() +" by customer : " + customer.getFirstName());
+
+	}
+
+	@Override
+	public List<OrderResDTO> getOrdersByVendorAndStatus(Long vendorId, OrderStatus status) {
+		List<OrderResDTO> list = new ArrayList<>();
+		User vendor = userRepository.findById(vendorId)
+				.orElseThrow(() -> new ResourceNotFoundException("Vendor not found!!"));
+		List<Order> orders = orderRepository.findByVendor(vendor);
+
+		for (Order o : orders) {
+			if (o.getStatus().equals(status)) {
+				OrderResDTO obj = new OrderResDTO();
+				obj.setCustomer(o.getCustomer());
+				obj.setDeliveryBoy(o.getDeliveryBoy().getDeliveryBoy());
+				obj.setDeliveryAddress(o.getDeliveryAddress());
+				list.add(obj);
+
+			}
+		}
+
+		return list;
 	}
 // order delivered
 	// change order status to DELIVERED

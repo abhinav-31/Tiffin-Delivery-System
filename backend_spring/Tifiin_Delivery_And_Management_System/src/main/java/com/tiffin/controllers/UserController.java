@@ -14,6 +14,7 @@ import com.tiffin.dto.AddressReqDTO;
 import com.tiffin.dto.UserSignInReqDTO;
 import com.tiffin.dto.UserSignUpReqDTO;
 import com.tiffin.dto.VendorSignUpReqDTO;
+import com.tiffin.service.DeliveryBoyService;
 import com.tiffin.service.UserService;
 
 import jakarta.validation.Valid;
@@ -24,7 +25,8 @@ import jakarta.validation.Valid;
 public class UserController {
 	@Autowired
 	private UserService userService;
-
+	@Autowired
+	private DeliveryBoyService deliveryBoyService;
 	
 	@PostMapping("/customerSignup")
 	public ResponseEntity<?> signUpCustomer(@RequestBody @Valid UserSignUpReqDTO userSignup) {
@@ -49,5 +51,17 @@ public class UserController {
 	@PostMapping("/customerSignIn")
 	public ResponseEntity<?> signInUser(@RequestBody @Valid UserSignInReqDTO userSignIn) {
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body(userService.signIn(userSignIn));
+	}
+	
+	@PostMapping("/vendorSignIn")
+	public ResponseEntity<?> signInVendor(@RequestBody @Valid UserSignInReqDTO userSignIn) {
+		return ResponseEntity.status(HttpStatus.ACCEPTED).body(userService.signIn(userSignIn));
+	}
+	
+	@PostMapping("/deliveryBoySignIn")
+	public ResponseEntity<?> signInDeliveryBoy(@RequestBody @Valid UserSignInReqDTO userSignIn) {
+		String resp = "resp";
+		
+		return ResponseEntity.status(HttpStatus.ACCEPTED).body(resp);
 	}
 }

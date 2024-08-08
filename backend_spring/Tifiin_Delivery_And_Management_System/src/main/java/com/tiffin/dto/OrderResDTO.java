@@ -1,4 +1,6 @@
 package com.tiffin.dto;
+import java.util.List;
+
 import com.tiffin.entities.Address;
 import com.tiffin.entities.User;
 import com.tiffin.enums.OrderStatus;
@@ -10,7 +12,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class OrderResDTO {
-    private User customer;
-    private User deliveryBoy;
-    private Address deliveryAddress;
+    private UserDTO customer;
+    private UserDTO deliveryBoy;
+    private AddressReqDTO deliveryAddress;
 }

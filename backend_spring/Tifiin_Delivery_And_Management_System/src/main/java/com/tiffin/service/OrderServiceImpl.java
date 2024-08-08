@@ -1,8 +1,10 @@
 package com.tiffin.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import com.tiffin.dto.ApiResponse;
 import com.tiffin.dto.MenuDTO;
 import com.tiffin.dto.OrderRequestDTO;
 import com.tiffin.dto.ReviewDTO;
+import com.tiffin.dto.UserDTO;
 import com.tiffin.dto.OrderResDTO;
 import com.tiffin.entities.Address;
 import com.tiffin.entities.DeliveryBoy;
@@ -54,15 +57,16 @@ public class OrderServiceImpl implements OrderService {
 
 	@Autowired
 	private ReviewRepository reviewRepository;
-	
+
 	@Autowired
 	private PaymentRepository paymentRepository;
-	
+
 	@Autowired
 	ModelMapper mapper;
 
 	@Override
-	public ApiResponse addOrder(PaymentMethod paymentMethod,OrderRequestDTO orderRequest, Long customerId, Long vendorId) {
+	public ApiResponse addOrder(PaymentMethod paymentMethod, OrderRequestDTO orderRequest, Long customerId,
+			Long vendorId) {
 		User customer = userRepository.findById(customerId)
 				.orElseThrow(() -> new ResourceNotFoundException("Customer Not Found"));
 		User vendor = userRepository.findById(vendorId)
@@ -137,18 +141,20 @@ public class OrderServiceImpl implements OrderService {
 		deliveryBoy.setCurrentPincode(deliveryAddress.getZipcode());
 		return new ApiResponse("Order Status Changed to " + OrderStatus.DELIVERED);
 	}
-	
+
 	@Override
 	public ApiResponse addReview(Long orderId, Long customerId, ReviewDTO addReview) {
 		User customer = userRepository.findById(customerId)
 				.orElseThrow(() -> new ResourceNotFoundException("Customer Not Found"));
-		Order order = orderRepository.findOrderByIdAndStatus(orderId,OrderStatus.DELIVERED).orElseThrow(()-> new ResourceNotFoundException("No order exist"));
+		Order order = orderRepository.findOrderByIdAndStatus(orderId, OrderStatus.DELIVERED)
+				.orElseThrow(() -> new ResourceNotFoundException("No order exist"));
 		Review review = mapper.map(addReview, Review.class);
 		review.setCustomer(customer);
 		review.setOrder(order);
 		review.setVendor(order.getVendor());
 		reviewRepository.save(review);
-		return new ApiResponse("Review Added for order id "+order.getId() +" by customer : " + customer.getFirstName());
+		return new ApiResponse(
+				"Review Added for order id " + order.getId() + " by customer : " + customer.getFirstName());
 
 	}
 
@@ -159,19 +165,36 @@ public class OrderServiceImpl implements OrderService {
 				.orElseThrow(() -> new ResourceNotFoundException("Vendor not found!!"));
 		List<Order> orders = orderRepository.findByVendor(vendor);
 
-		for (Order o : orders) {
-			if (o.getStatus().equals(status)) {
-				OrderResDTO obj = new OrderResDTO();
-				obj.setCustomer(o.getCustomer());
-				obj.setDeliveryBoy(o.getDeliveryBoy().getDeliveryBoy());
-				obj.setDeliveryAddress(o.getDeliveryAddress());
-				list.add(obj);
-
+		for (Order order : orders) {
+			if (order.getStatus().equals(status)) {
+				OrderResDTO dto = new OrderResDTO();
+				dto.setCustomer(mapper.map(order.getCustomer(), UserDTO.class));
+				dto.setDeliveryBoy(mapper.map(order.getDeliveryBoy().getDeliveryBoy(), UserDTO.class));
+				AddressReqDTO addressDto = mapper.map(order.getDeliveryAddress(), AddressReqDTO.class);
+				dto.setDeliveryAddress(addressDto);
+				list.add(dto);
 			}
 		}
 
 		return list;
 	}
+//	@Override
+//	public List<OrderResDTO> getOrdersByVendorAndStatus(Long vendorId, OrderStatus status) {
+//		User vendor = userRepository.findById(vendorId)
+//				.orElseThrow(() -> new ResourceNotFoundException("Vendor not found"));
+//
+//		List<Order> orders = orderRepository.findByVendorAndStatus(vendor, status);
+//
+//		return orders.stream().map(order -> {
+//			OrderResDTO dto = new OrderResDTO();
+//			dto.setCustomer(mapper.map(order.getCustomer(), UserDTO.class));
+//			dto.setDeliveryBoy(mapper.map(order.getDeliveryBoy().getDeliveryBoy(), UserDTO.class));
+//			AddressReqDTO addressDto = mapper.map(order.getDeliveryAddress(), AddressReqDTO.class);
+//			dto.setDeliveryAddress(addressDto);
+//			return dto;
+//		}).collect(Collectors.toList());
+//	}
+
 // order delivered
 	// change order status to DELIVERED
 	// change delivery boy status to AVAILABLE + set new pincode as

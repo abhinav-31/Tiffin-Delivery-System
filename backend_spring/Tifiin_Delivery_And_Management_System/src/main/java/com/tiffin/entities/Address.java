@@ -25,7 +25,7 @@ public class Address {
     private String city;
 
     @NotBlank(message = "State cannot be blank")
-    @Column(length = 10)
+    @Column(length = 25)
     private String state;
 
     @NotBlank(message = "Country cannot be blank")

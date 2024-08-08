@@ -139,6 +139,7 @@ public class OrderServiceImpl implements OrderService {
 		Address deliveryAddress = order.getDeliveryAddress();
 		DeliveryBoy deliveryBoy = order.getDeliveryBoy();
 		deliveryBoy.setCurrentPincode(deliveryAddress.getZipcode());
+		deliveryBoy.setStatus(DeliveryStatus.AVAILABLE);
 		return new ApiResponse("Order Status Changed to " + OrderStatus.DELIVERED);
 
 	}
@@ -154,6 +155,8 @@ public class OrderServiceImpl implements OrderService {
 		for (Order o : orders) {
 			if (o.getStatus().equals(status)) {
 				System.out.println(o);
+				//o.getOrderDetails();
+//				o.getCustomer().getAddresses();
 				OrderResDTO obj = new OrderResDTO();
 				obj.setCustomer(o.getCustomer());
 				obj.setDeliveryBoy(o.getDeliveryBoy().getDeliveryBoy());

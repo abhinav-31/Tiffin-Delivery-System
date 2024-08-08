@@ -1,8 +1,5 @@
 package com.tiffin.dto;
 
-import com.tiffin.enums.PaymentMethod;
-
-import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

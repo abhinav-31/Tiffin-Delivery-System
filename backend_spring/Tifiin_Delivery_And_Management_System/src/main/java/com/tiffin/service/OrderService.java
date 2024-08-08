@@ -16,6 +16,7 @@ public interface OrderService {
 	ApiResponse changeStatus(Long orderId);
 
 	ApiResponse addReview(Long orderId, Long customerId, ReviewDTO review);
+	
 	List<OrderResDTO> getOrdersByVendorAndStatus(Long vendorId, OrderStatus status);
 
 }

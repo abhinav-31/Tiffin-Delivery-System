@@ -7,10 +7,12 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Embeddable
 @Getter
 @Setter
+@ToString
 public class Address {
 
     @NotBlank(message = "Address Line 1 cannot be blank")
@@ -23,7 +25,7 @@ public class Address {
     private String city;
 
     @NotBlank(message = "State cannot be blank")
-    @Column(length = 10)
+    @Column(length = 25)
     private String state;
 
     @NotBlank(message = "Country cannot be blank")

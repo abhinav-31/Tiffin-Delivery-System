@@ -1,7 +1,7 @@
 package com.tiffin.dto;
 
 import java.util.List;
-import jakarta.validation.Valid;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,8 +10,7 @@ import lombok.Setter;
 public class OrderRequestDTO {
     
     private List<MenuDTO> menuItems;
-    
-   
     private AddressReqDTO address;
     private PaymentReqDTO payment;
+    
 }

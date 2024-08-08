@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.hibernate.Hibernate;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ import com.tiffin.dto.OrderRequestDTO;
 import com.tiffin.dto.ReviewDTO;
 import com.tiffin.dto.UserDTO;
 import com.tiffin.dto.OrderResDTO;
+import com.tiffin.dto.ReviewDTO;
 import com.tiffin.entities.Address;
 import com.tiffin.entities.DeliveryBoy;
 import com.tiffin.entities.Menu;
@@ -54,12 +56,11 @@ public class OrderServiceImpl implements OrderService {
 
 	@Autowired
 	private MenuRepository menuRepository;
+	@Autowired
+	private PaymentRepository paymentRepository;
 
 	@Autowired
 	private ReviewRepository reviewRepository;
-
-	@Autowired
-	private PaymentRepository paymentRepository;
 
 	@Autowired
 	ModelMapper mapper;
@@ -82,7 +83,7 @@ public class OrderServiceImpl implements OrderService {
 
 		// orderPlaced.setDeliveryBoy(findSuitableDeliveryBoy()); // Implement suitable
 		// logic and only AVAILABLE(logged i) db will be fetched
-//		  when suitable delivery boy found -> set status to BUSY
+		// when suitable delivery boy found -> set status to BUSY
 		orderPlaced.setDeliveryAddress(mapper.map(orderRequest.getAddress(), Address.class));
 		orderPlaced.setStatus(OrderStatus.PLACED);
 		System.out.println(orderPlaced);
@@ -105,6 +106,7 @@ public class OrderServiceImpl implements OrderService {
 		payment.setPaymentMethod(paymentMethod);
 		payment.setOrder(orderPlaced);
 		paymentRepository.save(payment);
+
 		return new ApiResponse("New Order added with ID: " + orderPlaced.getId());
 	}
 
@@ -139,6 +141,7 @@ public class OrderServiceImpl implements OrderService {
 		Address deliveryAddress = order.getDeliveryAddress();
 		DeliveryBoy deliveryBoy = order.getDeliveryBoy();
 		deliveryBoy.setCurrentPincode(deliveryAddress.getZipcode());
+		deliveryBoy.setStatus(DeliveryStatus.AVAILABLE);
 		return new ApiResponse("Order Status Changed to " + OrderStatus.DELIVERED);
 	}
 
@@ -163,6 +166,7 @@ public class OrderServiceImpl implements OrderService {
 		List<OrderResDTO> list = new ArrayList<>();
 		User vendor = userRepository.findById(vendorId)
 				.orElseThrow(() -> new ResourceNotFoundException("Vendor not found!!"));
+
 		List<Order> orders = orderRepository.findByVendor(vendor);
 
 		for (Order order : orders) {
@@ -175,7 +179,6 @@ public class OrderServiceImpl implements OrderService {
 				list.add(dto);
 			}
 		}
-
 		return list;
 	}
 //	@Override

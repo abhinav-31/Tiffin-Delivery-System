@@ -55,15 +55,16 @@ public class OrderServiceImpl implements OrderService {
 	private MenuRepository menuRepository;
 	@Autowired
 	private PaymentRepository paymentRepository;
-	
+
 	@Autowired
 	private ReviewRepository reviewRepository;
-	
+
 	@Autowired
 	ModelMapper mapper;
 
 	@Override
-	public ApiResponse addOrder(PaymentMethod paymentMethod,OrderRequestDTO orderRequest, Long customerId, Long vendorId) {
+	public ApiResponse addOrder(PaymentMethod paymentMethod, OrderRequestDTO orderRequest, Long customerId,
+			Long vendorId) {
 		User customer = userRepository.findById(customerId)
 				.orElseThrow(() -> new ResourceNotFoundException("Customer Not Found"));
 		User vendor = userRepository.findById(vendorId)
@@ -79,7 +80,7 @@ public class OrderServiceImpl implements OrderService {
 
 		// orderPlaced.setDeliveryBoy(findSuitableDeliveryBoy()); // Implement suitable
 		// logic and only AVAILABLE(logged i) db will be fetched
-//		  when suitable delivery boy found -> set status to BUSY
+		// when suitable delivery boy found -> set status to BUSY
 		orderPlaced.setDeliveryAddress(mapper.map(orderRequest.getAddress(), Address.class));
 		orderPlaced.setStatus(OrderStatus.PLACED);
 		System.out.println(orderPlaced);
@@ -103,7 +104,7 @@ public class OrderServiceImpl implements OrderService {
 		payment.setPaymentMethod(paymentMethod);
 		payment.setOrder(orderPlaced);
 		paymentRepository.save(payment);
-		
+
 		return new ApiResponse("New Order added with ID: " + orderPlaced.getId());
 	}
 
@@ -138,6 +139,7 @@ public class OrderServiceImpl implements OrderService {
 		Address deliveryAddress = order.getDeliveryAddress();
 		DeliveryBoy deliveryBoy = order.getDeliveryBoy();
 		deliveryBoy.setCurrentPincode(deliveryAddress.getZipcode());
+		deliveryBoy.setStatus(DeliveryStatus.AVAILABLE);
 		return new ApiResponse("Order Status Changed to " + OrderStatus.DELIVERED);
 
 	}
@@ -153,6 +155,8 @@ public class OrderServiceImpl implements OrderService {
 		for (Order o : orders) {
 			if (o.getStatus().equals(status)) {
 				System.out.println(o);
+				//o.getOrderDetails();
+//				o.getCustomer().getAddresses();
 				OrderResDTO obj = new OrderResDTO();
 				obj.setCustomer(o.getCustomer());
 				obj.setDeliveryBoy(o.getDeliveryBoy().getDeliveryBoy());
@@ -162,20 +166,21 @@ public class OrderServiceImpl implements OrderService {
 		}
 		return list;
 	}
-	
+
 	@Override
 	public ApiResponse addReview(Long orderId, Long customerId, ReviewDTO addReview) {
 		User customer = userRepository.findById(customerId)
 				.orElseThrow(() -> new ResourceNotFoundException("Customer Not Found"));
-		Order order = orderRepository.findOrderByIdAndStatus(orderId,OrderStatus.DELIVERED).orElseThrow(()-> new ResourceNotFoundException("No order exist"));
+		Order order = orderRepository.findOrderByIdAndStatus(orderId, OrderStatus.DELIVERED)
+				.orElseThrow(() -> new ResourceNotFoundException("No order exist"));
 		Review review = mapper.map(addReview, Review.class);
 		review.setCustomer(customer);
 		review.setOrder(order);
 		review.setVendor(order.getVendor());
 		reviewRepository.save(review);
-		return new ApiResponse("Review Added for order id "+order.getId() +" by customer : " + customer.getFirstName());
+		return new ApiResponse("Review Added for order id " + order.getId() + " by customer : " + customer.getFirstName());
 	}
-// order delivered
+	// order delivered
 	// change order status to DELIVERED
 	// change delivery boy status to AVAILABLE + set new pincode as
 	// order->deliveryaddress->'s pincode

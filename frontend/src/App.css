@@ -61,3 +61,47 @@ body {
 }
 
 /* You may want to import this CSS in your VendorLayout.js file */
+
+
+/* Admin page component's redux css*/
+.vendor-count {
+  display: inline-block;
+  background-color: rgb(179, 5, 14);
+  color: white;
+  font-size: 0.8rem;
+  font-weight: bold;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 24px; /* Centers the text vertically */
+  position: relative;
+}
+
+.customer-count {
+  display: inline-block;
+  background-color: rgb(5, 101, 179);
+  color: white;
+  font-size: 0.8rem;
+  font-weight: bold;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 24px; /* Centers the text vertically */
+  position: relative;
+}
+
+.deliveryboy-count {
+  display: inline-block;
+  background-color: rgb(127, 179, 5);
+  color: white;
+  font-size: 0.8rem;
+  font-weight: bold;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 24px; /* Centers the text vertically */
+  position: relative;
+}

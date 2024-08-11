@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -80,10 +81,9 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public ApiResponse addCustomerAddresses(AddressReqDTO address) {
+		System.out.println(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 		User u = userRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString()).orElseThrow(()-> new ResourceNotFoundException("no user found"));
-//		User u = userRepository
-//				.findByEmail(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
-//				.orElseThrow(() -> new ResourceNotFoundException("user does not exist"));
+		
 		if (u != null) {
 			System.out.println("kya");
 			u.addAddress(mapper.map(address, Address.class));
@@ -94,7 +94,26 @@ public class UserServiceImpl implements UserService {
 		System.out.println(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
 		return new ApiResponse("New Address Added!!!");
 	}
+//    
+//	@Override
+//	public ApiResponse addCustomerAddresses(AddressReqDTO address) {
+//	    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//	    if (authentication != null && authentication.getPrincipal() instanceof String) {
+//	        String email = (String) authentication.getPrincipal();
+//	        System.out.println(email);
+//	        User user = userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("No user found"));
+//
+//	        user.addAddress(mapper.map(address, Address.class));
+//	        userRepository.save(user);
+//	        return new ApiResponse("New Address Added!!!");
+//	    } else {
+//	        throw new ResourceNotFoundException("User is not authenticated");
+//	    }
+//	}
 
+	
+	
+	
 	@Override
 	public String getUserMail() {
 		// TODO Auto-generated method stub

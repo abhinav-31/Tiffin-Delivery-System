@@ -21,6 +21,7 @@ public class UserDTO {
 	private String firstName;
 	private String lastName;
 	private String email;
+	private String contactNo;
 //	@Enumerated(EnumType.STRING)
 	private Role role;
 	private String businessName;

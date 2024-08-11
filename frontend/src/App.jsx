@@ -4,6 +4,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
+
 import Home from "./pages/home";
 import HomePage from "./pages/homepage";
 import LoginModal from "./components/login/loginModal";
@@ -12,6 +13,14 @@ import Cart from "./pages/cart";
 import RegisterAsDB from "./components/register/registerAsDB";
 import RegisterAsVendor from "./components/register/registerAsVendor";
 
+//Admin imports
+import AdminLayout from "./Admin/layouts/AdminLayout";
+import List from "./Admin/Pages/List/VendorList"
+import AdminHome from "./Admin/Pages/AdminHome";
+import DeliveryboyList from "./Admin/Pages/List/DeliveryboyList";
+import CustomerList from "./Admin/Pages/List/CustomerList"
+
+//Vendor imports
 import VendorHomePage from "./vendor/Pages/VendorHomePage";
 import AddMenu from "./vendor/components/VendorComponents/AddMenu";
 import ViewOrders from "./vendor/components/VendorComponents/ViewOrders";
@@ -29,31 +38,40 @@ import DbOrderHistoryPage from "./components/DeliveryBoy/components/OrderHistory
 function App() {
   return (
     <div className="App">
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/login" element={<LoginModal />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/register" element={<RegisterModal />} />
-        <Route path="/registerAsDB" element={<RegisterAsDB />} />
-        <Route path="/registerAsVendor" element={<RegisterAsVendor />} />
-        <Route path="/cart" element={<Cart />} />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<LoginModal />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/register" element={<RegisterModal />} />
+          <Route path="/registerAsDB" element={<RegisterAsDB />} />
+          <Route path="/registerAsVendor" element={<RegisterAsVendor />} />
+          <Route path="/cart" element={<Cart />} />
 
-        {/* Vendor routes with Sidebar */}
-        <Route element={<VendorLayout />}>
-          <Route path="/vendorhomepage" element={<VendorHomePage />} />
-          <Route path="/addmenu" element={<AddMenu />} />
-          <Route path="/vieworder" element={<ViewOrders />} />
-          <Route path="/orderhistory" element={<OrderHistory />} />
-          <Route path="/review" element={<Review />} />
-          <Route path="/addbreakfastmenu" element={<AddBreakfastMenu />} />
-        </Route>
+          {/* Admin routes with sidebar and Navbar*/}
+          <Route element={<AdminLayout/>}>
+            <Route path="/adminhome" element={<AdminHome/>}/>
+            <Route path="/list" element={<List />} />
+            <Route path="/deliveryboylist" element={<DeliveryboyList/>}/>
+            <Route path="/customerlist" element={<CustomerList/>}/>
+          </Route>
+          
 
-        <Route element={<DbLayout />}>
-          <Route path="/dbhomepage" element={<DbHomePage />} />
-          <Route path="/dbreview" element={<DBReviewPage />} />
-          <Route path="/dborderhistory" element={<DbOrderHistoryPage />} />
-        </Route>
-      </Routes>
+          {/* Vendor routes with Sidebar */}
+          <Route element={<VendorLayout />}>
+            <Route path="/vendorhomepage" element={<VendorHomePage />} />
+            <Route path="/addmenu" element={<AddMenu />} />
+            <Route path="/vieworder" element={<ViewOrders />} />
+            <Route path="/orderhistory" element={<OrderHistory />} />
+            <Route path="/review" element={<Review />} />
+            <Route path="/addbreakfastmenu" element={<AddBreakfastMenu />} />
+          </Route>
+
+          <Route element={<DbLayout />}>
+            <Route path="/dbhomepage" element={<DbHomePage />} />
+            <Route path="/dbreview" element={<DBReviewPage />} />
+            <Route path="/dborderhistory" element={<DbOrderHistoryPage />} />
+          </Route>
+        </Routes>
 
       <ToastContainer theme="colored" />
     </div>

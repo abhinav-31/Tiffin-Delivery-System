@@ -18,9 +18,11 @@ public interface UserService {
 
 	public ApiResponse saveVendor(VendorSignUpReqDTO vendor, AddressReqDTO address);
 
-	public ApiResponse addCustomerAddresses(AddressReqDTO address, Long userId);
+	public ApiResponse addCustomerAddresses(AddressReqDTO address);
 
 	public List<User> getAllUsers();
 
 	public ApiResponse signIn(@Valid UserSignInReqDTO userSignIn);
+
+	String getUserMail();
 }

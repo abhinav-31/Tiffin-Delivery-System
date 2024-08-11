@@ -61,11 +61,10 @@ public class UserServiceImpl implements UserService {
 	public ApiResponse saveDeliveryBoy(UserSignUpReqDTO deliveryBoy, AddressReqDTO address) {
 		User u = mapper.map(deliveryBoy, User.class);
 		u.setRole(Role.ROLE_DELIVERY_BOY);
+		u.setPassword(passwordEncoder.encode(u.getPassword()));
 		u.addAddress(mapper.map(address, Address.class));
 		userRepository.save(u);
-		System.out.println(u.getId());
 		DeliveryBoy d = new DeliveryBoy(u, DeliveryStatus.AVAILABLE, address.getZipcode());
-		System.out.println(d);
 		deliveryBoyRepository.save(d);
 		return new ApiResponse("New Delivery Boy Added!!!");
 	}
@@ -74,6 +73,7 @@ public class UserServiceImpl implements UserService {
 	public ApiResponse saveVendor(VendorSignUpReqDTO vendor, AddressReqDTO address) {
 		User u = mapper.map(vendor, User.class);
 		u.setRole(Role.ROLE_VENDOR);
+		u.setPassword(passwordEncoder.encode(u.getPassword()));
 		u.addAddress(mapper.map(address, Address.class));
 		userRepository.save(u);
 		return new ApiResponse("New Vendor Added!!!");
@@ -85,35 +85,14 @@ public class UserServiceImpl implements UserService {
 		User u = userRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString()).orElseThrow(()-> new ResourceNotFoundException("no user found"));
 		
 		if (u != null) {
-			System.out.println("kya");
 			u.addAddress(mapper.map(address, Address.class));
 		} else {
-			System.out.println("kyu");
 			new ResourceNotFoundException("User does not exist!");
 		}
 		System.out.println(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
 		return new ApiResponse("New Address Added!!!");
 	}
-//    
-//	@Override
-//	public ApiResponse addCustomerAddresses(AddressReqDTO address) {
-//	    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//	    if (authentication != null && authentication.getPrincipal() instanceof String) {
-//	        String email = (String) authentication.getPrincipal();
-//	        System.out.println(email);
-//	        User user = userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("No user found"));
-//
-//	        user.addAddress(mapper.map(address, Address.class));
-//	        userRepository.save(user);
-//	        return new ApiResponse("New Address Added!!!");
-//	    } else {
-//	        throw new ResourceNotFoundException("User is not authenticated");
-//	    }
-//	}
 
-	
-	
-	
 	@Override
 	public String getUserMail() {
 		// TODO Auto-generated method stub

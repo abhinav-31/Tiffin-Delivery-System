@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.lang.module.ResolutionException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -65,5 +66,13 @@ public class MenuServiceImpl implements MenuService {
     public MenuResWithImageDTO getMenuById(Long id) {
         Menu menu = menuRepository.findById(id).orElseThrow(() -> new RuntimeException("Menu not found"));
         return modelMapper.map(menu, MenuResWithImageDTO.class);
+    }
+
+    @Override
+    public List<MenuResWithImageDTO> getMenuByVendorId(Long vendorId) {
+        User vendor = userRepository.findById(vendorId).orElseThrow(()->new ResolutionException("No vendor found"));
+        return menuRepository.findByVendor(vendor).stream()
+                .map(menu->modelMapper.map(menu, MenuResWithImageDTO.class))
+                .collect(Collectors.toList());
     }
 }

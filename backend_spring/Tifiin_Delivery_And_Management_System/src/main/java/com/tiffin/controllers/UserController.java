@@ -41,20 +41,20 @@ public class UserController {
 	
 	@Autowired
 	private AuthenticationManager authManager;
-//	@GetMapping("/welcome")
-//	public String welcome() {
-//		return "Welcome";
-//	}
+	@GetMapping("/welcome")
+	public String welcome() {
+		return "Welcome";
+	}
 	
 	@PostMapping("/signup")
 	public ResponseEntity<?> signUpCustomer(@RequestBody @Valid UserSignUpReqDTO userSignup) {
 		return ResponseEntity.status(HttpStatus.CREATED).body(userService.saveCustomer(userSignup));
 	}
 
-//	@PostMapping("/deliveryBoySignup")
-//	public ResponseEntity<?> signUpDeliveryBoy(@RequestBody @Valid UserSignUpReqDTO userSignup, AddressReqDTO address) {
-//		return ResponseEntity.status(HttpStatus.CREATED).body(userService.saveDeliveryBoy(userSignup, address));
-//	}
+	@PostMapping("/deliveryBoySignup")
+	public ResponseEntity<?> signUpDeliveryBoy(@RequestBody @Valid UserSignUpReqDTO userSignup, AddressReqDTO address) {
+		return ResponseEntity.status(HttpStatus.CREATED).body(userService.saveDeliveryBoy(userSignup, address));
+	}
 
 	@PostMapping("/vendorSignup")
 	public ResponseEntity<?> signUpVendor(@RequestBody @Valid VendorSignUpReqDTO userSignup, AddressReqDTO address) {
@@ -66,7 +66,7 @@ public class UserController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(userService.addCustomerAddresses(address));
 	}
 	
-	@PostMapping("/customerSignIn")
+	@PostMapping("/signin")
 	public ResponseEntity<?> signInUser(@RequestBody @Valid UserSignInReqDTO userSignIn) {
 		System.out.println("Hello");
 		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userSignIn.getEmail(), userSignIn.getPassword());

@@ -24,7 +24,7 @@ public class Review extends BaseEntity {
 
 	private String comment;
 	@Column(length = 5)
-	private Integer rating;
+	private Double rating;
 
 	@OneToOne
 	private Order order;

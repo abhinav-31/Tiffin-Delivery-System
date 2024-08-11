@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.tiffin.enums.Role;
 
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
@@ -24,7 +25,8 @@ public class UserSignUpReqDTO {
 		private String email;
 		@JsonProperty(access = Access.WRITE_ONLY)
 		private String password;
-//		private Role role;
+		@Enumerated
+		private Role role;
 //		public CustomerSignUpReqDTO(String firstName, String lastName,
 //				String email, String password) {
 //			super();

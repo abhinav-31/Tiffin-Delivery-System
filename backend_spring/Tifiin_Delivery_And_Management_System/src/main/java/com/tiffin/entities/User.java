@@ -9,6 +9,7 @@ import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -47,6 +48,10 @@ public class User extends BaseEntity {
 
 	@Column(length = 20)
 	private String businessName;
+	
+	@Lob
+	@Column(columnDefinition = "LongBlob")// => large object , col type : longblob
+	private byte[] userImage;
 
 	@ElementCollection(fetch = FetchType.LAZY)
 	@CollectionTable(name = "user_addresses", joinColumns = @JoinColumn(name = "user_id"))

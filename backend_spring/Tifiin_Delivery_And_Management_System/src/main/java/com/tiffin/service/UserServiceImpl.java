@@ -5,6 +5,10 @@ import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +39,9 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private ModelMapper mapper;
 
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+
 	@Override
 	public List<User> getAllUsers() {
 		return userRepository.findAll();
@@ -44,7 +51,8 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public ApiResponse saveCustomer(UserSignUpReqDTO user) {
 		User u = mapper.map(user, User.class);
-		u.setRole(Role.ROLE_CUSTOMER);
+		u.setPassword(passwordEncoder.encode(u.getPassword()));
+		u.setRole(u.getRole());
 		userRepository.save(u);
 		return new ApiResponse("New Customer Added!!!");
 	}
@@ -72,16 +80,49 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public ApiResponse addCustomerAddresses(AddressReqDTO address, Long userId) {
-		User u = userRepository.findById(userId)
-				.orElseThrow(() -> new ResourceNotFoundException("user does not exist"));
-		u.addAddress(mapper.map(address, Address.class));
+	public ApiResponse addCustomerAddresses(AddressReqDTO address) {
+		System.out.println(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+		User u = userRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString()).orElseThrow(()-> new ResourceNotFoundException("no user found"));
+		
+		if (u != null) {
+			System.out.println("kya");
+			u.addAddress(mapper.map(address, Address.class));
+		} else {
+			System.out.println("kyu");
+			new ResourceNotFoundException("User does not exist!");
+		}
+		System.out.println(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
 		return new ApiResponse("New Address Added!!!");
+	}
+//    
+//	@Override
+//	public ApiResponse addCustomerAddresses(AddressReqDTO address) {
+//	    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//	    if (authentication != null && authentication.getPrincipal() instanceof String) {
+//	        String email = (String) authentication.getPrincipal();
+//	        System.out.println(email);
+//	        User user = userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("No user found"));
+//
+//	        user.addAddress(mapper.map(address, Address.class));
+//	        userRepository.save(user);
+//	        return new ApiResponse("New Address Added!!!");
+//	    } else {
+//	        throw new ResourceNotFoundException("User is not authenticated");
+//	    }
+//	}
+
+	
+	
+	
+	@Override
+	public String getUserMail() {
+		// TODO Auto-generated method stub
+		return SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
 	}
 
 	@Override
 	public ApiResponse signIn(@Valid UserSignInReqDTO userSignIn) {
-		
+
 		return new ApiResponse("User Validated");
 	}
 }

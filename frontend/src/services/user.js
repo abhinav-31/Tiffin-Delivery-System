@@ -60,15 +60,47 @@ export async function registerVendor(data) {
   }
 }
 
+// export async function login(email, password) {
+//   // body parameters
+//   const body = {
+//     email,
+//     password,
+//   };
+
+//   // make API call
+//   const response = await axios.post(`${config.url}/users/signin`, body);
+//   // read JSON data (response)
+//   return response.data;
+// }
+
+// Login function with improved error handling
 export async function login(email, password) {
-  // body parameters
   const body = {
     email,
     password,
   };
 
-  // make API call
-  const response = await axios.post(`${config.url}/users/signin`, body);
-  // read JSON data (response)
-  return response.data;
+  try {
+    const response = await axios.post(`${config.url}/users/signin`, body);
+    return response.data;
+  } catch (error) {
+    handleError(error, 'Error during login');
+  }
+}
+
+// General error handling function
+function handleError(error, defaultMessage) {
+  if (!error.response) {
+    // Network error
+    console.error('Network error:', error.message);
+    throw new Error('Network error: Please check your internet connection.');
+  } else if (error.response.status === 401) {
+    // Unauthorized error
+    console.error('Unauthorized: Incorrect email or password.');
+    throw new Error('Unauthorized: Incorrect email or password.');
+  } else {
+    // Other API errors
+    console.error(`${defaultMessage}:`, error.response.status, error.response.data);
+    throw new Error(error.response.data.message || defaultMessage);
+  }
 }

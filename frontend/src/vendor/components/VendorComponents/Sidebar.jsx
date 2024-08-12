@@ -6,9 +6,6 @@ import { NavLink } from 'react-router-dom';
 const Sidebar = () => {
   return (
     <div className='sidebar'>
-      <div className="sidebar-header">
-        <img src={assets.logo} alt="Logo" className="sidebar-logo" />
-      </div>
       <div className="sidebar-options">
         <NavLink to='/vendorhomepage' className="sidebar-option">
             <img src={assets.home_icon} alt="" />
@@ -30,7 +27,7 @@ const Sidebar = () => {
             <img src={assets.history_icon} alt="" />
             <p>Delivered Order History</p>
         </NavLink>
-        <NavLink to='/list' className="sidebar-option">
+        <NavLink to='/menulist' className="sidebar-option">
             <img src={assets.list_icon} alt="" />
             <p>Order List</p>
         </NavLink>

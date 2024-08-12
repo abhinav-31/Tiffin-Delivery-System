@@ -70,7 +70,7 @@ function App() {
           />
           <Route path="/review" element={<Review />} />
           <Route path="/addbreakfastmenu" element={<AddBreakfastMenu />} />
-          <Route path="/list" element={<OrderList />} />
+          <Route path="/menulist" element={<OrderList />} />
         </Route>
 
         <Route element={<DbLayout />}>

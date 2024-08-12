@@ -6,15 +6,16 @@ import { currency } from '../../assets/assets'; // Assuming you have a currency 
 
 const PlacedOrderHistory = ({ vendorId }) => {
   const [orders, setOrders] = useState([]);
-
+  console.log(vendorId);
   const loadPlacedOrders = async () => {
     try {
-      if (vendorId) {
+      // if (vendorId) {
         const data = await fetchPlacedOrdersHistory(vendorId);
         setOrders(data);
-      } else {
-        toast.error("Vendor ID is missing");
-      }
+
+      // } else {
+      //   toast.error("Vendor ID is missing");
+      // }
     } catch (error) {
       toast.error("Error fetching placed order history");
     }

@@ -17,7 +17,7 @@ const List = () => {
         };
         getVendors();
       }, []);
-    
+      
     return (
         <div className='list add flex-col'>
             <p>All Vendors List</p>

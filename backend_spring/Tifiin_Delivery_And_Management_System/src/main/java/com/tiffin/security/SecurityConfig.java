@@ -37,7 +37,8 @@ public class SecurityConfig {
           "/v*/api-doc*/**",
           "/swagger-ui/**",
           "/home",
-          "/viewMenuOfVendor/{vendorId}"
+          "/viewMenuOfVendor/{vendorId}",
+          "/admin/allReviews"
   };
 
   private static final String[] VENDOR_ENDPOINTS = {

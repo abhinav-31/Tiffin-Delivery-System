@@ -27,15 +27,4 @@ public class VendorSignUpReqDTO {
 		private String email;
 		@JsonProperty(access = Access.WRITE_ONLY)
 		private String password;
-		private String businessName;
-//		private Role role;
-//		public CustomerSignUpReqDTO(String firstName, String lastName,
-//				String email, String password) {
-//			super();
-//			this.firstName = firstName;
-//			this.lastName = lastName;
-//			this.email = email;
-//			this.password = password;
-//			this.role = Role.ROLE_CUSTOMER;
-//		}
-}
+		private String businessName;}

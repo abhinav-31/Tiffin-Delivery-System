@@ -35,11 +35,15 @@ import DbLayout from "./components/DeliveryBoy/layouts/dbLayouts";
 import DbHomePage from "./components/DeliveryBoy/Pages/DbHomePage";
 import DBReviewPage from "./components/DeliveryBoy/components/Review";
 import DbOrderHistoryPage from "./components/DeliveryBoy/components/OrderHistory";
+import VendorDetail from "./components/VendorDetail";
+import NavBar from "./components/navbar/navbar";
 
 
 function App() {
   return (
     <div className="App">
+       <NavBar />
+
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginModal />} />
@@ -47,6 +51,7 @@ function App() {
         <Route path="/register" element={<RegisterModal />} />
         <Route path="/registerAsDB" element={<RegisterAsDB />} />
         <Route path="/registerAsVendor" element={<RegisterAsVendor />} />
+        <Route path="/vendor/menu" element={<VendorDetail />} />
         <Route path="/cart" element={<Cart />} />
 
           {/* Admin routes with sidebar and Navbar*/}

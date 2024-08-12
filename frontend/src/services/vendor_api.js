@@ -1,19 +1,48 @@
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:8080',
+  baseURL: 'http://localhost:7073',
 });
+
+// Fetch orders
+// export const fetchOrders = async () => {
+//   try {
+//     const token = sessionStorage.getItem('token');
+//     const response = await axiosInstance.get('/menus',{
+//       headers:{
+//       Authorization: `Bearer ${token}`,
+//     },
+//     });
+//     return response.data;
+//   } catch (error) {
+//     console.error('Error fetching orders:', error);
+//     throw error;
+//   }
+// };
+
 
 // Fetch orders
 export const fetchOrders = async () => {
   try {
-    const response = await axiosInstance.get('/menus');
+    const token = sessionStorage.getItem('token');
+    if (!token) {
+      throw new Error('Token not found');
+    }
+
+    console.log('Token:', token); // Debugging statement
+
+    const response = await axiosInstance.get('/menus', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   } catch (error) {
     console.error('Error fetching orders:', error);
     throw error;
   }
 };
+
 
 // Fetch orders history
 // export const fetchOrdersHistory = async (vendorId, status) => {

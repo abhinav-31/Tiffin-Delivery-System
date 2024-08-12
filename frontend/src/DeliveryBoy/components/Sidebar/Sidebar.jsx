@@ -7,25 +7,21 @@ const Sidebar = () => {
   return (
     <div className='sidebar'>
       <div className="sidebar-options">
-      <NavLink to='/adminhome' className="sidebar-option">
+      <NavLink to='/deliveryhome' className="sidebar-option">
             <img src={assets.home_icon} alt="" />
-            <p>Admin Home Page</p>
+            <p>Delivery Home Page</p>
         </NavLink>
-        <NavLink to='/customerlist' className="sidebar-option">
+        <NavLink to='/placedorderlist' className="sidebar-option">
             <img src={assets.list_icon} alt="" />
-            <p>Customer List</p>
+            <p>Placed Order List</p>
         </NavLink>
-        <NavLink to='/vendorlist' className="sidebar-option">
+        <NavLink to='/deliveredorderlist' className="sidebar-option">
             <img src={assets.list_icon} alt="" />
-            <p>Vendor List</p>
+            <p>Delivered Order List</p>
         </NavLink>
-        <NavLink to='/deliveryboylist' className="sidebar-option">
+        <NavLink to='/deliveryreviews' className="sidebar-option">
             <img src={assets.list_icon} alt="" />
-            <p>Delivery Boy List</p>
-        </NavLink>
-        <NavLink to='/orderreviewlist' className="sidebar-option">
-            <img src={assets.list_icon} alt="" />
-            <p>Order Reviews</p>
+            <p>Delivery Reviews</p>
         </NavLink>
       </div>
     </div>

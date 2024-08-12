@@ -1,11 +1,10 @@
 import React from "react";
-import { Outlet } from 'react-router-dom';
 import Sidebar from "../components/Sidebar/Sidebar";
-// import Navbar from "../components/Navbar/Navbar";
+import { Outlet } from "react-router-dom";
 import Navbar from "../../components/navbar/navbar"
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const AdminLayout = () => {
+const DbLayout = () => {
   return (
     <div className="container-fluid">
       {/* <Navbar /> */}
@@ -23,6 +22,4 @@ const AdminLayout = () => {
   );
 };
 
-export default AdminLayout;
-
-
+export default DbLayout;

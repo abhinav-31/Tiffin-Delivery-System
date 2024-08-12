@@ -14,10 +14,11 @@ import RegisterAsVendor from "./components/register/registerAsVendor";
 
 //Admin imports
 import AdminLayout from "./Admin/layouts/AdminLayout";
-import List from "./Admin/Pages/List/VendorList";
+import VendorList from "./Admin/Pages/List/VendorList";
 import AdminHome from "./Admin/Pages/AdminHome";
 import DeliveryboyList from "./Admin/Pages/List/DeliveryboyList";
 import CustomerList from "./Admin/Pages/List/CustomerList"
+import OrderReviewList from "./Admin/Pages/List/OrderReviewList"
 
 //Vendor imports
 import VendorHomePage from "./vendor/Pages/VendorHomePage";
@@ -52,9 +53,10 @@ function App() {
           {/* Admin routes with sidebar and Navbar*/}
           <Route element={<AdminLayout/>}>
             <Route path="/adminhome" element={<AdminHome/>}/>
-            <Route path="/list" element={<List />} />
+            <Route path="/vendorlist" element={<VendorList />} />
             <Route path="/deliveryboylist" element={<DeliveryboyList/>}/>
             <Route path="/customerlist" element={<CustomerList/>}/>
+            <Route path="/orderreviewlist" element={<OrderReviewList/>}/>
           </Route>
           
 

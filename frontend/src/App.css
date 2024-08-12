@@ -51,14 +51,14 @@ body {
 }
 
 /* src/vendor/layouts/VendorLayout.css */
-.vendor-layout {
+/* .vendor-layout {
   display: flex;
 }
 
 .vendor-content {
   flex-grow: 1;
   padding: 20px;
-}
+} */
 
 /* You may want to import this CSS in your VendorLayout.js file */
 

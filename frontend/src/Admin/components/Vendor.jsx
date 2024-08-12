@@ -7,12 +7,12 @@ const Vendor = () => {
   const navigate = useNavigate();
   
   const handleClick = () => {
-    navigate('/list');
+    navigate('/vendorlist');
   };
 
   return (
     <div onClick={handleClick}>
-      <Link to="/list"></Link>
+      <Link to="/vendorlist"></Link>
       <h6>Vendors</h6> 
     </div>
   );

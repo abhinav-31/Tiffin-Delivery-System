@@ -1,0 +1,79 @@
+.vendor-card-container {
+    display: flex;
+    /* Use flexbox to lay out the cards horizontally */
+    flex-wrap: wrap;
+    /* Allow cards to wrap to the next line if needed */
+    gap: 20px;
+    /* Add space between cards */
+    justify-content: center;
+    /* Center the cards horizontally */
+    padding: 10px;
+    /* Add padding around the container */
+}
+
+.card {
+    flex: 1 1 calc(25% - 20px);
+    /* Adjust the size of each card, accounting for the gap */
+    box-sizing: border-box;
+    /* Include padding and border in the element's total width and height */
+    margin-bottom: 20px;
+    /* Add margin below each card */
+    max-width: 300px;
+    /* Optional: limit the maximum width of each card */
+    display: flex;
+    flex-direction: column;
+    /* Ensure the card contents are stacked vertically */
+}
+
+.vendor-image {
+    width: 100%;
+    /* Make sure the image covers the full width of the card */
+    height: 50%;
+    /* Set the height to 50% of the card */
+    object-fit: cover;
+    /* Cover the area without distortion, cropping if necessary */
+    border-radius: 0; 
+    /* Remove rounded corners if needed */
+    margin: 0;
+    /* Remove any margin */
+    padding: 0;
+    /* Remove any padding */
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    /* Ensure content stacks vertically */
+    height: 100%;
+    /* Ensure the card body takes full height of the card */
+}
+
+.card-body > *:not(.vendor-image) {
+    /* Ensure that other content follows the image */
+    flex: 1;
+    /* Allow other content to fill the remaining space */
+}
+
+.rating-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.rating-stars {
+    color: #f5c518;
+    /* Gold color for stars */
+    font-size: 1.5rem;
+    /* Adjust font size for stars */
+    font-family: 'Arial', sans-serif;
+    /* Use a sans-serif font for stars */
+    margin-right: 8px;
+    /* Space between stars and rating number */
+}
+
+.rating-number {
+    font-size: 1.2rem;
+    /* Adjust font size for the rating number */
+    color: #333;
+    /* Color for the rating number */
+}

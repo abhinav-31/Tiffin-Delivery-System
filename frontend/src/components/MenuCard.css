@@ -1,0 +1,125 @@
+/* Menu Card Container Styles */
+.menu-card-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 20px;
+}
+
+/* Menu Card Styles */
+.menu-card {
+    display: flex;
+    align-items: stretch;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    overflow: hidden;
+    margin: 10px;
+    padding: 0;
+    width: 100%;
+    max-width: 857px;
+    height: 111px; /* Adjust height to keep card from being too large */
+}
+
+/* Menu Card Image */
+.menu-card-image {
+    width: 40%;
+    height: 100%;
+    object-fit: cover;
+    margin: 0;
+}
+
+/* Menu Card Content */
+.menu-card-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 60%; /* Remaining width */
+    padding: 10px;
+    box-sizing: border-box; /* Include padding in width */
+    position: relative; /* Positioning context for price alignment */
+    align-items: baseline;
+}
+
+/* Container for menu name, description, and price */
+.menu-card-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-grow: 1; /* Allows text to expand within available space */
+}
+
+/* Menu Name */
+.menu-name {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0 0 10px;
+}
+
+/* Menu Description */
+.description {
+    margin: 0 0 10px;
+    max-width: calc(100% - 138px); /* Adjust width considering price and button space */
+    font-size: 14px; /* Base font size */
+    overflow: hidden; /* Hide overflow text */
+    text-overflow: ellipsis; /* Show ellipsis */
+    white-space: nowrap; /* Prevent text wrapping */
+}
+
+/* Price */
+.price {
+    font-size: 13px;
+    font-weight: bold;
+    margin: 0;
+    position: absolute;
+    right: 24px; /* Align to the right side */
+    bottom: 50px; /* Position above the button */
+}
+
+/* Add Button */
+.add-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 19px;
+    align-self: flex-end; /* Align to the right */
+    margin-right: 10px; /* Margin from the right side */
+    width: 88px;
+}
+
+.add-button:hover {
+    background-color: #0056b3;
+}
+
+/* Media Queries */
+
+/* For tablets and small screens (up to 768px) */
+@media (max-width: 768px) {
+    .menu-card {
+        max-width: 90%; /* Adjust width for better fit on smaller screens */
+    }
+}
+
+/* For mobile screens (up to 480px) */
+@media (max-width: 480px) {
+    .menu-card {
+        max-width: 100%; /* Full width on very small screens */
+        flex-direction: column; /* Stack image and content vertically */
+        height: auto; /* Auto height for small screens */
+    }
+
+    .menu-card-image {
+        width: 100%; /* Full width for small screens */
+        height: 200px; /* Limit image height on very small screens */
+    }
+
+    .description {
+        white-space: normal; /* Allow text wrapping on small screens */
+        overflow: visible; /* Allow overflow text to be visible */
+        text-overflow: clip; /* No ellipsis on small screens */
+    }
+}

@@ -101,7 +101,7 @@ import { toast } from 'react-toastify';
 import {jwt_decode} from 'jwt-decode';
 
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:8080',
+  baseURL: 'http://localhost:7073',
 });
 
 const getVendorIdFromToken = () => {

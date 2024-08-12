@@ -14,10 +14,11 @@ import RegisterAsVendor from "./components/register/registerAsVendor";
 
 //Admin imports
 import AdminLayout from "./Admin/layouts/AdminLayout";
-import List from "./Admin/Pages/List/VendorList";
+import VendorList from "./Admin/Pages/List/VendorList";
 import AdminHome from "./Admin/Pages/AdminHome";
 import DeliveryboyList from "./Admin/Pages/List/DeliveryboyList";
 import CustomerList from "./Admin/Pages/List/CustomerList"
+import OrderReviewList from "./Admin/Pages/List/OrderReviewList"
 
 //Vendor imports
 import VendorHomePage from "./vendor/Pages/VendorHomePage";
@@ -35,11 +36,15 @@ import DbLayout from "./components/DeliveryBoy/layouts/dbLayouts";
 import DbHomePage from "./components/DeliveryBoy/Pages/DbHomePage";
 import DBReviewPage from "./components/DeliveryBoy/components/Review";
 import DbOrderHistoryPage from "./components/DeliveryBoy/components/OrderHistory";
+import VendorDetail from "./components/VendorDetail";
+import NavBar from "./components/navbar/navbar";
 
 
 function App() {
   return (
     <div className="App">
+       <NavBar />
+
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginModal />} />
@@ -47,14 +52,16 @@ function App() {
         <Route path="/register" element={<RegisterModal />} />
         <Route path="/registerAsDB" element={<RegisterAsDB />} />
         <Route path="/registerAsVendor" element={<RegisterAsVendor />} />
+        <Route path="/vendor/menu" element={<VendorDetail />} />
         <Route path="/cart" element={<Cart />} />
 
           {/* Admin routes with sidebar and Navbar*/}
           <Route element={<AdminLayout/>}>
             <Route path="/adminhome" element={<AdminHome/>}/>
-            <Route path="/list" element={<List />} />
+            <Route path="/vendorlist" element={<VendorList />} />
             <Route path="/deliveryboylist" element={<DeliveryboyList/>}/>
             <Route path="/customerlist" element={<CustomerList/>}/>
+            <Route path="/orderreviewlist" element={<OrderReviewList/>}/>
           </Route>
           
 

@@ -1,51 +1,45 @@
-import React from "react";
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './ReviewPage.css'; // Import your CSS file for this component
+import React, { useEffect, useState } from 'react';
+import './ReviewPage.css';
+import { fetchCustomerReviews } from '../../../services/vendor_api'; // Adjust the path to your vendor_api.jsx
+import { toast } from 'react-toastify';
 
-const reviews = [
-  { menu: "Chapati", rating: 4 },
-  { menu: "Rice", rating: 5 },
-  { menu: "Dal", rating: 3 },
-  { menu: "Subji", rating: 2 },
-  { menu: "Sweet", rating: 1 },
-];
+const Review = () => {
+  const [reviews, setReviews] = useState([]);
 
-const ReviewPage = () => {
-  const renderReviews = () => {
-    return reviews.map((review, index) => (
-      <div className="review-item" key={index}>
-        <div className="menu-name">{review.menu}</div>
-        <div className="stars">
-          {renderStars(review.rating)}
-        </div>
-      </div>
-    ));
-  };
-
-  const renderStars = (rating) => {
-    const stars = [];
-    for (let i = 1; i <= 5; i++) {
-      if (i <= rating) {
-        stars.push(<span key={i} className="star filled">&#9733;</span>);
-      } else {
-        stars.push(<span key={i} className="star">&#9734;</span>);
-      }
+  const loadReviews = async () => {
+    try {
+      const data = await fetchCustomerReviews();
+      setReviews(data.data); // Assuming your API returns { success: true, data: [...] }
+    } catch (error) {
+      toast.error("An error occurred while fetching reviews");
     }
-    return stars;
   };
+
+  useEffect(() => {
+    loadReviews();
+  }, []);
 
   return (
-    <div className="container review-container">
-      <h1 className="text-center mb-4">Customer Reviews</h1>
-      <div className="row">
-        <div className="col-md-12">
-          <div className="reviews-wrapper">
-            {renderReviews()}
-          </div>
-        </div>
+    <div className="review-container">
+      <h2>Customer Reviews</h2>
+      <div className="review-list">
+        {reviews.length === 0 ? (
+          <p>No reviews available.</p>
+        ) : (
+          reviews.map((review, index) => (
+            <div key={index} className="review-item">
+              <div className="review-header">
+                <strong>Rating:</strong> {review.rating} / 5
+              </div>
+              <div className="review-comment">
+                <p>{review.comment}</p>
+              </div>
+            </div>
+          ))
+        )}
       </div>
     </div>
   );
 };
 
-export default ReviewPage;
+export default Review;

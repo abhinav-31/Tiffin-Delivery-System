@@ -1,33 +1,135 @@
-AddMenu.css
+.add {
+  width: 100%;
+  max-width: 700px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #f8f8f8;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  color: #333;
+  font-size: 16px;
+}
 
-.container-add-menu {
-    margin-top: 5rem;
+.add h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #333;
+  text-align: center;
+  font-weight: 600;
+}
+
+.add form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Image upload section */
+.add-img-upload {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 2px dashed #ddd;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #fff;
+}
+
+.add-img-upload p {
+  margin-bottom: 10px;
+  font-size: 18px;
+  color: #555;
+}
+
+.add-img-upload img {
+  width: 150px;
+  height: auto;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  transition: border-color 0.3s;
+}
+
+.add-img-upload img:hover {
+  border-color: #666;
+}
+
+/* Input fields and textarea */
+.add-product-name,
+.add-product-description,
+.add-category,
+.add-price,
+.add-quantity {
+  display: flex;
+  flex-direction: column;
+}
+
+.add-product-name input,
+.add-product-description textarea,
+.add-category select,
+.add-price input,
+.add-quantity input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+  box-sizing: border-box;
+  background-color: #fff;
+  transition: border-color 0.3s;
+}
+
+.add-product-name input:focus,
+.add-product-description textarea:focus,
+.add-category select:focus,
+.add-price input:focus,
+.add-quantity input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Submit button */
+.add-btn {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: bold;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.add-btn:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+
+.add-btn:active {
+  background-color: #004494;
+  transform: translateY(0);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .add {
+    padding: 15px;
   }
-  
-  .card-add-menu {
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+@media (max-width: 480px) {
+  .add {
+    padding: 10px;
   }
-  
-  .card-header-add-menu {
-    background-color: #3c3d3d;
-    color: white;
+
+  .add-img-upload img {
+    width: 120px;
   }
-  
-  .form-group-add-menu {
-    margin-bottom: 3rem;
-    margin-left: 10px;
+
+  .add-btn {
+    padding: 10px;
+    font-size: 16px;
   }
-  
-  .btn-primary-add-menu,
-  .btn-secondary-add-menu {
-    width: 100%; /* Both buttons take full width of their respective columns */
-  }
-  
-  .btn-secondary-add-menu {
-    margin-top: 0.5rem; /* Small top margin between the two buttons */
-    margin-left: 0.5rem; /* Small left margin between the two buttons */
-  }
-  
-  .alert-info-add-menu {
-    margin-bottom: 1rem;
-  }
+}

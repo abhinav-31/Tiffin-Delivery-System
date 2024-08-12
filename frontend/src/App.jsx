@@ -15,11 +15,14 @@ import RegisterAsVendor from "./components/register/registerAsVendor";
 import VendorHomePage from "./vendor/Pages/VendorHomePage";
 import AddMenu from "./vendor/components/VendorComponents/AddMenu";
 import ViewOrders from "./vendor/components/VendorComponents/ViewOrders";
-import OrderHistory from "./vendor/components/VendorComponents/OrderHistory";
+import PlacedOrderHistory from "./vendor/components/VendorComponents/PlacedOrderHistory";
 import Review from "./vendor/components/VendorComponents/Review";
 import AddBreakfastMenu from "./vendor/components/VendorComponents/AddBreakfastMenu";
-
+import OrderList from "./vendor/components/VendorComponents/List/OrderList"; 
 import VendorLayout from "./vendor/layouts/vendorLayouts";
+import DeliveredOrderHistory from "./vendor/components/VendorComponents/DeliveredOrderHistory ";
+
+
 import "./App.css";
 import DbLayout from "./components/DeliveryBoy/layouts/dbLayouts";
 import DbHomePage from "./components/DeliveryBoy/Pages/DbHomePage";
@@ -43,9 +46,11 @@ function App() {
           <Route path="/vendorhomepage" element={<VendorHomePage />} />
           <Route path="/addmenu" element={<AddMenu />} />
           <Route path="/vieworder" element={<ViewOrders />} />
-          <Route path="/orderhistory" element={<OrderHistory />} />
+          <Route path="/PlacedOrderHistory" element={<PlacedOrderHistory />} />
+          <Route path="/DeliveredOrderHistory" element={<DeliveredOrderHistory />} />
           <Route path="/review" element={<Review />} />
           <Route path="/addbreakfastmenu" element={<AddBreakfastMenu />} />
+          <Route path="/list" element={<OrderList/>}/>
         </Route>
 
         <Route element={<DbLayout />}>

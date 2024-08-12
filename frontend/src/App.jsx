@@ -18,7 +18,6 @@ import List from "./Admin/Pages/List/VendorList";
 import AdminHome from "./Admin/Pages/AdminHome";
 import DeliveryboyList from "./Admin/Pages/List/DeliveryboyList";
 import CustomerList from "./Admin/Pages/List/CustomerList"
-import AdminSignIn from "./Admin/Pages/AdminSignIn";
 
 //Vendor imports
 import VendorHomePage from "./vendor/Pages/VendorHomePage";
@@ -52,7 +51,6 @@ function App() {
 
           {/* Admin routes with sidebar and Navbar*/}
           <Route element={<AdminLayout/>}>
-            <Route path="/adminsignin" element={<AdminSignIn/>}/>
             <Route path="/adminhome" element={<AdminHome/>}/>
             <Route path="/list" element={<List />} />
             <Route path="/deliveryboylist" element={<DeliveryboyList/>}/>

@@ -1,0 +1,70 @@
+.list {
+  width: 90%; /* Large width */
+  max-width: 1200px; /* Limit the maximum width */
+  margin: 0 auto; /* Center the container */
+  padding: 20px; /* Add some padding */
+  background-color: #f9f9f9; /* Light background color */
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.list-table {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.list-table-format {
+  display: grid;
+  grid-template-columns: 1fr 1fr 2fr 2fr 1fr 1fr; /* Grid layout for consistent alignment */
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.list-table-format.title {
+  background-color: #f1f1f1; /* Different background for title row */
+  font-weight: bold;
+  border-bottom: 2px solid #ddd;
+}
+
+.list-table-format img {
+  width: 60px; /* Set a standard size for images */
+  height: auto;
+  border-radius: 5px; /* Slight rounding for images */
+}
+
+.list p {
+  margin: 0;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .list {
+    width: 95%; /* Adjust width for smaller screens */
+    padding: 10px;
+  }
+
+  .list-table-format {
+    grid-template-columns: 1fr 2fr 2fr 1fr; /* Simplify grid for smaller screens */
+    grid-template-rows: auto auto; /* Allow wrapping */
+    align-items: flex-start;
+  }
+
+  .list-table-format img {
+    grid-row: span 2; /* Image spans two rows */
+    width: 80px; /* Smaller images on mobile */
+  }
+
+  .list-table-format img {
+    width: 100px; /* or any size to test visibility */
+    height: auto;
+    display: block; /* Ensure the image is displayed as a block */
+    border: 1px solid red; /* Add border to visually inspect the image area */
+  }
+  
+
+  .list p {
+    margin-top: 5px;
+    text-align: left;
+  }
+}

@@ -7,6 +7,7 @@ import RegisterModal from "../register/registerModal";
 import { Link } from "react-router-dom";
 function NavBar() {
   const cart = useSelector((state) => state.cart);
+  const loginStatus = useSelector((state) => state.user.loginStatus);
   const [loginModal, setLoginModal] = useState(false);
   const [registerModal, setRegisterModal] = useState(false);
 
@@ -107,6 +108,18 @@ function NavBar() {
                     aria-expanded="false"
                   ></button>
                   <ul className="dropdown-menu dropdown-menu-end dropdown-menu-lg-end">
+                    {!loginStatus ? (
+                      <li>
+                        <button
+                          className="dropdown-item"
+                          onClick={toggleLoginModal}
+                        >
+                          lksdjfljksdf
+                        </button>
+                      </li>
+                    ) : (
+                      <> </>
+                    )}
                     <li>
                       <button
                         className="dropdown-item"

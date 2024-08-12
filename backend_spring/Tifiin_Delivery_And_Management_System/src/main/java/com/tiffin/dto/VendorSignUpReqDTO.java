@@ -2,17 +2,20 @@ package com.tiffin.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
-import com.tiffin.enums.Role;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class VendorSignUpReqDTO {
 	
 //		@JsonProperty(access = Access.READ_ONLY) // this property only used during ser.
@@ -24,15 +27,4 @@ public class VendorSignUpReqDTO {
 		private String email;
 		@JsonProperty(access = Access.WRITE_ONLY)
 		private String password;
-		private String businessName;
-//		private Role role;
-//		public CustomerSignUpReqDTO(String firstName, String lastName,
-//				String email, String password) {
-//			super();
-//			this.firstName = firstName;
-//			this.lastName = lastName;
-//			this.email = email;
-//			this.password = password;
-//			this.role = Role.ROLE_CUSTOMER;
-//		}
-}
+		private String businessName;}

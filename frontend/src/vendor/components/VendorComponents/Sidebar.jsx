@@ -1,25 +1,42 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import './Sidebar.css';
+import { assets } from '../../assets/assets';
+import { NavLink } from 'react-router-dom';
 
 const Sidebar = () => {
   return (
-    <div className="d-flex">
-      <div className="bg-dark" id="sidebar-container">
-        <div className="list-group list-group-flush">
-          <Link to="/vendorhomepage" className="list-group-item list-group-item-action bg-dark text-white">Home</Link>
-          <Link to="/addmenu" className="list-group-item list-group-item-action bg-dark text-white">Add Lunch/Dinner Menu</Link>
-          <Link to="/addbreakfastmenu" className="list-group-item list-group-item-action bg-dark text-white">Add Breakfast Menu</Link>
-          <Link to="/vieworder" className="list-group-item list-group-item-action bg-dark text-white">View Orders</Link>
-          <Link to="/review" className="list-group-item list-group-item-action bg-dark text-white">Reviews/Feedback</Link>
-          <Link to="/orderhistory" className="list-group-item list-group-item-action bg-dark text-white">Order History</Link>
-        </div>
+    <div className='sidebar'>
+      <div className="sidebar-header">
+        <img src={assets.logo} alt="Logo" className="sidebar-logo" />
       </div>
-      <div id="page-content-wrapper">
-        {/* Your main content will go here */}
+      <div className="sidebar-options">
+        <NavLink to='/vendorhomepage' className="sidebar-option">
+            <img src={assets.home_icon} alt="" />
+            <p>Home</p>
+        </NavLink>
+        <NavLink to='/addmenu' className="sidebar-option">
+            <img src={assets.add_icon} alt="" />
+            <p>Add Menu</p>
+        </NavLink>
+        {/* <NavLink to='/review' className="sidebar-option">
+            <img src={assets.review_icon} alt="" />
+            <p>Reviews</p>
+        </NavLink> */}
+        <NavLink to='/PlacedOrderHistory' className="sidebar-option">
+            <img src={assets.history_icon} alt="" />
+            <p>Placed Order History</p>
+        </NavLink>
+        <NavLink to='/DeliveredOrderHistory' className="sidebar-option">
+            <img src={assets.history_icon} alt="" />
+            <p>Delivered Order History</p>
+        </NavLink>
+        <NavLink to='/list' className="sidebar-option">
+            <img src={assets.list_icon} alt="" />
+            <p>Order List</p>
+        </NavLink>
       </div>
     </div>
   );
-};
+}
 
 export default Sidebar;

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { register } from "../../services/user";
 import { toast } from "react-toastify";
 
-function RegisterAsDB() {
+function RegisterAsDB({ addAddress, registered }) {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");

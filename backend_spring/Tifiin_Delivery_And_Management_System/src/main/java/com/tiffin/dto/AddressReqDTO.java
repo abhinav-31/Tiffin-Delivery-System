@@ -24,15 +24,15 @@ public class AddressReqDTO {
 	    private String adrLine2;
 
 	    @NotBlank(message = "City cannot be blank")
-	    @Column(length = 10)
+	    @Column(length = 15)
 	    private String city;
 
 	    @NotBlank(message = "State cannot be blank")
-	    @Column(length = 10)
+	    @Column(length = 15)
 	    private String state;
 
 	    @NotBlank(message = "Country cannot be blank")
-	    @Column(length = 10)
+	    @Column(length = 15)
 	    private String country;
 
 	    @NotBlank(message = "Zipcode cannot be blank")

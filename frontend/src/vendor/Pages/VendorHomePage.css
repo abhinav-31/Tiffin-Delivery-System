@@ -1,126 +1,196 @@
-.vendor-home {
-  background-color: #f0f0f0;
-  padding: 20px 0;
-}
+/* VendorHomePage.css */
 
-.vendor-section {
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  transition: box-shadow 0.3s ease;
-}
-
-.vendor-section:hover {
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.btn-success {
-  background-color: #28a745;
-  border-color: #28a745;
-}
-
-.btn-danger {
-  background-color: #dc3545;
-  border-color: #dc3545;
-}
-
-.card {
-  border-radius: 12px;
-  border: none;
-}
-
-.card-body {
-  padding: 20px;
-}
-
-h2 {
+.vendor-homepage {
+  padding: 60px;
+  max-width: 1200px;
+  margin: 0 auto;
   color: #333;
+  font-family: 'Roboto', sans-serif;
+  background: linear-gradient(135deg, #e0eafc, #cfdef3);
+  animation: fadeIn 1s ease-out;
 }
 
-h4 {
-  margin-bottom: 0.5rem;
+.vendor-homepage h1 {
+  text-align: center;
+  margin-bottom: 50px;
+  color: #2c3e50;
+  font-size: 2.8em;
+  font-weight: 700;
+  letter-spacing: 1px;
+  animation: slideInFromTop 1s ease-out;
 }
 
-.card-img-top {
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
-  height: 200px;
-  object-fit: cover;
-}
-
-.vendor-home {
-  background-color: #f8f9fa;
-  padding: 20px 0;
+.vendor-homepage-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: center;
+  animation: fadeIn 1.5s ease-out;
 }
 
 .card {
-  border-radius: 10px;
-}
-
-.card-body {
-  padding: 20px;
-}
-
-.vendor-section {
-  background-color: #ffffff;
-  border: 1px solid #dee2e6;
-  border-radius: 10px;
-  overflow: hidden;
-}
-
-.vendor-section img {
-  border-bottom: 1px solid #dee2e6;
-}
-
-.menu-section {
-  margin-top: 20px;
-}
-
-.table {
-  margin-top: 10px;
-}
-
-.table th,
-.table td {
+  background: #ffffff;
+  border: 1px solid #e1e8eb;
+  border-radius: 15px;
+  padding: 25px;
+  width: 320px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   text-align: center;
-}
-
-/* .btn {
-    width: 100%;
-  } */
-
-.vendor-home {
-  background-color: #f8f9fa;
-  padding: 20px 0;
-}
-
-.card {
-  border-radius: 10px;
-}
-
-.card-body {
-  padding: 20px;
-}
-
-.vendor-section {
-  background-color: #ffffff;
-  border: 1px solid #dee2e6;
-  border-radius: 10px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
   overflow: hidden;
+  animation: scaleUp 0.5s ease-out;
 }
 
-.vendor-section img {
-  border-bottom: 1px solid #dee2e6;
+.card::before {
+  content: "";
+  position: absolute;
+  top: -50px;
+  left: -50px;
+  width: 150px;
+  height: 150px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.3), transparent);
+  border-radius: 50%;
+  z-index: 0;
 }
 
-.menu-section {
-  margin-top: 20px;
+.card h2 {
+  margin-bottom: 20px;
+  color: #34495e;
+  font-size: 2em;
+  font-weight: 700;
+  z-index: 1;
+  position: relative;
+  animation: fadeIn 0.8s ease-out;
 }
 
-.table {
-  margin-top: 10px;
+.card p {
+  margin-bottom: 25px;
+  color: #7f8c8d;
+  font-size: 1.1em;
+  line-height: 1.6;
+  z-index: 1;
+  position: relative;
+  animation: fadeIn 1s ease-out;
 }
 
-.table th,
-.table td {
-  text-align: center;
+.btn {
+  display: inline-block;
+  padding: 12px 24px;
+  font-size: 16px;
+  color: #fff;
+  background: linear-gradient(90deg, #ff7e5f, #feb47b);
+  text-decoration: none;
+  border-radius: 10px;
+  transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  animation: bounceIn 1s ease-out;
+}
+
+.btn::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.4), transparent);
+  transition: transform 0.5s ease;
+  transform: scale(0);
+  z-index: 1;
+}
+
+.btn:hover::after {
+  transform: scale(1);
+}
+
+.btn:hover {
+  background: linear-gradient(90deg, #feb47b, #ff7e5f);
+  transform: translateY(-5px);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
+}
+
+.btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 768px) {
+  .vendor-homepage-content {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .card {
+    width: 90%;
+    max-width: 600px;
+  }
+}
+
+@media (max-width: 480px) {
+  .vendor-homepage h1 {
+    font-size: 2.2em;
+  }
+
+  .card h2 {
+    font-size: 1.6em;
+  }
+
+  .card p {
+    font-size: 1em;
+  }
+
+  .btn {
+    font-size: 14px;
+    padding: 10px 20px;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInFromTop {
+  from {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleUp {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes bounceIn {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }

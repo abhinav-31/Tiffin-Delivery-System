@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tiffin.service.ViewVendorService;
@@ -20,5 +21,11 @@ public class HomePageController {
 	@GetMapping()
 	public ResponseEntity<?> viewVendor(){
 		return ResponseEntity.status(HttpStatus.FOUND).body(viewVendorService.findAllVendors());
+	}
+
+	@GetMapping("/vendorMenuList")
+	public ResponseEntity<?> vendorMenuList(@RequestParam String email){
+		System.out.println("email : "+email);
+		return ResponseEntity.status(HttpStatus.ACCEPTED).body(viewVendorService.getVendorMenuList(email));
 	}
 }

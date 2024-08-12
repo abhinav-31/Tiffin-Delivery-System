@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { register } from "../../services/user";
 import { toast } from "react-toastify";
-function RegisterAsCustomer() {
+function RegisterAsCustomer({ registered }) {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -14,8 +14,6 @@ function RegisterAsCustomer() {
     return email.includes("@");
   };
   const onRegister = async () => {
-    console.log("onRegister");
-
     // client side validation
     if (firstName.length === 0) {
       toast.warning("enter first name");
@@ -29,25 +27,18 @@ function RegisterAsCustomer() {
       toast.warning("enter password");
     } else if (confirmPassword.length === 0) {
       toast.warning("confirm password");
-    } else if (phoneNumber.length === 0) {
-      toast.warning("enter contact no.");
-    } else if (address.length === 0) {
-      toast.warning("enter address");
     } else {
       // make the API call and receive the result
       const result = await register(
         firstName,
         lastName,
         email,
-        phoneNumber,
         password,
-        address,
-        "customer",
-        "2"
+        "ROLE_CUSTOMER"
       );
-      if (result["status"] === "success") {
-        toast.success("successfully registered a user");
-        // navigate("/login");
+      if (result["message"] === "New Customer Added!!!") {
+        toast.success("successfully registered. Don't forget to Sign In");
+        registered();
       } else {
         console.log(result);
         toast.error("Failed to register the user");
@@ -55,11 +46,7 @@ function RegisterAsCustomer() {
     }
   };
   return (
-    <div
-    // ref={modalRef}
-    // onClick={closeModal}
-    // className="container-fluid modal-backdrop"
-    >
+    <div>
       <div className="modal-content rounded-5 shadow">
         <div className="modal-header p-5 pb-4 border-bottom-0">
           <h1 className="fw-bold mb-0 fs-2">Register</h1>
@@ -140,51 +127,6 @@ function RegisterAsCustomer() {
               </label>
             </div>
           </div>
-          {/* Contact */}
-          <div className="form-floating mb-3">
-            <input
-              onChange={(e) => {
-                setPhone(e.target.value);
-              }}
-              type="text"
-              className="ps-3 form-control rounded-5"
-              id="floatingInput"
-              placeholder="1234"
-            />
-            <label htmlFor="floatingInput">Contact</label>
-          </div>
-          {/* Address */}
-          <div className="form-floating mb-3">
-            <input
-              onChange={(e) => {
-                setAddress(e.target.value);
-              }}
-              type="text"
-              className="ps-3 form-control rounded-5"
-              id="floatingInput"
-              placeholder="pune"
-            />
-            <label htmlFor="floatingInput">Address</label>
-          </div>
-          {/* pincode need modifications */}
-          <div className="form-floating mb-3">
-            <input
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
-              type="text"
-              className="ps-3 form-control rounded-5"
-              id="floatingInput"
-              placeholder="pune"
-            />
-            <label htmlFor="floatingInput">Pincode</label>
-          </div>
-          {/* <div>
-            Already a user?
-            <button class="btn btn-link" onClick={onToggleLogin}>
-              Login
-            </button>
-          </div> */}
 
           <div className="row">
             <div className="col">

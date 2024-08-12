@@ -110,29 +110,71 @@ public class OrderServiceImpl implements OrderService {
 		return new ApiResponse("New Order added with ID: " + orderPlaced.getId());
 	}
 
-	public Optional<DeliveryBoy> findSuitableDeliveryBoy(String vendorPincode) {
-		Optional<DeliveryBoy> minDistDeliveryBoy = Optional.empty();
-		List<String> reference = List.of("411057", "411157", "411058", "411059", "411060", "411061", "411557", "411082",
-				"411997", "411050");
-		int[][] distMatrix = { { 0, 5, 2, 8, 3, 7, 1, 9, 4, 6 }, { 7, 0, 3, 10, 5, 8, 6, 2, 9, 1 },
-				{ 9, 6, 0, 4, 7, 2, 8, 5, 10, 3 }, { 5, 8, 1, 0, 2, 4, 7, 6, 3, 9 }, { 3, 2, 7, 9, 0, 1, 10, 8, 6, 4 },
-				{ 1, 4, 6, 5, 3, 0, 9, 7, 2, 8 }, { 10, 3, 4, 6, 9, 2, 0, 1, 7, 5 }, { 6, 7, 9, 1, 8, 3, 5, 0, 2, 10 },
-				{ 8, 10, 5, 7, 4, 9, 2, 3, 0, 6 }, { 2, 9, 8, 3, 6, 5, 4, 10, 1, 0 } };
-		List<DeliveryBoy> availableDeliveryBoys = deliveryBoyRepository.findByStatus(DeliveryStatus.AVAILABLE);
-		int vendorPincodeIndex = reference.indexOf(vendorPincode);
-		int deliveryBoyPincodeIndex;
-		int min = Integer.MAX_VALUE;
-		for (DeliveryBoy d : availableDeliveryBoys) {
-			deliveryBoyPincodeIndex = reference.indexOf(d.getCurrentPincode());
-			if (distMatrix[deliveryBoyPincodeIndex][vendorPincodeIndex] < min) {
-				min = distMatrix[deliveryBoyPincodeIndex][vendorPincodeIndex];
-				minDistDeliveryBoy = Optional.of(d);
-			}
-		}
+//	public Optional<DeliveryBoy> findSuitableDeliveryBoy(String vendorPincode) {
+//		Optional<DeliveryBoy> minDistDeliveryBoy = Optional.empty();
+//		List<String> reference = List.of("411057","411157", "411058", "411059", "411060", "411061", "411557", "411082",
+//				"411997", "411050");
+//		int[][] distMatrix = { { 0, 5, 2, 8, 3, 7, 1, 9, 4, 6 }, { 7, 0, 3, 10, 5, 8, 6, 2, 9, 1 },
+//				{ 9, 6, 0, 4, 7, 2, 8, 5, 10, 3 }, { 5, 8, 1, 0, 2, 4, 7, 6, 3, 9 }, { 3, 2, 7, 9, 0, 1, 10, 8, 6, 4 },
+//				{ 1, 4, 6, 5, 3, 0, 9, 7, 2, 8 }, { 10, 3, 4, 6, 9, 2, 0, 1, 7, 5 }, { 6, 7, 9, 1, 8, 3, 5, 0, 2, 10 },
+//				{ 8, 10, 5, 7, 4, 9, 2, 3, 0, 6 }, { 2, 9, 8, 3, 6, 5, 4, 10, 1, 0 } };
+//		List<DeliveryBoy> availableDeliveryBoys = deliveryBoyRepository.findByStatus(DeliveryStatus.AVAILABLE);
+//		int vendorPincodeIndex = reference.indexOf(vendorPincode);
+//		int deliveryBoyPincodeIndex;
+//		int min = Integer.MAX_VALUE;
+//		for (DeliveryBoy d : availableDeliveryBoys) {
+//			deliveryBoyPincodeIndex = reference.indexOf(d.getCurrentPincode());
+//			if (distMatrix[deliveryBoyPincodeIndex][vendorPincodeIndex] < min) {
+//				min = distMatrix[deliveryBoyPincodeIndex][vendorPincodeIndex];
+//				minDistDeliveryBoy = Optional.of(d);
+//			}
+//		}
+//
+//		return minDistDeliveryBoy;
+//	}
 
-		return minDistDeliveryBoy;
+	public Optional<DeliveryBoy> findSuitableDeliveryBoy(String vendorPincode) {
+	    List<String> reference = List.of("411057", "411157", "411058", "411059", "411060", "411061", "411557", "411082",
+	            "411997", "411050");
+	    int[][] distMatrix = { { 0, 5, 2, 8, 3, 7, 1, 9, 4, 6 }, { 7, 0, 3, 10, 5, 8, 6, 2, 9, 1 },
+	            { 9, 6, 0, 4, 7, 2, 8, 5, 10, 3 }, { 5, 8, 1, 0, 2, 4, 7, 6, 3, 9 }, { 3, 2, 7, 9, 0, 1, 10, 8, 6, 4 },
+	            { 1, 4, 6, 5, 3, 0, 9, 7, 2, 8 }, { 10, 3, 4, 6, 9, 2, 0, 1, 7, 5 }, { 6, 7, 9, 1, 8, 3, 5, 0, 2, 10 },
+	            { 8, 10, 5, 7, 4, 9, 2, 3, 0, 6 }, { 2, 9, 8, 3, 6, 5, 4, 10, 1, 0 } };
+
+	    int vendorPincodeIndex = reference.indexOf(vendorPincode);
+	    if (vendorPincodeIndex == -1) {
+	        throw new ResourceNotFoundException("Pincode " + vendorPincode + " is not supported.");
+	    }
+
+	    int min = Integer.MAX_VALUE;
+	    Optional<DeliveryBoy> minDistDeliveryBoy = Optional.empty();
+	    
+	    for (DeliveryBoy d : deliveryBoyRepository.findByStatus(DeliveryStatus.AVAILABLE)) {
+	        int deliveryBoyPincodeIndex = reference.indexOf(d.getCurrentPincode());
+	        if (deliveryBoyPincodeIndex == -1) {
+	            // Log the unsupported pincode for further investigation
+	            System.out.println("Unsupported pincode for delivery boy: " + d.getCurrentPincode());
+	            continue; // Skip delivery boys with unsupported pincodes
+	        }
+
+	        if (deliveryBoyPincodeIndex >= 0 && deliveryBoyPincodeIndex < distMatrix.length
+	            && vendorPincodeIndex >= 0 && vendorPincodeIndex < distMatrix[0].length) {
+	            int distance = distMatrix[deliveryBoyPincodeIndex][vendorPincodeIndex];
+	            if (distance < min) {
+	                min = distance;
+	                minDistDeliveryBoy = Optional.of(d);
+	            }
+	        } else {
+	            // Log if indices are out of bounds
+	            System.out.println("Out of bounds index for delivery boy's pincode: " + d.getCurrentPincode());
+	        }
+	    }
+
+	    return minDistDeliveryBoy;
 	}
 
+
+	
 	@Override
 	public ApiResponse changeStatus(Long orderId) {
 		Order order = orderRepository.findById(orderId)

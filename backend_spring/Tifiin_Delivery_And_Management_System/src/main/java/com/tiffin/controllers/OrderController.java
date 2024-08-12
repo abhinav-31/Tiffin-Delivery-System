@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tiffin.dto.OrderRequestDTO;
-import com.tiffin.dto.OrderResDTO;
 import com.tiffin.dto.ReviewDTO;
 import com.tiffin.enums.OrderStatus;
 import com.tiffin.enums.PaymentMethod;
@@ -37,7 +36,7 @@ public class OrderController {
 	}
 
 	 @PostMapping("/addReview/{orderId}/{customerId}")
-	    public ResponseEntity<?> addReviewByCutomer(@PathVariable Long orderId,@PathVariable Long customerId, @RequestBody ReviewDTO review){
+	    public ResponseEntity<?> addReviewByCustomer(@PathVariable Long orderId, @PathVariable Long customerId, @RequestBody ReviewDTO review){
 	    	return ResponseEntity.status(HttpStatus.CREATED).body(orderService.addReview(orderId,customerId, review));
 	    }
 	
@@ -46,7 +45,7 @@ public class OrderController {
 		return ResponseEntity.status(HttpStatus.OK).body(orderService.getOrdersByVendorAndStatus(vendorId, status));
 	}
 	
-	@PutMapping("/{orderId}")
+	@PutMapping("/changeStatus/{orderId}")
 	public ResponseEntity<?> changeOrderStatus(@PathVariable Long orderId){
 		return ResponseEntity.status(HttpStatus.CREATED).body(orderService.changeStatus(orderId));
 	}

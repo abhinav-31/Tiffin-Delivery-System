@@ -25,18 +25,27 @@ function LoginModal({ onClose, onToggleRegister }) {
       toast.warning("enter password");
     } else {
       const result = await login(email, password);
-      if (result["status"] === "success") {
-        const { token, name } = result.data;
-        sessionStorage.setItem("token", token);
+      if (result["message"] === "Successful Auth!") {
+        const { jwt, name, role } = result; // Extract role
+        sessionStorage.setItem("token", jwt);
         sessionStorage.setItem("name", name);
+        sessionStorage.setItem("role", role); // Store role
         dispatch(loginAction());
-        toast.success("welcome to the application");
-        navigate("/home");
+        toast.success(`Welcome, ${role}!`); // Display role-based message
+        if (role === "ROLE_ADMIN") {
+          navigate("/adminhome"); // Navigate to admin-specific page
+        } else if (role === "ROLE_VENDOR") {
+          navigate("/vendorDashboard");
+        } else {
+          navigate("/"); // Default home page
+        }
+        onClose();
       } else {
         toast.error("invalid email or password");
       }
     }
   };
+
   return (
     <div
       ref={modalRef}

@@ -1,30 +1,18 @@
 import axios from "axios";
 import config from "../config";
 
-export async function register(
-  firstName,
-  lastName,
-  email,
-  phoneNumber,
-  password,
-  address,
-  role,
-  roleID
-) {
+export async function register(firstName, lastName, email, password, role) {
   // body parameters
   const body = {
     firstName,
     lastName,
     email,
-    phoneNumber,
     password,
-    address,
     role,
-    roleID,
   };
 
   // make API call
-  const response = await axios.post(`${config.url}/user/register`, body);
+  const response = await axios.post(`${config.url}/users/signup`, body);
 
   // read JSON data (response)
   return response.data;
@@ -38,9 +26,8 @@ export async function login(email, password) {
   };
 
   // make API call
-  const response = await axios.post(`${config.url}/user/login`, body);
+  const response = await axios.post(`${config.url}/users/signin`, body);
 
   // read JSON data (response)
-  // console.log(response);
   return response.data;
 }

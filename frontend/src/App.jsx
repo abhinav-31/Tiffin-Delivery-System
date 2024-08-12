@@ -4,7 +4,6 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-
 import Home from "./pages/home";
 import HomePage from "./pages/homepage";
 import LoginModal from "./components/login/loginModal";
@@ -15,7 +14,7 @@ import RegisterAsVendor from "./components/register/registerAsVendor";
 
 //Admin imports
 import AdminLayout from "./Admin/layouts/AdminLayout";
-import List from "./Admin/Pages/List/VendorList"
+import List from "./Admin/Pages/List/VendorList";
 import AdminHome from "./Admin/Pages/AdminHome";
 import DeliveryboyList from "./Admin/Pages/List/DeliveryboyList";
 import CustomerList from "./Admin/Pages/List/CustomerList"
@@ -25,11 +24,13 @@ import AdminSignIn from "./Admin/Pages/AdminSignIn";
 import VendorHomePage from "./vendor/Pages/VendorHomePage";
 import AddMenu from "./vendor/components/VendorComponents/AddMenu";
 import ViewOrders from "./vendor/components/VendorComponents/ViewOrders";
-import OrderHistory from "./vendor/components/VendorComponents/OrderHistory";
+import PlacedOrderHistory from "./vendor/components/VendorComponents/PlacedOrderHistory";
 import Review from "./vendor/components/VendorComponents/Review";
 import AddBreakfastMenu from "./vendor/components/VendorComponents/AddBreakfastMenu";
-
+import OrderList from "./vendor/components/VendorComponents/List/OrderList";
 import VendorLayout from "./vendor/layouts/vendorLayouts";
+import DeliveredOrderHistory from "./vendor/components/VendorComponents/DeliveredOrderHistory ";
+
 import "./App.css";
 import DbLayout from "./components/DeliveryBoy/layouts/dbLayouts";
 import DbHomePage from "./components/DeliveryBoy/Pages/DbHomePage";
@@ -40,14 +41,14 @@ import DbOrderHistoryPage from "./components/DeliveryBoy/components/OrderHistory
 function App() {
   return (
     <div className="App">
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/login" element={<LoginModal />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/register" element={<RegisterModal />} />
-          <Route path="/registerAsDB" element={<RegisterAsDB />} />
-          <Route path="/registerAsVendor" element={<RegisterAsVendor />} />
-          <Route path="/cart" element={<Cart />} />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<LoginModal />} />
+        {/* <Route path="/home" element={<Home />} /> */}
+        <Route path="/register" element={<RegisterModal />} />
+        <Route path="/registerAsDB" element={<RegisterAsDB />} />
+        <Route path="/registerAsVendor" element={<RegisterAsVendor />} />
+        <Route path="/cart" element={<Cart />} />
 
           {/* Admin routes with sidebar and Navbar*/}
           <Route element={<AdminLayout/>}>
@@ -59,22 +60,27 @@ function App() {
           </Route>
           
 
-          {/* Vendor routes with Sidebar */}
-          <Route element={<VendorLayout />}>
-            <Route path="/vendorhomepage" element={<VendorHomePage />} />
-            <Route path="/addmenu" element={<AddMenu />} />
-            <Route path="/vieworder" element={<ViewOrders />} />
-            <Route path="/orderhistory" element={<OrderHistory />} />
-            <Route path="/review" element={<Review />} />
-            <Route path="/addbreakfastmenu" element={<AddBreakfastMenu />} />
-          </Route>
+        {/* Vendor routes with Sidebar */}
+        <Route element={<VendorLayout />}>
+          <Route path="/vendorhomepage" element={<VendorHomePage />} />
+          <Route path="/addmenu" element={<AddMenu />} />
+          <Route path="/vieworder" element={<ViewOrders />} />
+          <Route path="/PlacedOrderHistory" element={<PlacedOrderHistory />} />
+          <Route
+            path="/DeliveredOrderHistory"
+            element={<DeliveredOrderHistory />}
+          />
+          <Route path="/review" element={<Review />} />
+          <Route path="/addbreakfastmenu" element={<AddBreakfastMenu />} />
+          <Route path="/list" element={<OrderList />} />
+        </Route>
 
-          <Route element={<DbLayout />}>
-            <Route path="/dbhomepage" element={<DbHomePage />} />
-            <Route path="/dbreview" element={<DBReviewPage />} />
-            <Route path="/dborderhistory" element={<DbOrderHistoryPage />} />
-          </Route>
-        </Routes>
+        <Route element={<DbLayout />}>
+          <Route path="/dbhomepage" element={<DbHomePage />} />
+          <Route path="/dbreview" element={<DBReviewPage />} />
+          <Route path="/dborderhistory" element={<DbOrderHistoryPage />} />
+        </Route>
+      </Routes>
 
       <ToastContainer theme="colored" />
     </div>

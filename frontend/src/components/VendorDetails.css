@@ -1,0 +1,50 @@
+/* Vendor Details Styles */
+.vendor-detail {
+    padding: 20px;
+}
+
+.vendor-business-name {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.menu-list {
+    margin-top: 20px;
+}
+
+.menu-items {
+    display: flex;
+    flex-direction: column;
+}
+
+h2 {
+    margin: 54px;
+}
+
+/* Media Queries */
+
+/* For tablets and small screens (up to 768px) */
+@media (max-width: 768px) {
+    .menu-items {
+        flex-direction: column; /* Stack cards vertically */
+        align-items: center; /* Center cards */
+    }
+
+    h2 {
+        font-size: 22px; /* Adjust font size for smaller screens */
+        margin: 20px 0; /* Adjust margin */
+    }
+}
+
+/* For mobile screens (up to 480px) */
+@media (max-width: 480px) {
+    .vendor-detail {
+        padding: 10px; /* Adjust padding */
+    }
+
+    h2 {
+        font-size: 18px; /* Adjust font size */
+        margin: 10px 0; /* Adjust margin */
+    }
+}

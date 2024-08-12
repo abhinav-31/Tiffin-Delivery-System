@@ -1,54 +1,46 @@
 import React from "react";
+import "./Vendor.css"; // Import your CSS file
 
-function Vendor({ property }) {
+function Vendor({ property, onClick }) {
+  // Function to generate star rating
+  const getStars = (rating) => {
+    const fullStars = Math.floor(rating);
+    const hasHalfStar = rating % 1 >= 0.5;
+    const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+
+    return (
+      <>
+        {"★".repeat(fullStars)}
+        {hasHalfStar && <span className="star-half">★</span>}
+        {"☆".repeat(emptyStars)}
+      </>
+    );
+  };
+
   return (
-    <div className="col-xl-3 col-sm-6 m-2" style={{ display: "inline-block" }}>
-      <div className="card text-center">
-        <div className="card-body">
-          <div className="d-flex align-items-center justify-content-center mb-3">
-            <div className="avatar-md rounded-circle overflow-hidden">
-              <img
-                src="https://logowik.com/content/uploads/images/674_kfc.jpg"
-                alt=""
-                className="img-fluid"
-                style={{ maxWidth: "100%", height: "auto" }}
-              />
-            </div>
-          </div>
-          <div className="ms-3">
-            <h5 className="font-size-16 mb-1">{property.businessName}</h5>
-            <span className="badge badge-soft-success mb-2">Open</span>
-          </div>
-          <div className="mt-3 pt-1">
-            <p className="text-muted mb-1">
-              <i className="mdi mdi-phone font-size-15 align-middle pe-2 text-primary"></i>{" "}
-              {property.phoneNumber}
-            </p>
-            <p className="text-muted mb-1">
-              <i className="mdi mdi-email font-size-15 align-middle pe-2 text-primary"></i>{" "}
-              {property.email}
-            </p>
-            <p className="text-muted mb-0">
-              <i className="mdi mdi-google-maps font-size-15 align-middle pe-2 text-primary"></i>{" "}
-              {property.businessAddress}
-            </p>
-          </div>
-          <div className="d-flex justify-content-center mt-4">
-            <button
-              type="button"
-              className="btn btn-outline-primary btn-sm w-50 me-2 rounded-5"
-            >
-              <i className="bx bx-user me-1"></i> Profile
-            </button>
-            <button
-              type="button"
-              className="btn btn-primary btn-sm w-50 rounded-5"
-              style={{ backgroundColor: "#f56e6e", borderColor: "#f56e6e" }}
-            >
-              <i className="bx bx-message-square-dots me-1"></i> Contact
-            </button>
-          </div>
+    <div className="card text-center vendor-card" onClick={onClick}>
+      <div className="card-body">
+        <div className="d-flex align-items-center justify-content-center mb-3">
+          {/* Optional: include avatar or other elements */}
         </div>
+        <div className="ms-3">
+          {property.vendorBusinessImage && (
+            <img
+              src={`data:image/jpeg;base64,${property.vendorBusinessImage}`}
+              alt="Vendor"
+              className="vendor-image"
+            />
+          )}
+          <h5 className="font-size-16 mb-1">{property.businessName}</h5>
+        </div>
+        <div className="mt-3 pt-1">
+          <div className="rating-container">
+            <span className="rating-stars">{getStars(property.rating)}</span>
+            <span className="rating-number">{property.rating.toFixed(1)}</span>
+          </div>
+          {/* Optionally include more details */}
+        </div>
+        {/* Optionally include buttons or other elements */}
       </div>
     </div>
   );

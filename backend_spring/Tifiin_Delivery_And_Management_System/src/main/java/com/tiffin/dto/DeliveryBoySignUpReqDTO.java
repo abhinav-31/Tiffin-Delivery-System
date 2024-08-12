@@ -9,10 +9,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class SignInResDTO {
-	private String jwt;
-	private String message;
-	private String role;
-	private String email;
-	private Long id;
+public class DeliveryBoySignUpReqDTO {
+  private UserSignUpReqDTO userSignUpReqDTO;
+  private AddressReqDTO addressReqDTO;
 }
+

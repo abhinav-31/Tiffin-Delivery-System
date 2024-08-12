@@ -1,5 +1,6 @@
 package com.tiffin.controllers;
 
+import com.tiffin.dto.*;
 import com.tiffin.security.CustomUserDetails;
 import org.apache.catalina.authenticator.SpnegoAuthenticator.AuthenticateAction;
 import java.io.IOException;
@@ -22,11 +23,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tiffin.dto.AddressReqDTO;
-import com.tiffin.dto.SignInResDTO;
-import com.tiffin.dto.UserSignInReqDTO;
-import com.tiffin.dto.UserSignUpReqDTO;
-import com.tiffin.dto.VendorSignUpReqDTO;
 import com.tiffin.security.JwtUtils;
 import com.tiffin.service.DeliveryBoyService;
 import com.tiffin.service.UserService;
@@ -61,8 +57,8 @@ public class UserController {
 	}
 
 	@PostMapping("/deliveryBoySignup")
-	public ResponseEntity<?> signUpDeliveryBoy(@RequestBody @Valid UserSignUpReqDTO userSignup, AddressReqDTO address) {
-		return ResponseEntity.status(HttpStatus.CREATED).body(userService.saveDeliveryBoy(userSignup, address));
+	public ResponseEntity<?> signUpDeliveryBoy(@RequestBody @Valid DeliveryBoySignUpReqDTO deliveryBoySignUpReqDTO) {
+		return ResponseEntity.status(HttpStatus.CREATED).body(userService.saveDeliveryBoy(deliveryBoySignUpReqDTO.getUserSignUpReqDTO(), deliveryBoySignUpReqDTO.getAddressReqDTO()));
 	}
 
 	@PostMapping(value = "/vendorSignup", consumes = "multipart/form-data")
@@ -91,10 +87,12 @@ public class UserController {
 		// Assuming CustomUserDetailsService is used to load user details with roles
 		CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
 		String role = userDetails.getAuthorities().toString().replaceAll("[\\[\\]]", "");
+		String email = userDetails.getUsername();
+		Long id = userDetails.getUserId();
 		// This method should return the user's role
 
 		return ResponseEntity.status(HttpStatus.ACCEPTED)
-				.body(new SignInResDTO(jwtUtils.generateJwtToken(authentication), "Successful Auth!", role));
+				.body(new SignInResDTO(jwtUtils.generateJwtToken(authentication), "Successful Auth!", role, email, id));
 	}
 
 	// @PostMapping("/vendorSignIn")

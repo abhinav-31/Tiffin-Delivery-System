@@ -6,9 +6,7 @@ function RegisterAsCustomer({ registered }) {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
-  const [phoneNumber, setPhone] = useState("");
   const [password, setPassword] = useState("");
-  const [address, setAddress] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const isValidEmail = () => {
     return email.includes("@");

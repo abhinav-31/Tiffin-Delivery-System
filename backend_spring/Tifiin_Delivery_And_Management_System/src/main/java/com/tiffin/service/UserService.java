@@ -1,6 +1,9 @@
 package com.tiffin.service;
 
+import java.io.IOException;
 import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import com.tiffin.dto.AddressReqDTO;
 import com.tiffin.dto.ApiResponse;
@@ -16,7 +19,7 @@ public interface UserService {
 
 	public ApiResponse saveDeliveryBoy(UserSignUpReqDTO deliveryBoy, AddressReqDTO address);
 
-	public ApiResponse saveVendor(VendorSignUpReqDTO vendor, AddressReqDTO address);
+	public ApiResponse saveVendor(VendorSignUpReqDTO vendor, AddressReqDTO address, MultipartFile image) throws IOException;
 
 	public ApiResponse addCustomerAddresses(AddressReqDTO address);
 

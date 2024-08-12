@@ -1,16 +1,14 @@
 package com.tiffin.service;
 
+import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.tiffin.custom_exceptions.ResourceNotFoundException;
 import com.tiffin.dto.AddressReqDTO;
@@ -70,11 +68,11 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public ApiResponse saveVendor(VendorSignUpReqDTO vendor, AddressReqDTO address) {
+	public ApiResponse saveVendor(VendorSignUpReqDTO vendor, AddressReqDTO address, MultipartFile image) throws IOException {
 		User u = mapper.map(vendor, User.class);
 		u.setRole(Role.ROLE_VENDOR);
-		u.setPassword(passwordEncoder.encode(u.getPassword()));
 		u.addAddress(mapper.map(address, Address.class));
+		u.setUserImage(image.getBytes());
 		userRepository.save(u);
 		return new ApiResponse("New Vendor Added!!!");
 	}

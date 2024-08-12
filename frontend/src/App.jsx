@@ -17,7 +17,7 @@ import AdminLayout from "./Admin/layouts/AdminLayout";
 import List from "./Admin/Pages/List/VendorList";
 import AdminHome from "./Admin/Pages/AdminHome";
 import DeliveryboyList from "./Admin/Pages/List/DeliveryboyList";
-import CustomerList from "./Admin/Pages/List/CustomerList";
+import CustomerList from "./Admin/Pages/List/CustomerList"
 
 //Vendor imports
 import VendorHomePage from "./vendor/Pages/VendorHomePage";
@@ -36,6 +36,7 @@ import DbHomePage from "./components/DeliveryBoy/Pages/DbHomePage";
 import DBReviewPage from "./components/DeliveryBoy/components/Review";
 import DbOrderHistoryPage from "./components/DeliveryBoy/components/OrderHistory";
 
+
 function App() {
   return (
     <div className="App">
@@ -48,13 +49,14 @@ function App() {
         <Route path="/registerAsVendor" element={<RegisterAsVendor />} />
         <Route path="/cart" element={<Cart />} />
 
-        {/* Admin routes with sidebar and Navbar*/}
-        <Route element={<AdminLayout />}>
-          <Route path="/adminhome" element={<AdminHome />} />
-          <Route path="/list" element={<List />} />
-          <Route path="/deliveryboylist" element={<DeliveryboyList />} />
-          <Route path="/customerlist" element={<CustomerList />} />
-        </Route>
+          {/* Admin routes with sidebar and Navbar*/}
+          <Route element={<AdminLayout/>}>
+            <Route path="/adminhome" element={<AdminHome/>}/>
+            <Route path="/list" element={<List />} />
+            <Route path="/deliveryboylist" element={<DeliveryboyList/>}/>
+            <Route path="/customerlist" element={<CustomerList/>}/>
+          </Route>
+          
 
         {/* Vendor routes with Sidebar */}
         <Route element={<VendorLayout />}>

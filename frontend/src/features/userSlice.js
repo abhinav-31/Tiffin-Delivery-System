@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const userSlice = createSlice({
   name: "user",
   initialState: {
-    loginStatus: false,
+    loginStatus: sessionStorage.getItem("loginStatus") === "true", // Initialize from sessionStorage
   },
   reducers: {
     loginAction: (state) => {
@@ -11,6 +11,7 @@ const userSlice = createSlice({
     },
     logoutAction: (state) => {
       state.loginStatus = false;
+      sessionStorage.setItem("loginStatus", false); // Update sessionStorage on logout
     },
   },
 });

@@ -31,6 +31,7 @@ function LoginModal({ onClose, onToggleRegister }) {
         sessionStorage.setItem("email", email);
         sessionStorage.setItem("role", role);
         sessionStorage.setItem("id", id); // Store role
+        sessionStorage.setItem("loginStatus", true);
         dispatch(loginAction());
         toast.success(`Welcome, ${email}!`); // Display role-based message
         if (role === "ROLE_ADMIN") {

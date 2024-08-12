@@ -49,4 +49,9 @@ public class OrderController {
 	public ResponseEntity<?> changeOrderStatus(@PathVariable Long orderId){
 		return ResponseEntity.status(HttpStatus.CREATED).body(orderService.changeStatus(orderId));
 	}
+	@GetMapping("/deliveryBoy/{deliveryBoyId}")
+	public ResponseEntity<?> getPlacedForDelivery(@RequestParam OrderStatus status, @PathVariable Long deliveryBoyId) {
+		return ResponseEntity.status(HttpStatus.OK).body(orderService.getPlacedForDelivery(deliveryBoyId, status));
+	}
+
 }

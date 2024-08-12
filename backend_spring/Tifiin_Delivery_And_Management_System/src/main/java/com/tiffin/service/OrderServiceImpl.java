@@ -6,19 +6,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.tiffin.dto.*;
 import org.hibernate.Hibernate;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.tiffin.custom_exceptions.ResourceNotFoundException;
-import com.tiffin.dto.AddressReqDTO;
-import com.tiffin.dto.ApiResponse;
-import com.tiffin.dto.MenuDTO;
-import com.tiffin.dto.OrderRequestDTO;
-import com.tiffin.dto.ReviewDTO;
-import com.tiffin.dto.UserDTO;
-import com.tiffin.dto.OrderResDTO;
 import com.tiffin.dto.ReviewDTO;
 import com.tiffin.entities.Address;
 import com.tiffin.entities.DeliveryBoy;
@@ -216,6 +210,27 @@ public class OrderServiceImpl implements OrderService {
 				OrderResDTO dto = new OrderResDTO();
 				dto.setCustomer(mapper.map(order.getCustomer(), UserDTO.class));
 				dto.setDeliveryBoy(mapper.map(order.getDeliveryBoy().getDeliveryBoy(), UserDTO.class));
+				AddressReqDTO addressDto = mapper.map(order.getDeliveryAddress(), AddressReqDTO.class);
+				dto.setDeliveryAddress(addressDto);
+				list.add(dto);
+			}
+		}
+		return list;
+	}
+
+	@Override
+	public List<OrderDelResDTO> getPlacedForDelivery(Long deliveryBoyId, OrderStatus status) {
+		List<OrderDelResDTO> list = new ArrayList<>();
+		User deliveryBoy = userRepository.findById(deliveryBoyId)
+						.orElseThrow(() -> new ResourceNotFoundException("Delivery Boy not found!!"));
+		DeliveryBoy delivery_details = deliveryBoyRepository.findByDeliveryBoy(deliveryBoy).orElseThrow(()-> new ResourceNotFoundException("Delivery details not found!!"));
+
+		List<Order> orders = orderRepository.findByDeliveryBoy(delivery_details);
+		for (Order order : orders) {
+			if (order.getStatus().equals(status)) {
+				OrderDelResDTO dto = new OrderDelResDTO();
+				dto.setCustomer(mapper.map(order.getCustomer(), UserDTO.class));
+				dto.setVendor(mapper.map(order.getVendor(), UserDTO.class));
 				AddressReqDTO addressDto = mapper.map(order.getDeliveryAddress(), AddressReqDTO.class);
 				dto.setDeliveryAddress(addressDto);
 				list.add(dto);

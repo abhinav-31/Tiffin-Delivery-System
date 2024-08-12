@@ -17,6 +17,48 @@ export async function register(firstName, lastName, email, password, role) {
   // read JSON data (response)
   return response.data;
 }
+export async function registerDeliveryBoy(data) {
+  try {
+    const response = await axios.post(
+      `${config.url}/users/deliveryBoySignup`,
+      data
+    );
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error registering delivery boy:", error);
+    throw error; // Re-throw the error to be handled by the caller
+  }
+}
+export async function registerVendor(data) {
+  try {
+    const formData = new FormData();
+
+    // Append JSON data as strings
+    formData.append("userSignup", JSON.stringify(data.userSignUpReqDTO));
+    formData.append("address", JSON.stringify(data.addressReqDTO));
+
+    // Append the image file if provided
+    if (data.imageFile) {
+      formData.append("image", data.imageFile);
+    }
+
+    const response = await axios.post(
+      `${config.url}/users/vendorSignup`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error registering vendor:", error);
+    throw error; // Re-throw the error to be handled by the caller
+  }
+}
 
 export async function login(email, password) {
   // body parameters
@@ -27,7 +69,6 @@ export async function login(email, password) {
 
   // make API call
   const response = await axios.post(`${config.url}/users/signin`, body);
-
   // read JSON data (response)
   return response.data;
 }

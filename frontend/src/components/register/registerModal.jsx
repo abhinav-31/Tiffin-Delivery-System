@@ -31,8 +31,8 @@ function RegisterModal({ onClose, onToggleLogin }) {
       className="container-fluid modal-backdrop"
     >
       {customerReg && <RegisterAsCustomer registered={onClose} />}
-      {dbReg && <RegisterAsDB />}
-      {vendorReg && <RegisterAsVendor />}
+      {dbReg && <RegisterAsDB registered={onClose} />}
+      {vendorReg && <RegisterAsVendor registered={onClose} />}
       {!customerReg && !dbReg && !vendorReg && (
         <div className="modal-content rounded-5 shadow">
           <div className="modal-header p-5 pb-4 border-bottom-0">

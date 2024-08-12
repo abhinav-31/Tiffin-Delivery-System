@@ -1,60 +1,46 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { register } from "../../services/user";
 import { toast } from "react-toastify";
+import AddAddress from "./addAddress";
 
-function RegisterAsDB({ addAddress, registered }) {
+function RegisterAsDB({ registered }) {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
-  const [phoneNumber, setPhone] = useState("");
   const [password, setPassword] = useState("");
-  const [address, setAddress] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [showAddressModal, setShowAddressModal] = useState(false);
+
   const isValidEmail = () => {
     return email.includes("@");
   };
-  const onRegister = async () => {
-    console.log("onRegister");
 
-    // client side validation
+  const onAddAddress = () => {
+    setShowAddressModal(true);
+  };
+
+  const onSubmitUserDetails = async () => {
+    // Client-side validation
     if (firstName.length === 0) {
-      toast.warning("enter first name");
+      toast.warning("Enter first name");
     } else if (lastName.length === 0) {
-      toast.warning("enter last name");
+      toast.warning("Enter last name");
     } else if (email.length === 0) {
-      toast.warning("enter email");
+      toast.warning("Enter email");
     } else if (!isValidEmail()) {
       toast.warning("Email is not valid");
     } else if (password.length === 0) {
-      toast.warning("enter password");
+      toast.warning("Enter password");
     } else if (confirmPassword.length === 0) {
-      toast.warning("confirm password");
-    } else if (phoneNumber.length === 0) {
-      toast.warning("enter contact no.");
-    } else if (address.length === 0) {
-      toast.warning("enter address");
+      toast.warning("Confirm password");
+    } else if (password !== confirmPassword) {
+      toast.warning("Passwords do not match");
     } else {
-      // make the API call and receive the result
-      const result = await register(
-        firstName,
-        lastName,
-        email,
-        phoneNumber,
-        password,
-        address,
-        "deliveryBoy",
-        "4"
-      );
-      if (result["status"] === "success") {
-        toast.success("successfully registered a user");
-        // navigate("/login");
-      } else {
-        console.log(result);
-        toast.error("Failed to register the user");
-      }
+      // Proceed to show address form
+      onAddAddress();
     }
   };
+
   return (
     <div>
       <div className="modal-content rounded-5 shadow">
@@ -66,29 +52,25 @@ function RegisterAsDB({ addAddress, registered }) {
           <div className="row">
             <div className="form-floating col">
               <input
-                onChange={(e) => {
-                  setFirstName(e.target.value);
-                }}
+                onChange={(e) => setFirstName(e.target.value)}
                 type="text"
                 className="ps-3 form-control rounded-5"
-                id="floatingInput"
+                id="floatingInputFirstName"
                 placeholder="John"
               />
-              <label className="ms-3" htmlFor="floatingInput">
+              <label className="ms-3" htmlFor="floatingInputFirstName">
                 First Name
               </label>
             </div>
             <div className="form-floating mb-3 col">
               <input
-                onChange={(e) => {
-                  setLastName(e.target.value);
-                }}
+                onChange={(e) => setLastName(e.target.value)}
                 type="text"
                 className="ps-3 form-control rounded-5"
-                id="floatingInput"
+                id="floatingInputLastName"
                 placeholder="Doe"
               />
-              <label className="ms-3" htmlFor="floatingInput">
+              <label className="ms-3" htmlFor="floatingInputLastName">
                 Last Name
               </label>
             </div>
@@ -96,23 +78,19 @@ function RegisterAsDB({ addAddress, registered }) {
           {/* Email */}
           <div className="form-floating mb-3">
             <input
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
+              onChange={(e) => setEmail(e.target.value)}
               type="email"
               className="ps-3 form-control rounded-5"
-              id="floatingInput"
+              id="floatingInputEmail"
               placeholder="name@example.com"
             />
-            <label htmlFor="floatingInput">Email</label>
+            <label htmlFor="floatingInputEmail">Email</label>
           </div>
           {/* Password */}
           <div className="row">
             <div className="form-floating mb-3 col">
               <input
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                }}
+                onChange={(e) => setPassword(e.target.value)}
                 type="password"
                 className="ps-3 form-control rounded-5"
                 id="floatingPassword"
@@ -124,72 +102,44 @@ function RegisterAsDB({ addAddress, registered }) {
             </div>
             <div className="form-floating mb-3 col">
               <input
-                onChange={(e) => {
-                  setConfirmPassword(e.target.value);
-                }}
+                onChange={(e) => setConfirmPassword(e.target.value)}
                 type="password"
                 className="ps-3 form-control rounded-5"
-                id="floatingPassword"
-                placeholder="Password"
+                id="floatingConfirmPassword"
+                placeholder="Confirm Password"
               />
-              <label className="ms-3" htmlFor="floatingPassword">
+              <label className="ms-3" htmlFor="floatingConfirmPassword">
                 Confirm Password
               </label>
             </div>
           </div>
-          {/* Contact */}
-          <div className="form-floating mb-3">
-            <input
-              onChange={(e) => {
-                setPhone(e.target.value);
-              }}
-              type="text"
-              className="ps-3 form-control rounded-5"
-              id="floatingInput"
-              placeholder="1234"
-            />
-            <label htmlFor="floatingInput">Contact</label>
-          </div>
-          {/* Address */}
-          <div className="form-floating mb-3">
-            <input
-              onChange={(e) => {
-                setAddress(e.target.value);
-              }}
-              type="text"
-              className="ps-3 form-control rounded-5"
-              id="floatingInput"
-              placeholder="pune"
-            />
-            <label htmlFor="floatingInput">Address</label>
-          </div>
-          {/* pincode need modifications */}
-          <div className="form-floating mb-3">
-            <input
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
-              type="text"
-              className="ps-3 form-control rounded-5"
-              id="floatingInput"
-              placeholder="pune"
-            />
-            <label htmlFor="floatingInput">Pincode</label>
-          </div>
-
           <div className="row">
             <div className="col">
               <button
-                onClick={onRegister}
+                onClick={onSubmitUserDetails}
                 className="mt-2 rounded-5 btn"
                 id="action-btn"
               >
-                Register as Delivery boy
+                Proceed to Add Address
               </button>
             </div>
           </div>
         </div>
       </div>
+
+      {showAddressModal && (
+        <AddAddress
+          userSignupDetails={{
+            firstName,
+            lastName,
+            email,
+            password,
+            role: "ROLE_DELIVERY_BOY",
+          }}
+          addedAddress={registered}
+          // Add any additional props if needed
+        />
+      )}
     </div>
   );
 }

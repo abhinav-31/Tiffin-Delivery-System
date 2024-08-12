@@ -71,6 +71,7 @@ public class UserServiceImpl implements UserService {
 	public ApiResponse saveVendor(VendorSignUpReqDTO vendor, AddressReqDTO address, MultipartFile image) throws IOException {
 		User u = mapper.map(vendor, User.class);
 		u.setRole(Role.ROLE_VENDOR);
+		u.setPassword(passwordEncoder.encode(u.getPassword()));
 		u.addAddress(mapper.map(address, Address.class));
 		u.setUserImage(image.getBytes());
 		userRepository.save(u);

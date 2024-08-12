@@ -26,16 +26,19 @@ function LoginModal({ onClose, onToggleRegister }) {
     } else {
       const result = await login(email, password);
       if (result["message"] === "Successful Auth!") {
-        const { jwt, name, role } = result; // Extract role
+        const { jwt, email, role, id } = result; // Extract role
         sessionStorage.setItem("token", jwt);
-        sessionStorage.setItem("name", name);
-        sessionStorage.setItem("role", role); // Store role
+        sessionStorage.setItem("email", email);
+        sessionStorage.setItem("role", role);
+        sessionStorage.setItem("id", id); // Store role
         dispatch(loginAction());
-        toast.success(`Welcome, ${role}!`); // Display role-based message
+        toast.success(`Welcome, ${email}!`); // Display role-based message
         if (role === "ROLE_ADMIN") {
           navigate("/adminhome"); // Navigate to admin-specific page
         } else if (role === "ROLE_VENDOR") {
-          navigate("/vendorDashboard");
+          navigate("/vendorhomepage");
+        } else if (role === "ROLE_DELIVERY_BOY") {
+          navigate("/deliveryhome");
         } else {
           navigate("/"); // Default home page
         }

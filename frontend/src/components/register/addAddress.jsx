@@ -1,182 +1,174 @@
-import React from "react";
-import { useState } from "react";
-import { register } from "../../services/user";
+import React, { useState } from "react";
+import { registerDeliveryBoy, registerVendor } from "../../services/user";
 import { toast } from "react-toastify";
 
-function AddVendorAddress({ addAddress, registered }) {
+function AddAddress({ userSignupDetails, addedAddress }) {
+  // Destructure userSignupDetails
+  const { firstName, lastName, email, password, role, business, image } =
+    userSignupDetails;
+
   const [addressLine1, setAddressLine1] = useState("");
   const [addressLine2, setAddressLine2] = useState("");
-  const [city, setcity] = useState("Pune");
+  const [city, setCity] = useState("Pune");
   const [state, setState] = useState("Maharashtra");
-  const [countrt, setCountry] = useState("India");
+  const [country, setCountry] = useState("India");
   const [zipcode, setZipcode] = useState("");
   const [phoneNo, setPhoneNo] = useState("");
-  const isValidEmail = () => {
-    return email.includes("@");
-  };
+  const [imageFile, setImageFile] = useState(null);
+
   const onRegister = async () => {
     console.log("onRegister");
 
-    // client side validation
-    if (firstName.length === 0) {
-      toast.warning("enter first name");
-    } else if (lastName.length === 0) {
-      toast.warning("enter last name");
-    } else if (email.length === 0) {
-      toast.warning("enter email");
-    } else if (!isValidEmail()) {
-      toast.warning("Email is not valid");
-    } else if (password.length === 0) {
-      toast.warning("enter password");
-    } else if (confirmPassword.length === 0) {
-      toast.warning("confirm password");
-    } else if (phoneNumber.length === 0) {
-      toast.warning("enter contact no.");
-    } else if (address.length === 0) {
-      toast.warning("enter address");
+    // Client-side validation
+    if (addressLine1.length === 0) {
+      toast.warning("Enter address line 1");
+    } else if (addressLine2.length === 0) {
+      toast.warning("Enter address line 2");
+    } else if (zipcode.length === 0) {
+      toast.warning("Select zipcode");
+    } else if (phoneNo.length === 0) {
+      toast.warning("Enter contact number");
     } else {
-      // make the API call and receive the result
-      const result = await register(
-        firstName,
-        lastName,
-        email,
-        phoneNumber,
-        password,
-        address,
-        "deliveryBoy",
-        "4"
-      );
-      if (result["status"] === "success") {
-        toast.success("successfully registered a user");
-        // navigate("/login");
-      } else {
-        console.log(result);
-        toast.error("Failed to register the user");
+      const addressData = {
+        adrLine1: addressLine1,
+        adrLine2: addressLine2,
+        city,
+        state,
+        country,
+        zipcode,
+        phoneNo,
+      };
+
+      try {
+        if (role === "ROLE_DELIVERY_BOY") {
+          const result = await registerDeliveryBoy({
+            userSignUpReqDTO: {
+              firstName,
+              lastName,
+              email,
+              password,
+              role,
+            },
+            addressReqDTO: addressData,
+          });
+          if (result["message"] === "New Delivery Boy Added!!!") {
+            toast.success("Successfully registered the Delivery Boy");
+            addedAddress();
+            // navigate("/login"); // Uncomment if navigation is needed
+          }
+        } else if (role === "ROLE_VENDOR") {
+          const result = await registerVendor({
+            userSignUpReqDTO: {
+              firstName,
+              lastName,
+              email,
+              password,
+              role,
+              businessName: business,
+            },
+            addressReqDTO: addressData,
+            imageFile: image, // Include the image file for vendor
+          });
+          if (result["message"] === "New Vendor Added!!!") {
+            toast.success("Successfully registered the Vendor");
+            addedAddress();
+            // navigate("/login"); // Uncomment if navigation is needed
+          }
+        }
+      } catch (error) {
+        console.error(error);
+        toast.error("An error occurred while registering");
       }
     }
   };
+
   return (
     <div>
       <div className="modal-content rounded-5 shadow">
         <div className="modal-header p-5 pb-4 border-bottom-0">
-          <h1 className="fw-bold mb-0 fs-2">Register</h1>
+          <h1 className="fw-bold mb-0 fs-2">Add Address and Register</h1>
         </div>
         <div className="modal-body p-5 pt-0">
-          {/* Name */}
-          <div className="row">
-            <div className="form-floating col">
-              <input
-                onChange={(e) => {
-                  setFirstName(e.target.value);
-                }}
-                type="text"
-                className="ps-3 form-control rounded-5"
-                id="floatingInput"
-                placeholder="John"
-              />
-              <label className="ms-3" htmlFor="floatingInput">
-                First Name
-              </label>
-            </div>
-            <div className="form-floating mb-3 col">
-              <input
-                onChange={(e) => {
-                  setLastName(e.target.value);
-                }}
-                type="text"
-                className="ps-3 form-control rounded-5"
-                id="floatingInput"
-                placeholder="Doe"
-              />
-              <label className="ms-3" htmlFor="floatingInput">
-                Last Name
-              </label>
-            </div>
-          </div>
-          {/* Email */}
+          {/* Address Line 1 */}
           <div className="form-floating mb-3">
             <input
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
-              type="email"
-              className="ps-3 form-control rounded-5"
-              id="floatingInput"
-              placeholder="name@example.com"
-            />
-            <label htmlFor="floatingInput">Email</label>
-          </div>
-          {/* Password */}
-          <div className="row">
-            <div className="form-floating mb-3 col">
-              <input
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                }}
-                type="password"
-                className="ps-3 form-control rounded-5"
-                id="floatingPassword"
-                placeholder="Password"
-              />
-              <label className="ms-3" htmlFor="floatingPassword">
-                Password
-              </label>
-            </div>
-            <div className="form-floating mb-3 col">
-              <input
-                onChange={(e) => {
-                  setConfirmPassword(e.target.value);
-                }}
-                type="password"
-                className="ps-3 form-control rounded-5"
-                id="floatingPassword"
-                placeholder="Password"
-              />
-              <label className="ms-3" htmlFor="floatingPassword">
-                Confirm Password
-              </label>
-            </div>
-          </div>
-          {/* Contact */}
-          <div className="form-floating mb-3">
-            <input
-              onChange={(e) => {
-                setPhone(e.target.value);
-              }}
+              onChange={(e) => setAddressLine1(e.target.value)}
               type="text"
               className="ps-3 form-control rounded-5"
-              id="floatingInput"
-              placeholder="1234"
+              id="addressLine1"
+              placeholder="Address Line 1"
             />
-            <label htmlFor="floatingInput">Contact</label>
+            <label htmlFor="addressLine1">Address Line 1</label>
           </div>
-          {/* Address */}
+          {/* Address Line 2 */}
           <div className="form-floating mb-3">
             <input
-              onChange={(e) => {
-                setAddress(e.target.value);
-              }}
+              onChange={(e) => setAddressLine2(e.target.value)}
               type="text"
               className="ps-3 form-control rounded-5"
-              id="floatingInput"
-              placeholder="pune"
+              id="addressLine2"
+              placeholder="Address Line 2"
             />
-            <label htmlFor="floatingInput">Address</label>
+            <label htmlFor="addressLine2">Address Line 2</label>
           </div>
-          {/* pincode need modifications */}
+          {/* City */}
           <div className="form-floating mb-3">
             <input
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
+              onChange={(e) => setCity(e.target.value)}
               type="text"
               className="ps-3 form-control rounded-5"
-              id="floatingInput"
-              placeholder="pune"
+              id="city"
+              placeholder="City"
+              value={city}
             />
-            <label htmlFor="floatingInput">Pincode</label>
+            <label htmlFor="city">City</label>
           </div>
-
+          {/* State */}
+          <div className="form-floating mb-3">
+            <input
+              onChange={(e) => setState(e.target.value)}
+              type="text"
+              className="ps-3 form-control rounded-5"
+              id="state"
+              placeholder="State"
+              value={state}
+            />
+            <label htmlFor="state">State</label>
+          </div>
+          {/* Country */}
+          <div className="form-floating mb-3">
+            <input
+              onChange={(e) => setCountry(e.target.value)}
+              type="text"
+              className="ps-3 form-control rounded-5"
+              id="country"
+              placeholder="Country"
+              value={country}
+            />
+            <label htmlFor="country">Country</label>
+          </div>
+          {/* Zipcode */}
+          <div className="form-floating mb-3">
+            <input
+              onChange={(e) => setZipcode(e.target.value)}
+              type="text"
+              className="ps-3 form-control rounded-5"
+              id="zipcode"
+              placeholder="Zipcode"
+            />
+            <label htmlFor="zipcode">Zipcode</label>
+          </div>
+          {/* Phone Number */}
+          <div className="form-floating mb-3">
+            <input
+              onChange={(e) => setPhoneNo(e.target.value)}
+              type="text"
+              className="ps-3 form-control rounded-5"
+              id="phoneNo"
+              placeholder="Phone Number"
+            />
+            <label htmlFor="phoneNo">Phone Number</label>
+          </div>
           <div className="row">
             <div className="col">
               <button
@@ -184,7 +176,7 @@ function AddVendorAddress({ addAddress, registered }) {
                 className="mt-2 rounded-5 btn"
                 id="action-btn"
               >
-                Register as Delivery boy
+                Register as {role === "ROLE_VENDOR" ? "Vendor" : "Delivery Boy"}
               </button>
             </div>
           </div>
@@ -194,4 +186,4 @@ function AddVendorAddress({ addAddress, registered }) {
   );
 }
 
-export default RegisterAsDB;
+export default AddAddress;

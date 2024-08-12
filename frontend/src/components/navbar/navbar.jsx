@@ -1,12 +1,16 @@
 import "../login/loginModal.css";
 import "./navbar.css";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import LoginModal from "../login/loginModal";
 import RegisterModal from "../register/registerModal";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { logoutAction } from "../../features/userSlice"; // Import the logout action
+
 function NavBar() {
-  const cart = useSelector((state) => state.cart);
+  const navigate = useNavigate();
+  const dispatch = useDispatch(); // Use dispatch to update the Redux state
+  const cart = useSelector((state) => state.cart || { items: [] });
   const loginStatus = useSelector((state) => state.user.loginStatus);
   const [loginModal, setLoginModal] = useState(false);
   const [registerModal, setRegisterModal] = useState(false);
@@ -22,6 +26,20 @@ function NavBar() {
   const toggleRegisterModal = () => {
     setRegisterModal(!registerModal);
     setLoginModal(false);
+  };
+
+  const handleLogout = () => {
+    // Clear session storage
+    sessionStorage.removeItem("token");
+    sessionStorage.removeItem("email");
+    sessionStorage.removeItem("role");
+    sessionStorage.removeItem("id");
+
+    // Update the Redux state to log out the user
+    dispatch(logoutAction());
+
+    // Navigate to the homepage or login page
+    navigate("/");
   };
 
   return (
@@ -52,12 +70,6 @@ function NavBar() {
               </li>
             </ul>
             <div className="d-flex">
-              {/* <input
-                className="form-control me-2 rounded-5"
-                type="search"
-                placeholder="Search"
-                aria-label="Search"
-              /> */}
               <div>
                 <a href="/cart">
                   <button
@@ -76,7 +88,7 @@ function NavBar() {
                       <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"></path>
                     </svg>
                     <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                      {/* {cart.items.length} */}
+                      {cart.items.length}
                     </span>
                   </button>
                 </a>
@@ -109,33 +121,34 @@ function NavBar() {
                   ></button>
                   <ul className="dropdown-menu dropdown-menu-end dropdown-menu-lg-end">
                     {!loginStatus ? (
+                      <>
+                        <li>
+                          <button
+                            className="dropdown-item"
+                            onClick={toggleLoginModal}
+                          >
+                            Login
+                          </button>
+                        </li>
+                        <li>
+                          <button
+                            className="dropdown-item"
+                            onClick={toggleRegisterModal}
+                          >
+                            Sign up
+                          </button>
+                        </li>
+                      </>
+                    ) : (
                       <li>
                         <button
                           className="dropdown-item"
-                          onClick={toggleLoginModal}
+                          onClick={handleLogout} // Handle logout on click
                         >
-                          lksdjfljksdf
+                          Logout
                         </button>
                       </li>
-                    ) : (
-                      <> </>
                     )}
-                    <li>
-                      <button
-                        className="dropdown-item"
-                        onClick={toggleLoginModal}
-                      >
-                        Login
-                      </button>
-                    </li>
-                    <li>
-                      <button
-                        className="dropdown-item"
-                        onClick={toggleRegisterModal}
-                      >
-                        Sign up
-                      </button>
-                    </li>
                     <li>
                       <Link className="dropdown-item" to="/about-us">
                         About us
@@ -167,4 +180,5 @@ function NavBar() {
     </div>
   );
 }
+
 export default NavBar;

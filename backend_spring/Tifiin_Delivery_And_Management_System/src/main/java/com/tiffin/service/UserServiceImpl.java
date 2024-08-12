@@ -1,12 +1,14 @@
 package com.tiffin.service;
 
+import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.tiffin.custom_exceptions.ResourceNotFoundException;
 import com.tiffin.dto.AddressReqDTO;
@@ -35,6 +37,9 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private ModelMapper mapper;
 
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+
 	@Override
 	public List<User> getAllUsers() {
 		return userRepository.findAll();
@@ -44,7 +49,8 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public ApiResponse saveCustomer(UserSignUpReqDTO user) {
 		User u = mapper.map(user, User.class);
-		u.setRole(Role.ROLE_CUSTOMER);
+		u.setPassword(passwordEncoder.encode(u.getPassword()));
+		u.setRole(u.getRole());
 		userRepository.save(u);
 		return new ApiResponse("New Customer Added!!!");
 	}
@@ -53,35 +59,47 @@ public class UserServiceImpl implements UserService {
 	public ApiResponse saveDeliveryBoy(UserSignUpReqDTO deliveryBoy, AddressReqDTO address) {
 		User u = mapper.map(deliveryBoy, User.class);
 		u.setRole(Role.ROLE_DELIVERY_BOY);
+		u.setPassword(passwordEncoder.encode(u.getPassword()));
 		u.addAddress(mapper.map(address, Address.class));
 		userRepository.save(u);
-		System.out.println(u.getId());
 		DeliveryBoy d = new DeliveryBoy(u, DeliveryStatus.AVAILABLE, address.getZipcode());
-		System.out.println(d);
 		deliveryBoyRepository.save(d);
 		return new ApiResponse("New Delivery Boy Added!!!");
 	}
 
 	@Override
-	public ApiResponse saveVendor(VendorSignUpReqDTO vendor, AddressReqDTO address) {
+	public ApiResponse saveVendor(VendorSignUpReqDTO vendor, AddressReqDTO address, MultipartFile image) throws IOException {
 		User u = mapper.map(vendor, User.class);
 		u.setRole(Role.ROLE_VENDOR);
 		u.addAddress(mapper.map(address, Address.class));
+		u.setUserImage(image.getBytes());
 		userRepository.save(u);
 		return new ApiResponse("New Vendor Added!!!");
 	}
 
 	@Override
-	public ApiResponse addCustomerAddresses(AddressReqDTO address, Long userId) {
-		User u = userRepository.findById(userId)
-				.orElseThrow(() -> new ResourceNotFoundException("user does not exist"));
-		u.addAddress(mapper.map(address, Address.class));
+	public ApiResponse addCustomerAddresses(AddressReqDTO address) {
+		System.out.println(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+		User u = userRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString()).orElseThrow(()-> new ResourceNotFoundException("no user found"));
+		
+		if (u != null) {
+			u.addAddress(mapper.map(address, Address.class));
+		} else {
+			new ResourceNotFoundException("User does not exist!");
+		}
+		System.out.println(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
 		return new ApiResponse("New Address Added!!!");
 	}
 
 	@Override
+	public String getUserMail() {
+		// TODO Auto-generated method stub
+		return SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+	}
+
+	@Override
 	public ApiResponse signIn(@Valid UserSignInReqDTO userSignIn) {
-		
+
 		return new ApiResponse("User Validated");
 	}
 }

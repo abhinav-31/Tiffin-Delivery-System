@@ -14,4 +14,5 @@ public interface MenuService {
     void deleteMenu(Long id);
     List<MenuResWithImageDTO> getAllMenus();
     MenuResWithImageDTO getMenuById(Long id);
+    List<MenuResWithImageDTO> getMenuByVendorId(Long vendorId);
 }

@@ -4,6 +4,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
+
 import Home from "./pages/home";
 import HomePage from "./pages/homepage";
 import LoginModal from "./components/login/loginModal";
@@ -12,6 +13,14 @@ import Cart from "./pages/cart";
 import RegisterAsDB from "./components/register/registerAsDB";
 import RegisterAsVendor from "./components/register/registerAsVendor";
 
+//Admin imports
+import AdminLayout from "./Admin/layouts/AdminLayout";
+import List from "./Admin/Pages/List/VendorList"
+import AdminHome from "./Admin/Pages/AdminHome";
+import DeliveryboyList from "./Admin/Pages/List/DeliveryboyList";
+import CustomerList from "./Admin/Pages/List/CustomerList"
+
+//Vendor imports
 import VendorHomePage from "./vendor/Pages/VendorHomePage";
 import AddMenu from "./vendor/components/VendorComponents/AddMenu";
 import ViewOrders from "./vendor/components/VendorComponents/ViewOrders";
@@ -53,12 +62,12 @@ function App() {
           <Route path="/list" element={<OrderList/>}/>
         </Route>
 
-        <Route element={<DbLayout />}>
-          <Route path="/dbhomepage" element={<DbHomePage />} />
-          <Route path="/dbreview" element={<DBReviewPage />} />
-          <Route path="/dborderhistory" element={<DbOrderHistoryPage />} />
-        </Route>
-      </Routes>
+          <Route element={<DbLayout />}>
+            <Route path="/dbhomepage" element={<DbHomePage />} />
+            <Route path="/dbreview" element={<DBReviewPage />} />
+            <Route path="/dborderhistory" element={<DbOrderHistoryPage />} />
+          </Route>
+        </Routes>
 
       <ToastContainer theme="colored" />
     </div>

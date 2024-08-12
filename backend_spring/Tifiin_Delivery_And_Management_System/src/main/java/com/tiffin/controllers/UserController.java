@@ -1,5 +1,6 @@
 package com.tiffin.controllers;
 
+import com.tiffin.security.CustomUserDetails;
 import org.apache.catalina.authenticator.SpnegoAuthenticator.AuthenticateAction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Role;
@@ -8,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,6 +29,8 @@ import com.tiffin.service.DeliveryBoyService;
 import com.tiffin.service.UserService;
 
 import jakarta.validation.Valid;
+
+import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -65,16 +69,22 @@ public class UserController {
 	public ResponseEntity<?> addAddress(@RequestBody @Valid AddressReqDTO address) {
 		return ResponseEntity.status(HttpStatus.CREATED).body(userService.addCustomerAddresses(address));
 	}
-	
+
 	@PostMapping("/signin")
 	public ResponseEntity<?> signInUser(@RequestBody @Valid UserSignInReqDTO userSignIn) {
-		System.out.println("Hello");
 		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userSignIn.getEmail(), userSignIn.getPassword());
-		
 		Authentication authentication = authManager.authenticate(token);
-		return ResponseEntity.status(HttpStatus.ACCEPTED).body(new SignInResDTO(jwtUtils.generateJwtToken(authentication),"Successfull Auth!"));
+
+		// Assuming CustomUserDetailsService is used to load user details with roles
+		CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+		String role = userDetails.getAuthorities().toString().replaceAll("[\\[\\]]", "");
+		// This method should return the user's role
+
+		return ResponseEntity.status(HttpStatus.ACCEPTED)
+						.body(new SignInResDTO(jwtUtils.generateJwtToken(authentication), "Successful Auth!", role));
 	}
-	
+
+
 //	@PostMapping("/vendorSignIn")
 //	public ResponseEntity<?> signInVendor(@RequestBody @Valid UserSignInReqDTO userSignIn) {
 //		return ResponseEntity.status(HttpStatus.ACCEPTED).body(userService.signIn(userSignIn));

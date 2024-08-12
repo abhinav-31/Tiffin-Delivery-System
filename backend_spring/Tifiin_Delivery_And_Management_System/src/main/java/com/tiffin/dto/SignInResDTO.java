@@ -12,4 +12,5 @@ import lombok.Setter;
 public class SignInResDTO {
 	private String jwt;
 	private String message;
+	private String role;
 }

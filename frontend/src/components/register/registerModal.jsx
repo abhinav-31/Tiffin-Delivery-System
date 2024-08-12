@@ -30,7 +30,7 @@ function RegisterModal({ onClose, onToggleLogin }) {
       onClick={closeModal}
       className="container-fluid modal-backdrop"
     >
-      {customerReg && <RegisterAsCustomer />}
+      {customerReg && <RegisterAsCustomer registered={onClose} />}
       {dbReg && <RegisterAsDB />}
       {vendorReg && <RegisterAsVendor />}
       {!customerReg && !dbReg && !vendorReg && (

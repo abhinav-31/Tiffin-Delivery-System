@@ -3,7 +3,7 @@ import { useState } from "react";
 import { register } from "../../services/user";
 import { toast } from "react-toastify";
 
-function RegisterAsVendor() {
+function RegisterAsVendor({ registered }) {
   const [businessName, setBusinessName] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -33,10 +33,6 @@ function RegisterAsVendor() {
       toast.warning("enter password");
     } else if (confirmPassword.length === 0) {
       toast.warning("confirm password");
-    } else if (phoneNumber.length === 0) {
-      toast.warning("enter contact no.");
-    } else if (address.length === 0) {
-      toast.warning("enter address");
     } else {
       // make the API call and receive the result
       const result = await register(
@@ -152,45 +148,6 @@ function RegisterAsVendor() {
                 Confirm Password
               </label>
             </div>
-          </div>
-          {/* Contact */}
-          <div className="form-floating mb-3">
-            <input
-              onChange={(e) => {
-                setPhone(e.target.value);
-              }}
-              type="text"
-              className="ps-3 form-control rounded-5"
-              id="floatingInput"
-              placeholder="1234"
-            />
-            <label htmlFor="floatingInput">Contact</label>
-          </div>
-          {/* Address */}
-          <div className="form-floating mb-3">
-            <input
-              onChange={(e) => {
-                setAddress(e.target.value);
-              }}
-              type="text"
-              className="ps-3 form-control rounded-5"
-              id="floatingInput"
-              placeholder="pune"
-            />
-            <label htmlFor="floatingInput">Business Address</label>
-          </div>
-          {/* pincode need modifications */}
-          <div className="form-floating mb-3">
-            <input
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
-              type="text"
-              className="ps-3 form-control rounded-5"
-              id="floatingInput"
-              placeholder="pune"
-            />
-            <label htmlFor="floatingInput">Pincode</label>
           </div>
 
           <div className="row">

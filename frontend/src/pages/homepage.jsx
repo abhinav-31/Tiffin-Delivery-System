@@ -1,16 +1,43 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./homepage.css";
 import NavBar from "../components/navbar/navbar";
 import VendorsList from "../components/vendorsList";
 import Footer from "../components/footer/footer";
+import { fetchVendors } from "../services/VendorService";
 
 function HomePage() {
   const navigate = useNavigate();
+  const [vendors, setVendors] = useState([]);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const getVendors = async () => {
+      const result = await fetchVendors();
+      
+      if (result.status === "error") {
+        setError(result.error);
+      } else {
+        setVendors(result);
+      }
+    };
+
+    getVendors();
+  }, []);
+
+  // const handleVendorClick = (email) => {
+  //   navigate(`/vendor/${email}`); // Use navigate for navigation
+  // };
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
+
+
 
   return (
     <div className="homepage-container">
-      <NavBar />
+      {/* <NavBar /> */}
 
       <div className="content-container">
         <div className="container">
@@ -133,7 +160,7 @@ function HomePage() {
                 <div className="motov4_feature_data mt-5 highlight">
                   <h3>Order from your favourite vendors</h3>
                 </div>
-                <VendorsList />
+                <VendorsList  vendors={vendors}/>
               </div>
               <section className="services-section ">
                 <div className="row">

@@ -2,7 +2,9 @@ package com.tiffin.service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
+import com.tiffin.custom_exceptions.UserException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -48,6 +50,8 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public ApiResponse saveCustomer(UserSignUpReqDTO user) {
+		if(userRepository.existsByEmail(user.getEmail()))
+			return new ApiResponse("Use another email");
 		User u = mapper.map(user, User.class);
 		u.setPassword(passwordEncoder.encode(u.getPassword()));
 		u.setRole(u.getRole());
@@ -57,6 +61,8 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public ApiResponse saveDeliveryBoy(UserSignUpReqDTO deliveryBoy, AddressReqDTO address) {
+		if(userRepository.existsByEmail(deliveryBoy.getEmail()))
+			return new ApiResponse("Use another email");
 		User u = mapper.map(deliveryBoy, User.class);
 		u.setRole(Role.ROLE_DELIVERY_BOY);
 		u.setPassword(passwordEncoder.encode(u.getPassword()));
@@ -69,6 +75,8 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public ApiResponse saveVendor(VendorSignUpReqDTO vendor, AddressReqDTO address, MultipartFile image) throws IOException {
+		if(userRepository.existsByEmail(vendor.getEmail()))
+			return new ApiResponse("Use another email") ;
 		User u = mapper.map(vendor, User.class);
 		u.setRole(Role.ROLE_VENDOR);
 		u.setPassword(passwordEncoder.encode(u.getPassword()));
@@ -98,9 +106,12 @@ public class UserServiceImpl implements UserService {
 		return SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
 	}
 
+
+
 	@Override
 	public ApiResponse signIn(@Valid UserSignInReqDTO userSignIn) {
 
 		return new ApiResponse("User Validated");
 	}
+
 }

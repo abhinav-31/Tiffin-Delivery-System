@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { registerDeliveryBoy, registerVendor } from "../../services/user";
 import { toast } from "react-toastify";
+import Zipcode from "./zipcode";
 
 function AddAddress({ userSignupDetails, addedAddress }) {
   // Destructure userSignupDetails
@@ -16,9 +17,15 @@ function AddAddress({ userSignupDetails, addedAddress }) {
   const [phoneNo, setPhoneNo] = useState("");
   const [imageFile, setImageFile] = useState(null);
 
-  const onRegister = async () => {
-    console.log("onRegister");
+  const resetForm = () => {
+    setAddressLine1("");
+    setAddressLine2("");
+    setZipcode("");
+    setPhoneNo("");
+    setImageFile(null);
+  };
 
+  const onRegister = async () => {
     // Client-side validation
     if (addressLine1.length === 0) {
       toast.warning("Enter address line 1");
@@ -40,8 +47,9 @@ function AddAddress({ userSignupDetails, addedAddress }) {
       };
 
       try {
+        let result;
         if (role === "ROLE_DELIVERY_BOY") {
-          const result = await registerDeliveryBoy({
+          result = await registerDeliveryBoy({
             userSignUpReqDTO: {
               firstName,
               lastName,
@@ -51,13 +59,8 @@ function AddAddress({ userSignupDetails, addedAddress }) {
             },
             addressReqDTO: addressData,
           });
-          if (result["message"] === "New Delivery Boy Added!!!") {
-            toast.success("Successfully registered the Delivery Boy");
-            addedAddress();
-            // navigate("/login"); // Uncomment if navigation is needed
-          }
         } else if (role === "ROLE_VENDOR") {
-          const result = await registerVendor({
+          result = await registerVendor({
             userSignUpReqDTO: {
               firstName,
               lastName,
@@ -69,11 +72,22 @@ function AddAddress({ userSignupDetails, addedAddress }) {
             addressReqDTO: addressData,
             imageFile: image, // Include the image file for vendor
           });
-          if (result["message"] === "New Vendor Added!!!") {
-            toast.success("Successfully registered the Vendor");
-            addedAddress();
-            // navigate("/login"); // Uncomment if navigation is needed
-          }
+        }
+
+        if (
+          result?.message === "New Delivery Boy Added!!!" ||
+          result?.message === "New Vendor Added!!!"
+        ) {
+          toast.success(
+            `Successfully registered the ${
+              role === "ROLE_VENDOR" ? "Vendor" : "Delivery Boy"
+            }`
+          );
+          addedAddress();
+          // navigate("/login"); // Uncomment if navigation is needed
+        } else if (result?.message === "Use another email") {
+          toast.warning("Use another email");
+          resetForm();
         }
       } catch (error) {
         console.error(error);
@@ -97,6 +111,7 @@ function AddAddress({ userSignupDetails, addedAddress }) {
               className="ps-3 form-control rounded-5"
               id="addressLine1"
               placeholder="Address Line 1"
+              value={addressLine1}
             />
             <label htmlFor="addressLine1">Address Line 1</label>
           </div>
@@ -108,56 +123,48 @@ function AddAddress({ userSignupDetails, addedAddress }) {
               className="ps-3 form-control rounded-5"
               id="addressLine2"
               placeholder="Address Line 2"
+              value={addressLine2}
             />
             <label htmlFor="addressLine2">Address Line 2</label>
           </div>
           {/* City */}
           <div className="form-floating mb-3">
             <input
-              onChange={(e) => setCity(e.target.value)}
               type="text"
               className="ps-3 form-control rounded-5"
               id="city"
               placeholder="City"
               value={city}
+              readOnly
             />
             <label htmlFor="city">City</label>
           </div>
           {/* State */}
           <div className="form-floating mb-3">
             <input
-              onChange={(e) => setState(e.target.value)}
               type="text"
               className="ps-3 form-control rounded-5"
               id="state"
               placeholder="State"
               value={state}
+              readOnly
             />
             <label htmlFor="state">State</label>
           </div>
           {/* Country */}
           <div className="form-floating mb-3">
             <input
-              onChange={(e) => setCountry(e.target.value)}
               type="text"
               className="ps-3 form-control rounded-5"
               id="country"
               placeholder="Country"
               value={country}
+              readOnly
             />
             <label htmlFor="country">Country</label>
           </div>
           {/* Zipcode */}
-          <div className="form-floating mb-3">
-            <input
-              onChange={(e) => setZipcode(e.target.value)}
-              type="text"
-              className="ps-3 form-control rounded-5"
-              id="zipcode"
-              placeholder="Zipcode"
-            />
-            <label htmlFor="zipcode">Zipcode</label>
-          </div>
+          <Zipcode onChange={setZipcode} />
           {/* Phone Number */}
           <div className="form-floating mb-3">
             <input
@@ -166,6 +173,7 @@ function AddAddress({ userSignupDetails, addedAddress }) {
               className="ps-3 form-control rounded-5"
               id="phoneNo"
               placeholder="Phone Number"
+              value={phoneNo}
             />
             <label htmlFor="phoneNo">Phone Number</label>
           </div>

@@ -23,7 +23,6 @@ export async function registerDeliveryBoy(data) {
       `${config.url}/users/deliveryBoySignup`,
       data
     );
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error("Error registering delivery boy:", error);
@@ -52,7 +51,6 @@ export async function registerVendor(data) {
         },
       }
     );
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error("Error registering vendor:", error);

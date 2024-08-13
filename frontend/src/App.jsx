@@ -29,13 +29,13 @@ import PlacedOrderHistory from "./vendor/components/VendorComponents/PlacedOrder
 import AddBreakfastMenu from "./vendor/components/VendorComponents/AddBreakfastMenu";
 import VendorLayout from "./vendor/layouts/vendorLayouts";
 import DeliveredOrderHistory from "./vendor/components/VendorComponents/DeliveredOrderHistory ";
-import CustomerFeedback from  "./CustomerFeedback";
+import CustomerFeedback from "./CustomerFeedback";
 
 // deliveryboy imports
 import "./App.css";
 import DbLayout from "./DeliveryBoy/layouts/dbLayouts";
 import DbHomePage from "./DeliveryBoy/Pages/DbHomePage";
-import DeliveredOrderedList from "./DeliveryBoy/components/DeliveredOrderHistory"
+import DeliveredOrderedList from "./DeliveryBoy/components/DeliveredOrderHistory";
 
 import VendorDetail from "./components/VendorDetail";
 import NavBar from "./components/navbar/navbar";
@@ -82,7 +82,10 @@ function App() {
 
         <Route element={<DbLayout />}>
           <Route path="/deliveryhome" element={<DbHomePage />} />
-          <Route path="/deliveredorderlist" element={<DeliveredOrderedList/>}/>
+          <Route
+            path="/deliveredorderlist"
+            element={<DeliveredOrderedList />}
+          />
         </Route>
       </Routes>
 

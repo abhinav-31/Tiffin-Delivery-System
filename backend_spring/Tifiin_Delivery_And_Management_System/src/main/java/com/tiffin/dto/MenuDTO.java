@@ -12,8 +12,9 @@ import lombok.Setter;
 @AllArgsConstructor
 public class MenuDTO {
 
-    private Long menuId;
+    private Long id;
 //    @NotBlank(message = "Quantity must be supplied")
     private int quantity;
+    private int price;
 
 }

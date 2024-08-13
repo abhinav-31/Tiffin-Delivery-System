@@ -5,59 +5,82 @@ import {
   getVendorIdFromSessionStorage,
 } from "../../../services/vendor_api";
 import { toast } from "react-toastify";
-import { currency } from "../../assets/assets";
+import { currency, assets } from "../../assets/assets";
 
 const DeliveredOrderHistory = () => {
   const [orders, setOrders] = useState([]);
   const vendorId = getVendorIdFromSessionStorage();
+
   const fetchOrders = async () => {
     try {
-      const response = await fetchDeliveredOrdersHistory(vendorId);
-      if (response) {
-        setOrders(response);
-      } else {
-        toast.error("Error fetching delivered order history");
-      }
+      const data = await fetchDeliveredOrdersHistory(vendorId);
+      setOrders(data);
     } catch (error) {
       toast.error("Error fetching delivered order history");
-      console.error(error);
     }
   };
 
   useEffect(() => {
     if (vendorId) {
       fetchOrders();
+    } else {
+      toast.error("Vendor ID is missing");
     }
   }, [vendorId]);
 
   return (
-    <div className="order-history">
+    <div className="list add flex-col">
       <h2>Delivered Order History</h2>
-      <div className="order-history-table">
-        <div className="order-history-header">
-          <b>Order ID</b>
-          <b>Customer ID</b>
-          <b>Amount</b>
-          <b>Status</b>
-          <b>Payment Method</b>
-        </div>
-        {orders.length > 0 ? (
-          orders.map((order) => (
-            <div key={order.id} className="order-history-row">
-              <p>{order.id}</p>
-              <p>{order.customerId}</p>
+      {orders.length > 0 ? (
+        <div className="order-list">
+          {orders.map((order, index) => (
+            <div key={index} className="order-item">
+              <img src={assets.parcel_icon} alt="Order Icon" />
+              <div>
+                <p className="order-item-name">
+                  {order.customerAndDeliveryDetails.customer.firstName +
+                    " " +
+                    order.customerAndDeliveryDetails.customer.lastName}
+                </p>
+                <p className="order-item-food">
+                  Delivery By:{" "}
+                  {order.customerAndDeliveryDetails.deliveryBoy.firstName +
+                    " " +
+                    order.customerAndDeliveryDetails.deliveryBoy.lastName}
+                </p>
+                <div className="order-item-address">
+                  <p>
+                    {order.customerAndDeliveryDetails.deliveryAddress.adrLine1 +
+                      ", " +
+                      order.customerAndDeliveryDetails.deliveryAddress.adrLine2}
+                  </p>
+                  <p>
+                    {order.customerAndDeliveryDetails.deliveryAddress.city +
+                      ", " +
+                      order.customerAndDeliveryDetails.deliveryAddress.state +
+                      ", " +
+                      order.customerAndDeliveryDetails.deliveryAddress.country +
+                      ", " +
+                      order.customerAndDeliveryDetails.deliveryAddress.zipcode}
+                  </p>
+                </div>
+                <p className="order-item-phone">
+                  {order.customerAndDeliveryDetails.deliveryAddress.phoneNo}
+                </p>
+              </div>
               <p>
                 {currency}
-                {order.amount}
+                {order.totalAmount}
               </p>
-              <p>{order.status}</p>
-              <p>{order.paymentMethod}</p>
+              <p>
+                <span>&#x25cf;</span> <b>DELIVERED</b>
+              </p>
             </div>
-          ))
-        ) : (
-          <p>No delivered orders found</p>
-        )}
-      </div>
+          ))}
+        </div>
+      ) : (
+        <p>No delivered orders available.</p>
+      )}
     </div>
   );
 };

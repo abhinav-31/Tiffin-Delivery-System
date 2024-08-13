@@ -61,8 +61,8 @@ public class OrderServiceImpl implements OrderService {
 
   private static final List<String> reference = List.of("411057",
 		    "411157",
-		    "411068",
-		    "411055",
+		    "411058",
+		    "411059",
 		    "411060",
 		    "411061",
 		    "411557",
@@ -91,7 +91,7 @@ public class OrderServiceImpl implements OrderService {
     System.out.println(orderPlaced);
     orderRepository.save(orderPlaced);
     for (MenuDTO menuDTO : orderRequest.getMenuItems()) {
-      Menu menu = menuRepository.findById(menuDTO.getMenuId()).orElseThrow(() -> new ResourceNotFoundException("Menu not found with id " + menuDTO.getMenuId()));
+      Menu menu = menuRepository.findById(menuDTO.getId()).orElseThrow(() -> new ResourceNotFoundException("Menu not found with id " + menuDTO.getId()));
 
       OrderDetails orderDetails = new OrderDetails();
       orderDetails.setMenuItem(menu);

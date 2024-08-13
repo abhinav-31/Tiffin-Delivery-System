@@ -1,5 +1,7 @@
 package com.tiffin.controllers;
 
+import com.tiffin.dto.ApiResponse;
+import com.tiffin.dto.MenuDTO;
 import com.tiffin.dto.MenuReqDTO;
 import com.tiffin.dto.MenuResWithImageDTO;
 import com.tiffin.entities.Menu;
@@ -52,11 +54,9 @@ public class MenuController {
     MenuReqDTO updatedMenu = menuService.updateMenu(id, menuDTO);
     return ResponseEntity.ok(updatedMenu);
   }
-
-  @DeleteMapping("/{id}")
-  public ResponseEntity<Void> deleteMenu(@PathVariable Long id) {
-    menuService.deleteMenu(id);
-    return ResponseEntity.noContent().build();
+  @PostMapping
+  public ResponseEntity<ApiResponse> deleteMenu(@RequestBody MenuDTO menuDTO) {
+    return ResponseEntity.status(HttpStatus.CREATED).body(menuService.deleteMenu(menuDTO));
   }
 
   @GetMapping("/vendor/{vendorId}")
@@ -75,5 +75,9 @@ public class MenuController {
   public ResponseEntity<List<MenuResWithImageDTO>> getMenuByVendorId(@PathVariable Long vendorId) {
     List<MenuResWithImageDTO> menus = menuService.getMenuByVendorId(vendorId);
     return ResponseEntity.ok(menus);
+  }
+  @PostMapping("/updateQuantity")
+  public ResponseEntity<ApiResponse> updateMenuQuantity(@RequestBody MenuDTO menuDTO) {
+    return ResponseEntity.status(HttpStatus.CREATED).body(menuService.updateMenuQuantity(menuDTO));
   }
 }

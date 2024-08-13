@@ -2,6 +2,7 @@ import React from "react";
 import "./MenuCard.css"; // Import your CSS file
 import { useDispatch, useSelector } from "react-redux";
 import { addItem, removeItem, updateItemQuantity } from "../redux/cartSlice"; // Update with your actual slice path
+import { assets } from "../Admin/assets/assets";
 
 const MenuCard = ({ menu }) => {
   const dispatch = useDispatch();
@@ -54,7 +55,10 @@ const MenuCard = ({ menu }) => {
       <div className="menu-card-content">
         <h3 className="menu-name">{menu.name}</h3>
         <div className="description">{menu.description}</div>
-        <p className="price">${menu.price.toFixed(2)}</p>
+        <p className="price">
+          {assets.currency}
+          {menu.price.toFixed(2)}
+        </p>
         <div className="button-container">
           {isAdded ? (
             <div className="quantity-controls">

@@ -13,4 +13,5 @@ export const assets = {
   parcel_icon,
   home_icon,
   list_icon,
+  currency,
 };

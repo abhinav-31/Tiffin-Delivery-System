@@ -10,4 +10,5 @@ import com.tiffin.entities.User;
 public interface MenuRepository extends JpaRepository<Menu, Long> {
   List<Menu> findByVendor(User vendor);
   List<Menu> findAllByVendor(User vendor);
+  List<Menu> findByVendorAndIsDeletedFalse(User vendor);
 }

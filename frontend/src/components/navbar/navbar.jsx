@@ -15,14 +15,18 @@ function NavBar() {
   const [loginModal, setLoginModal] = useState(false);
   const [registerModal, setRegisterModal] = useState(false);
 
+  const role = sessionStorage.getItem("role"); // Get user role from session storage
+
   const communicateModal = () => {
     setLoginModal(!loginModal); // Close login modal
     setRegisterModal(!registerModal); // Open register modal
   };
+
   const toggleLoginModal = () => {
     setLoginModal(!loginModal);
     setRegisterModal(false);
   };
+
   const toggleRegisterModal = () => {
     setRegisterModal(!registerModal);
     setLoginModal(false);
@@ -40,6 +44,19 @@ function NavBar() {
 
     // Navigate to the homepage or login page
     navigate("/");
+  };
+
+  const getProfileLink = () => {
+    switch (role) {
+      case "ROLE_ADMIN":
+        return "/adminhome";
+      case "ROLE_VENDOR":
+        return "/vendorhomepage";
+      case "ROLE_DELIVERY_BOY":
+        return "/deliveryhome";
+      default:
+        return "/";
+    }
   };
 
   return (
@@ -70,7 +87,7 @@ function NavBar() {
               </li>
             </ul>
             <div className="d-flex">
-              <div>
+              {role === "ROLE_CUSTOMER" && (
                 <Link to="/cart">
                   <button
                     type="button"
@@ -91,7 +108,9 @@ function NavBar() {
                     </span>
                   </button>
                 </Link>
-                <div className="btn-group">
+              )}
+              <div className="btn-group">
+                <Link to={getProfileLink()}>
                   <button
                     type="button"
                     className="btn btn-secondary rounded-start-pill"
@@ -111,50 +130,50 @@ function NavBar() {
                       ></path>
                     </svg>
                   </button>
-                  <button
-                    type="button"
-                    className="btn btn-secondary dropdown-toggle rounded-end-pill"
-                    data-bs-toggle="dropdown"
-                    data-bs-display="static"
-                    aria-expanded="false"
-                  ></button>
-                  <ul className="dropdown-menu dropdown-menu-end dropdown-menu-lg-end">
-                    {!loginStatus ? (
-                      <>
-                        <li>
-                          <button
-                            className="dropdown-item"
-                            onClick={toggleLoginModal}
-                          >
-                            Login
-                          </button>
-                        </li>
-                        <li>
-                          <button
-                            className="dropdown-item"
-                            onClick={toggleRegisterModal}
-                          >
-                            Sign up
-                          </button>
-                        </li>
-                      </>
-                    ) : (
+                </Link>
+                <button
+                  type="button"
+                  className="btn btn-secondary dropdown-toggle rounded-end-pill"
+                  data-bs-toggle="dropdown"
+                  data-bs-display="static"
+                  aria-expanded="false"
+                ></button>
+                <ul className="dropdown-menu dropdown-menu-end dropdown-menu-lg-end">
+                  {!loginStatus ? (
+                    <>
                       <li>
                         <button
                           className="dropdown-item"
-                          onClick={handleLogout} // Handle logout on click
+                          onClick={toggleLoginModal}
                         >
-                          Logout
+                          Login
                         </button>
                       </li>
-                    )}
+                      <li>
+                        <button
+                          className="dropdown-item"
+                          onClick={toggleRegisterModal}
+                        >
+                          Sign up
+                        </button>
+                      </li>
+                    </>
+                  ) : (
                     <li>
-                      <Link className="dropdown-item" to="/about-us">
-                        About us
-                      </Link>
+                      <button
+                        className="dropdown-item"
+                        onClick={handleLogout} // Handle logout on click
+                      >
+                        Logout
+                      </button>
                     </li>
-                  </ul>
-                </div>
+                  )}
+                  <li>
+                    <Link className="dropdown-item" to="/about-us">
+                      About us
+                    </Link>
+                  </li>
+                </ul>
               </div>
             </div>
           </div>

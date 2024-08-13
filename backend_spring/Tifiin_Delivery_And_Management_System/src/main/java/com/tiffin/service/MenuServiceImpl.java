@@ -1,6 +1,8 @@
 package com.tiffin.service;
 
 import com.tiffin.custom_exceptions.ResourceNotFoundException;
+import com.tiffin.dto.ApiResponse;
+import com.tiffin.dto.MenuDTO;
 import com.tiffin.dto.MenuReqDTO;
 import com.tiffin.dto.MenuResWithImageDTO;
 import com.tiffin.entities.Menu;
@@ -41,6 +43,16 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
+    public ApiResponse updateMenuQuantity(MenuDTO menuDTO) {
+        Menu menu = menuRepository.findById(menuDTO.getId()).orElseThrow(() -> new RuntimeException("Menu not found"));
+        Menu updatedMenu = modelMapper.map(menuDTO, Menu.class);
+        menu.setQuantity(updatedMenu.getQuantity());
+        menu.setPrice(updatedMenu.getPrice());
+        menuRepository.save(menu);
+        return new ApiResponse("Menu updated");
+    }
+
+    @Override
     public MenuReqDTO updateMenu(Long id, MenuReqDTO menuDTO) {
         Menu menu = menuRepository.findById(id).orElseThrow(() -> new RuntimeException("Menu not found"));
         modelMapper.map(menuDTO, menu);
@@ -52,14 +64,17 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public void deleteMenu(Long id) {
-        menuRepository.deleteById(id);
+    public ApiResponse deleteMenu(MenuDTO menuDTO) {
+        Menu menu = menuRepository.findById(menuDTO.getId()).orElseThrow(() -> new RuntimeException("Menu not found"));
+        menu.setIsDeleted(true);
+        menuRepository.save(menu);
+        return new ApiResponse("Menu deleted");
     }
 
     @Override
     public List<MenuResWithImageDTO> getAllMenusOfVendor(Long vendorId) {
         User vendor = userRepository.findById(vendorId).orElseThrow(()->new ResourceNotFoundException("No vendor found"));
-        return menuRepository.findByVendor(vendor).stream()
+        return menuRepository.findByVendorAndIsDeletedFalse(vendor).stream()
                 .map(menu -> modelMapper.map(menu, MenuResWithImageDTO.class))
                 .collect(Collectors.toList());
     }

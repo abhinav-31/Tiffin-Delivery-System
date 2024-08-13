@@ -1,99 +1,3 @@
-// import axios from 'axios';
-// import { toast } from 'react-toastify';
-
-// const axiosInstance = axios.create({
-//   baseURL: 'http://localhost:8080',
-//   // headers: {
-//   //   'Content-Type': 'application/json',
-//   // },
-// });
-
-// // Fetch orders
-// export const fetchOrders = async () => {
-//   try {
-//     const token = sessionStorage.getItem('token');
-//     const response = await axiosInstance.get('/menus', {
-//       headers: {
-//         Authorization: `Bearer ${token}`,
-//       },
-//     });
-//     return response.data;
-//   } catch (error) {
-//     console.error('Error fetching orders:', error);
-//     toast.error('Failed to fetch orders. Please try again later.');
-//     throw error;
-//   }
-// };
-
-// // Add menu
-// export const addMenu = async (vendorId, formData) => {
-//   try {
-//     const token = sessionStorage.getItem('token');
-//     const response = await axiosInstance.post(`/menus/addMenu/${vendorId}`, formData, {
-//       headers: {
-//         'Content-Type': 'multipart/form-data',
-//         Authorization: `Bearer ${token}`,
-//       },
-//     });
-//     return response.data;
-//   } catch (error) {
-//     console.error('Error adding menu:', error);
-//     toast.error('Failed to add menu. Please try again later.');
-//     throw error;
-//   }
-// };
-
-// // Fetch placed orders history
-// export const fetchPlacedOrdersHistory = async (vendorId) => {
-//   try {
-//     const token = sessionStorage.getItem('token');
-//     const response = await axiosInstance.get(`/orders/${vendorId}?status=PLACED`, {
-//       headers: {
-//         Authorization: `Bearer ${token}`,
-//       },
-//     });
-//     return response.data;
-//   } catch (error) {
-//     console.error('Error fetching placed orders history:', error);
-//     toast.error('Failed to fetch placed orders history. Please try again later.');
-//     throw error;
-//   }
-// };
-
-// // Fetch delivered orders history
-// export const fetchDeliveredOrdersHistory = async (vendorId) => {
-//   try {
-//     const token = sessionStorage.getItem('token');
-//     const response = await axiosInstance.get(`/orders/${vendorId}?status=DELIVERED`, {
-//       headers: {
-//         Authorization: `Bearer ${token}`,
-//       },
-//     });
-//     return response.data;
-//   } catch (error) {
-//     console.error('Error fetching delivered orders history:', error);
-//     toast.error('Failed to fetch delivered orders history. Please try again later.');
-//     throw error;
-//   }
-// };
-
-// // Fetch customer reviews
-// export const fetchCustomerReviews = async () => {
-//   try {
-//     const token = sessionStorage.getItem('token');
-//     const response = await axiosInstance.get('/api/review/list', {
-//       headers: {
-//         Authorization: `Bearer ${token}`,
-//       },
-//     });
-//     return response.data;
-//   } catch (error) {
-//     console.error('Error fetching customer reviews:', error);
-//     toast.error('Failed to fetch customer reviews. Please try again later.');
-//     throw error;
-//   }
-// };
-
 import axios from "axios";
 import { toast } from "react-toastify";
 import config from "../config";
@@ -101,7 +5,7 @@ import config from "../config";
 const axiosInstance = axios.create({
   baseURL: config.url,
 });
-
+const token = sessionStorage.getItem("token");
 export const getVendorIdFromSessionStorage = () => {
   const vendorId = sessionStorage.getItem("id");
   if (!vendorId) {
@@ -111,7 +15,6 @@ export const getVendorIdFromSessionStorage = () => {
   return vendorId;
 };
 
-// Example usage of axiosInstance and getVendorIdFromSessionStorage
 axiosInstance.interceptors.request.use((config) => {
   const vendorId = getVendorIdFromSessionStorage();
   if (vendorId) {
@@ -123,7 +26,6 @@ axiosInstance.interceptors.request.use((config) => {
 // Fetch orders
 export const fetchMenus = async (vendorId) => {
   try {
-    const token = sessionStorage.getItem("token");
     const response = await axiosInstance.get(`/menus/vendor/${vendorId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -140,38 +42,37 @@ export const fetchMenus = async (vendorId) => {
 
 export const addCustomerReview = async (orderId, customerId, reviewData) => {
   try {
-    const token = localStorage.getItem('token');
-    const response = await axiosInstance.post(`/orders/addReview/${orderId}/${customerId}`, reviewData, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await axiosInstance.post(
+      `/orders/addReview/${orderId}/${customerId}`,
+      reviewData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     return response.data;
   } catch (error) {
-    console.error('Error adding customer review:', error);
+    console.error("Error adding customer review:", error);
     throw error;
   }
 };
 
-// Fetch orders history
-// export const fetchOrdersHistory = async (vendorId, status) => {
-//   try {
-//     const response = await axiosInstance.get(`/orders/${vendorId}?status=${status}`);
-//     return response.data;
-//   } catch (error) {
-//     console.error('Error fetching orders history:', error);
-//     throw error;
-//   }
-// };
-
 // Add menu
-export const addMenu = async (formData) => {
+export const addMenu = async (vendorId, formData) => {
   try {
-    const response = await axiosInstance.post(`/menus/addMenu/${vendorId}`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-  });
+    const token = sessionStorage.getItem("token");
+    console.log(formData);
+    const response = await axiosInstance.post(
+      `/menus/addMenu/${vendorId}`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     return response.data;
   } catch (error) {
     console.error("Error adding menu:", error);
@@ -183,8 +84,14 @@ export const addMenu = async (formData) => {
 // Fetch placed orders history
 export const fetchPlacedOrdersHistory = async (vendorId) => {
   try {
-    
-    const response = await axiosInstance.get(`/orders/${vendorId}?status=PLACED`);
+    const response = await axiosInstance.get(
+      `/orders/${vendorId}?status=PLACED`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     return response.data;
   } catch (error) {
     console.error("Error fetching placed orders history:", error);
@@ -215,6 +122,45 @@ export const fetchDeliveredOrdersHistory = async (vendorId) => {
     toast.error(
       "Failed to fetch delivered orders history. Please try again later."
     );
+    throw error;
+  }
+};
+
+export const deleteMenu = async ({ id }) => {
+  try {
+    const token = sessionStorage.getItem("token");
+    const response = await axiosInstance.post(
+      `/menus`,
+      { id },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error deleting menu:", error);
+    toast.error("Failed to delete menu. Please try again later.");
+    throw error;
+  }
+};
+export const updateMenu = async ({ id, price, quantity }) => {
+  try {
+    const token = sessionStorage.getItem("token");
+    const response = await axiosInstance.post(
+      `/menus/updateQuantity`, // Assuming your endpoint follows this pattern
+      { id, price, quantity },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error updating menu:", error);
+    toast.error("Failed to update menu. Please try again later.");
     throw error;
   }
 };

@@ -29,53 +29,57 @@ const PlacedOrderHistory = () => {
   }, [vendorId]);
 
   return (
-    <div className="order-history">
-      <div className="order-list">
-        {orders.map((order, index) => (
-          <div key={index} className="order-item">
-            <img src={assets.parcel_icon} alt="Order Icon" />
-            <div>
-              <p className="order-item-name">
-                {order.customerAndDeliveryDetails.customer.firstName +
-                  " " +
-                  order.customerAndDeliveryDetails.customer.lastName}
-              </p>
-              <p className="order-item-food">
-                Delivery By:{" "}
-                {order.customerAndDeliveryDetails.deliveryBoy.firstName +
-                  " " +
-                  order.customerAndDeliveryDetails.deliveryBoy.lastName}
-              </p>
-              <div className="order-item-address">
-                <p>
-                  {order.customerAndDeliveryDetails.deliveryAddress.adrLine1 +
-                    ", " +
-                    order.customerAndDeliveryDetails.deliveryAddress.adrLine2}
+    <div className="list add flex-col">
+      {orders.length > 0 ? (
+        <div className="order-list">
+          {orders.map((order, index) => (
+            <div key={index} className="order-item">
+              <img src={assets.parcel_icon} alt="Order Icon" />
+              <div className="order-item-details">
+                <p className="order-item-name">
+                  {order.customerAndDeliveryDetails.customer.firstName +
+                    " " +
+                    order.customerAndDeliveryDetails.customer.lastName}
                 </p>
-                <p>
-                  {order.customerAndDeliveryDetails.deliveryAddress.city +
-                    ", " +
-                    order.customerAndDeliveryDetails.deliveryAddress.state +
-                    ", " +
-                    order.customerAndDeliveryDetails.deliveryAddress.country +
-                    ", " +
-                    order.customerAndDeliveryDetails.deliveryAddress.zipcode}
+                <p className="order-item-food">
+                  Delivery By:{" "}
+                  {order.customerAndDeliveryDetails.deliveryBoy.firstName +
+                    " " +
+                    order.customerAndDeliveryDetails.deliveryBoy.lastName}
+                </p>
+                <div className="order-item-address">
+                  <p>
+                    {order.customerAndDeliveryDetails.deliveryAddress.adrLine1 +
+                      ", " +
+                      order.customerAndDeliveryDetails.deliveryAddress.adrLine2}
+                  </p>
+                  <p>
+                    {order.customerAndDeliveryDetails.deliveryAddress.city +
+                      ", " +
+                      order.customerAndDeliveryDetails.deliveryAddress.state +
+                      ", " +
+                      order.customerAndDeliveryDetails.deliveryAddress.country +
+                      ", " +
+                      order.customerAndDeliveryDetails.deliveryAddress.zipcode}
+                  </p>
+                </div>
+                <p className="order-item-phone">
+                  {order.customerAndDeliveryDetails.deliveryAddress.phoneNo}
                 </p>
               </div>
-              <p className="order-item-phone">
-                {order.customerAndDeliveryDetails.deliveryAddress.phoneNo}
+              <p className="order-item-amount">
+                {currency}
+                {order.totalAmount}
+              </p>
+              <p className="order-item-status">
+                <span>&#x25cf;</span> <b>PLACED</b>
               </p>
             </div>
-            <p>
-              {currency}
-              {order.totalAmount}
-            </p>
-            <p>
-              <span>&#x25cf;</span> <b>PLACED</b>
-            </p>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      ) : (
+        <p className="no-orders-message">No current orders.</p>
+      )}
     </div>
   );
 };

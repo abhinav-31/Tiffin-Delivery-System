@@ -51,9 +51,8 @@ public class ViewVendorServiceImpl implements ViewVendorService {
 	    // Retrieve the vendor by email
 	    User vendor = userRepository.findByEmail(email)
 	        .orElseThrow(() -> new ResourceNotFoundException("Invalid Email!"));
-	    System.out.println("vendor: " + vendor);
-	    
-	    return menuRepository.findAllByVendor(vendor).stream()
+
+	    return menuRepository.findByVendorAndIsDeletedFalse(vendor).stream()
 	        .map(menu -> mapper.map(menu, MenuResWithImageDTO.class))
 	        .collect(Collectors.toList());
 	}

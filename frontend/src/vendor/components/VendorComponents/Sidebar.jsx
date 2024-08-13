@@ -21,7 +21,7 @@ const Sidebar = () => {
         </NavLink> */}
         <NavLink to="/PlacedOrderHistory" className="sidebar-option">
           <img src={assets.history_icon} alt="" />
-          <p>Placed Order History</p>
+          <p>Placed Orders</p>
         </NavLink>
         <NavLink to="/DeliveredOrderHistory" className="sidebar-option">
           <img src={assets.history_icon} alt="" />

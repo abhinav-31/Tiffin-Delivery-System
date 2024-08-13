@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class MenuResWithImageDTO {
-    
+    private Long id;
     private String name;
     private String description;
     private Double price;

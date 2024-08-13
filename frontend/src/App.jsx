@@ -25,13 +25,18 @@ import VendorHomePage from "./vendor/Pages/VendorHomePage";
 import AddMenu from "./vendor/components/VendorComponents/AddMenu";
 import ViewOrders from "./vendor/components/VendorComponents/ViewOrders";
 import PlacedOrderHistory from "./vendor/components/VendorComponents/PlacedOrderHistory";
-import Review from "./vendor/components/VendorComponents/Review";
+// import Review from "./vendor/components/VendorComponents/Review";
 import AddBreakfastMenu from "./vendor/components/VendorComponents/AddBreakfastMenu";
 import VendorLayout from "./vendor/layouts/vendorLayouts";
 import DeliveredOrderHistory from "./vendor/components/VendorComponents/DeliveredOrderHistory ";
+import CustomerFeedback from  "./CustomerFeedback";
 
 // deliveryboy imports
 import "./App.css";
+import DbLayout from "./components/DeliveryBoy/layouts/dbLayouts";
+import DbHomePage from "./components/DeliveryBoy/Pages/DbHomePage";
+import DBReviewPage from "./components/DeliveryBoy/components/Review";
+import DbOrderHistoryPage from "./components/DeliveryBoy/components/OrderHistory";
 import DbHomePage from "./DeliveryBoy/Pages/DbHomePage";
 import DbLayout from "./DeliveryBoy/layouts/dbLayouts";
 import DeliveredOrderedList from "./DeliveryBoy/components/DeliveredOrderHistory"
@@ -49,6 +54,7 @@ function App() {
 
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/customerfeedback" element={<CustomerFeedback />} />
         <Route path="/login" element={<LoginModal />} />
         {/* <Route path="/home" element={<Home />} /> */}
         <Route path="/register" element={<RegisterModal />} />
@@ -70,14 +76,14 @@ function App() {
         <Route element={<VendorLayout />}>
           <Route path="/vendorhomepage" element={<VendorHomePage />} />
           <Route path="/addmenu" element={<AddMenu />} />
-          <Route path="/vieworder" element={<ViewOrders />} />
           <Route path="/PlacedOrderHistory" element={<PlacedOrderHistory />} />
           <Route
             path="/DeliveredOrderHistory"
             element={<DeliveredOrderHistory />}
           />
-          <Route path="/review" element={<Review />} />
+          {/* <Route path="/review" element={<Review />} /> */}
           <Route path="/addbreakfastmenu" element={<AddBreakfastMenu />} />
+          <Route path="/menulist" element={<OrderList />} />
           <Route path="/menulist" element={<MenuList />} />
         </Route>
 

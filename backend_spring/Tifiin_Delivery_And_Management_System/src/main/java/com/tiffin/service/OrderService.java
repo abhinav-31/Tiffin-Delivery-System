@@ -8,13 +8,15 @@ import com.tiffin.enums.PaymentMethod;
 
 public interface OrderService {
 
-	ApiResponse addOrder(PaymentMethod paymentMethod,OrderRequestDTO orderRequest, Long customerId, Long vendorId);
+  ApiResponse addOrder(OrderRequestDTO orderRequest, Long customerId, Long vendorId);
 
-	ApiResponse changeStatus(Long orderId);
+  ApiResponse changeStatus(Long orderId);
 
-	ApiResponse addReview(Long orderId, Long customerId, ReviewDTO review);
-	
-	List<OrderDetailsResDTO> getOrdersByVendorAndStatus(Long vendorId, OrderStatus status);
+  ApiResponse addReview(Long orderId, Long customerId, ReviewDTO review);
 
-	List<OrderDelResDTO> getPlacedForDelivery(Long deliveryBoyId, OrderStatus status);
+  List<OrderDetailsResDTO> getOrdersByVendorAndStatus(Long vendorId, OrderStatus status);
+
+  List<OrderDelResDTO> getPlacedForDelivery(Long deliveryBoyId, OrderStatus status);
+
+  public int deliveryDistanceBetweenVendorAndCust(String vendorPincode, String customerPincode);
 }

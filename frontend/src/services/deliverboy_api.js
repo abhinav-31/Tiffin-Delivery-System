@@ -1,5 +1,5 @@
-import axios from 'axios';
-import config  from '../config';
+import axios from "axios";
+import config from "../config";
 
 // Create an axios instance with a base URL
 const axiosInstance = axios.create({
@@ -9,16 +9,19 @@ const axiosInstance = axios.create({
 // Fetch placed orders history
 export const fetchPlacedOrdersHistory = async (deliveryboyId) => {
   try {
-    const token = sessionStorage.getItem('token');
-    const response = await axiosInstance.get(`/orders/deliveryBoy/${deliveryboyId}?status=PLACED`, {
-      headers: {
-        Authorization: `Bearer ${token}`, // Include the JWT token in the headers
-      },
-    });
-    console.log(response.data)
+    const token = sessionStorage.getItem("token");
+    const response = await axiosInstance.get(
+      `/orders/deliveryBoy/${deliveryboyId}?status=PLACED`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`, // Include the JWT token in the headers
+        },
+      }
+    );
+    console.log(response.data);
     return response.data;
   } catch (error) {
-    console.error('Error fetching placed orders history:', error);
+    console.error("Error fetching placed orders history:", error);
     throw error; // Re-throw the error to be handled by the calling code
   }
 };
@@ -26,9 +29,11 @@ export const fetchPlacedOrdersHistory = async (deliveryboyId) => {
 // Update order status
 export const updateOrderStatus = async (orderId, status) => {
   try {
-    await axiosInstance.patch(`/orders/changeStatus/${orderId}?status=${status}`);
+    await axiosInstance.patch(
+      `/orders/changeStatus/${orderId}?status=${status}`
+    );
   } catch (error) {
-    console.error('Error updating order status:', error);
+    console.error("Error updating order status:", error);
     throw error;
   }
 };
@@ -36,15 +41,19 @@ export const updateOrderStatus = async (orderId, status) => {
 // Fetch delivered orders history
 export const fetchDeliveredOrdersHistory = async (deliveryboyId) => {
   try {
-    const token = sessionStorage.getItem('token');
-    const response = await axiosInstance.get(`/orders/deliveryBoy/${deliveryboyId}?status=DELIVERED`, {
-      headers: {
-        Authorization: `Bearer ${token}`, // Include the JWT token in the headers
-      },
-    });
+    const token = sessionStorage.getItem("token");
+    const response = await axiosInstance.get(
+      `/orders/deliveryBoy/${deliveryboyId}?status=DELIVERED`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`, // Include the JWT token in the headers
+        },
+      }
+    );
+    console.log(response.data);
     return response.data;
   } catch (error) {
-    console.error('Error fetching delivered orders history:', error);
+    console.error("Error fetching delivered orders history:", error);
     throw error; // Re-throw the error to be handled by the calling code
   }
 };

@@ -61,7 +61,6 @@
     display: block; /* Ensure the image is displayed as a block */
     border: 1px solid red; /* Add border to visually inspect the image area */
   }
-  
 
   .list p {
     margin-top: 5px;

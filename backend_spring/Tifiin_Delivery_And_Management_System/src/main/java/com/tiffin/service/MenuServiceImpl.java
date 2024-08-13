@@ -1,5 +1,6 @@
 package com.tiffin.service;
 
+import com.tiffin.custom_exceptions.ResourceNotFoundException;
 import com.tiffin.dto.MenuReqDTO;
 import com.tiffin.dto.MenuResWithImageDTO;
 import com.tiffin.entities.Menu;
@@ -56,8 +57,9 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public List<MenuResWithImageDTO> getAllMenus() {
-        return menuRepository.findAll().stream()
+    public List<MenuResWithImageDTO> getAllMenusOfVendor(Long vendorId) {
+        User vendor = userRepository.findById(vendorId).orElseThrow(()->new ResourceNotFoundException("No vendor found"));
+        return menuRepository.findByVendor(vendor).stream()
                 .map(menu -> modelMapper.map(menu, MenuResWithImageDTO.class))
                 .collect(Collectors.toList());
     }

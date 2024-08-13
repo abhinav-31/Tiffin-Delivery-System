@@ -45,7 +45,6 @@ public class SecurityConfig {
 
         private static final String[] VENDOR_ENDPOINTS = {
                         "/menus/**",
-
                         "/users/welcome"
         };
 

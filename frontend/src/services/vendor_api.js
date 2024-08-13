@@ -121,14 +121,15 @@ axiosInstance.interceptors.request.use((config) => {
 });
 
 // Fetch orders
-export const fetchOrders = async () => {
+export const fetchMenus = async (vendorId) => {
   try {
     const token = sessionStorage.getItem("token");
-    const response = await axiosInstance.get("/menus", {
+    const response = await axiosInstance.get(`/menus/vendor/${vendorId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
+    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error("Error fetching orders:", error);

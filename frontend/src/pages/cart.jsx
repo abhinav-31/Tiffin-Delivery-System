@@ -16,7 +16,7 @@ function Cart() {
     let subTotal = 0;
     Object.values(cart).forEach((vendorItems) => {
       Object.values(vendorItems).forEach((item) => {
-        subTotal += item.itemPrice * item.quantity;
+        subTotal += item.menuPrice * item.quantity;
       });
     });
 
@@ -33,19 +33,15 @@ function Cart() {
     console.log("Cart contents:", cart);
   }, [cart, calculateBill]); // Update bill whenever cart items change
 
-  const updateBill = useCallback(
-    (vendorEmail, menuId, newQuantity) => {
-      const updatedItems = cart.items.map((item) =>
-        item.id === menuId ? { ...item, quantity: newQuantity } : item
-      );
-
-      setCart((prevCart) => ({
-        ...prevCart,
-        items: updatedItems,
-      }));
-    },
-    [cart.items]
-  );
+  const updateBill = useCallback((vendorEmail, menuId, newQuantity) => {
+    setCart((prevCart) => {
+      const updatedCart = { ...prevCart };
+      if (updatedCart[vendorEmail] && updatedCart[vendorEmail][menuId]) {
+        updatedCart[vendorEmail][menuId].quantity = newQuantity;
+      }
+      return updatedCart;
+    });
+  }, []);
 
   return (
     <div>
@@ -109,20 +105,22 @@ function Cart() {
                       <tbody>
                         <tr>
                           <td>Sub Total :</td>
-                          <td className="text-end ">₹ {subTotal}</td>
+                          <td className="text-end">₹ {subTotal.toFixed(2)}</td>
                         </tr>
                         <tr>
                           <td>Service Charge :</td>
-                          <td className="text-end">₹ 25</td>
+                          <td className="text-end">₹ 25.00</td>
                         </tr>
                         <tr>
                           <td>GST :</td>
-                          <td className="text-end">₹ {gst}</td>
+                          <td className="text-end">₹ {gst.toFixed(2)}</td>
                         </tr>
                         <tr className="bg-secondary">
                           <th>Total :</th>
                           <td className="text-end">
-                            <span className="fw-bold">₹ {total}</span>
+                            <span className="fw-bold">
+                              ₹ {total.toFixed(2)}
+                            </span>
                           </td>
                         </tr>
                       </tbody>

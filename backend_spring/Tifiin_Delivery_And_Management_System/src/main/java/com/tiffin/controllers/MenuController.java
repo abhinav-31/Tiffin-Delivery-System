@@ -59,9 +59,9 @@ public class MenuController {
     return ResponseEntity.noContent().build();
   }
 
-  @GetMapping
-  public ResponseEntity<List<MenuResWithImageDTO>> getAllMenus() {
-    List<MenuResWithImageDTO> menus = menuService.getAllMenus();
+  @GetMapping("/vendor/{vendorId}")
+  public ResponseEntity<List<MenuResWithImageDTO>> getAllMenus(@PathVariable Long vendorId) {
+    List<MenuResWithImageDTO> menus = menuService.getAllMenusOfVendor(vendorId);
     return ResponseEntity.ok(menus);
   }
 

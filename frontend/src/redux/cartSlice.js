@@ -7,9 +7,15 @@ const cartSlice = createSlice({
   },
   reducers: {
     addItem: (state, action) => {
-      const { vendorEmail, menuId, quantity } = action.payload;
+      const { vendorEmail, menuId, menuName, menuPrice, menuImage, quantity } =
+        action.payload;
       if (!state.items[vendorEmail]) state.items[vendorEmail] = {};
-      state.items[vendorEmail][menuId] = quantity;
+      state.items[vendorEmail][menuId] = {
+        menuName,
+        menuPrice,
+        menuImage,
+        quantity,
+      };
     },
     removeItem: (state, action) => {
       const { vendorEmail, menuId } = action.payload;
@@ -22,9 +28,9 @@ const cartSlice = createSlice({
     },
     updateItemQuantity: (state, action) => {
       const { vendorEmail, menuId, quantity } = action.payload;
-      if (state.items[vendorEmail]) {
+      if (state.items[vendorEmail] && state.items[vendorEmail][menuId]) {
         if (quantity > 0) {
-          state.items[vendorEmail][menuId] = quantity;
+          state.items[vendorEmail][menuId].quantity = quantity;
         } else {
           delete state.items[vendorEmail][menuId];
           if (Object.keys(state.items[vendorEmail]).length === 0) {
@@ -33,25 +39,8 @@ const cartSlice = createSlice({
         }
       }
     },
-    addToCartAction: (state, action) => {
-      // Assuming addToCartAction to append to a flat list, this is more of an example of another method of handling
-      const { vendorEmail, menuId, quantity } = action.payload;
-      state.items.push({ vendorEmail, menuId, quantity });
-    },
-    removeFromCartAction: (state, action) => {
-      const { vendorEmail, menuId } = action.payload;
-      state.items = state.items.filter(
-        (item) => !(item.vendorEmail === vendorEmail && item.menuId === menuId)
-      );
-    },
   },
 });
 
-export const {
-  addItem,
-  removeItem,
-  updateItemQuantity,
-  addToCartAction,
-  removeFromCartAction,
-} = cartSlice.actions;
+export const { addItem, removeItem, updateItemQuantity } = cartSlice.actions;
 export default cartSlice.reducer;

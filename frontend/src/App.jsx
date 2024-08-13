@@ -27,7 +27,6 @@ import ViewOrders from "./vendor/components/VendorComponents/ViewOrders";
 import PlacedOrderHistory from "./vendor/components/VendorComponents/PlacedOrderHistory";
 import Review from "./vendor/components/VendorComponents/Review";
 import AddBreakfastMenu from "./vendor/components/VendorComponents/AddBreakfastMenu";
-import OrderList from "./vendor/components/VendorComponents/List/OrderList";
 import VendorLayout from "./vendor/layouts/vendorLayouts";
 import DeliveredOrderHistory from "./vendor/components/VendorComponents/DeliveredOrderHistory ";
 
@@ -38,6 +37,7 @@ import "./App.css";
 // import DbOrderHistoryPage from "./components/DeliveryBoy/components/OrderHistory";
 import VendorDetail from "./components/VendorDetail";
 import NavBar from "./components/navbar/navbar";
+import MenuList from "./vendor/components/VendorComponents/List/MenuList";
 
 function App() {
   return (
@@ -75,7 +75,7 @@ function App() {
           />
           <Route path="/review" element={<Review />} />
           <Route path="/addbreakfastmenu" element={<AddBreakfastMenu />} />
-          <Route path="/menulist" element={<OrderList />} />
+          <Route path="/menulist" element={<MenuList />} />
         </Route>
 
         {/* <Route element={<DbLayout />}>

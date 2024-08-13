@@ -12,7 +12,7 @@ public interface MenuService {
     MenuReqDTO addMenu(MenuReqDTO menuDTO, Long vendorId, MultipartFile image) throws IOException;
     MenuReqDTO updateMenu(Long id, MenuReqDTO menuDTO);
     void deleteMenu(Long id);
-    List<MenuResWithImageDTO> getAllMenus();
+    List<MenuResWithImageDTO> getAllMenusOfVendor(Long vendorId);
     MenuResWithImageDTO getMenuById(Long id);
     List<MenuResWithImageDTO> getMenuByVendorId(Long vendorId);
 }

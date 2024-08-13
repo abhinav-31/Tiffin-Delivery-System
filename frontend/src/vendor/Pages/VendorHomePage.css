@@ -1,5 +1,4 @@
-/* VendorHomePage.css */
-
+/* Vendor Home Page Styles */
 .vendor-homepage {
   padding: 60px;
   max-width: 1200px;
@@ -7,7 +6,7 @@
   color: #333;
   font-family: "Roboto", sans-serif;
   background: linear-gradient(135deg, #e0eafc, #cfdef3);
-  animation: fadeIn 1s ease-out;
+  animation: vendor-fadeIn 1s ease-out;
 }
 
 .vendor-homepage h1 {
@@ -17,7 +16,7 @@
   font-size: 2.8em;
   font-weight: 700;
   letter-spacing: 1px;
-  animation: slideInFromTop 1s ease-out;
+  animation: vendor-slideInFromTop 1s ease-out;
 }
 
 .vendor-homepage-content {
@@ -25,10 +24,11 @@
   flex-wrap: wrap;
   gap: 30px;
   justify-content: center;
-  animation: fadeIn 1.5s ease-out;
+  animation: vendor-fadeIn 1.5s ease-out;
 }
 
-.card {
+/* Card Styles */
+.vendor-card {
   background: #ffffff;
   border: 1px solid #e1e8eb;
   border-radius: 15px;
@@ -39,10 +39,10 @@
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   position: relative;
   overflow: hidden;
-  animation: scaleUp 0.5s ease-out;
+  animation: vendor-scaleUp 0.5s ease-out;
 }
 
-.card::before {
+.vendor-card::before {
   content: "";
   position: absolute;
   top: -50px;
@@ -54,27 +54,28 @@
   z-index: 0;
 }
 
-.card h2 {
+.vendor-card h2 {
   margin-bottom: 20px;
   color: #34495e;
   font-size: 2em;
   font-weight: 700;
   z-index: 1;
   position: relative;
-  animation: fadeIn 0.8s ease-out;
+  animation: vendor-fadeIn 0.8s ease-out;
 }
 
-.card p {
+.vendor-card p {
   margin-bottom: 25px;
   color: #7f8c8d;
   font-size: 1.1em;
   line-height: 1.6;
   z-index: 1;
   position: relative;
-  animation: fadeIn 1s ease-out;
+  animation: vendor-fadeIn 1s ease-out;
 }
 
-.btn {
+/* Button Styles */
+.vendor-btn-primary {
   display: inline-block;
   padding: 12px 24px;
   font-size: 16px;
@@ -85,10 +86,10 @@
   transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
   position: relative;
   overflow: hidden;
-  animation: bounceIn 1s ease-out;
+  animation: vendor-bounceIn 1s ease-out;
 }
 
-.btn::after {
+.vendor-btn-primary::after {
   content: "";
   position: absolute;
   top: 0;
@@ -101,28 +102,29 @@
   z-index: 1;
 }
 
-.btn:hover::after {
+.vendor-btn-primary:hover::after {
   transform: scale(1);
 }
 
-.btn:hover {
+.vendor-btn-primary:hover {
   background: linear-gradient(90deg, #feb47b, #ff7e5f);
   transform: translateY(-5px);
   box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
 }
 
-.btn:active {
+.vendor-btn-primary:active {
   transform: translateY(2px);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
+/* Responsive Styles */
 @media (max-width: 768px) {
   .vendor-homepage-content {
     flex-direction: column;
     align-items: center;
   }
 
-  .card {
+  .vendor-card {
     width: 90%;
     max-width: 600px;
   }
@@ -133,21 +135,22 @@
     font-size: 2.2em;
   }
 
-  .card h2 {
+  .vendor-card h2 {
     font-size: 1.6em;
   }
 
-  .card p {
+  .vendor-card p {
     font-size: 1em;
   }
 
-  .btn {
+  .vendor-btn-primary {
     font-size: 14px;
     padding: 10px 20px;
   }
 }
 
-@keyframes fadeIn {
+/* Keyframes */
+@keyframes vendor-fadeIn {
   from {
     opacity: 0;
     transform: translateY(-20px);
@@ -158,7 +161,7 @@
   }
 }
 
-@keyframes slideInFromTop {
+@keyframes vendor-slideInFromTop {
   from {
     opacity: 0;
     transform: translateY(-50px);
@@ -169,7 +172,7 @@
   }
 }
 
-@keyframes scaleUp {
+@keyframes vendor-scaleUp {
   from {
     opacity: 0;
     transform: scale(0.8);
@@ -180,7 +183,7 @@
   }
 }
 
-@keyframes bounceIn {
+@keyframes vendor-bounceIn {
   0% {
     transform: scale(0);
     opacity: 0;

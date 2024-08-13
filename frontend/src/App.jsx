@@ -17,8 +17,8 @@ import AdminLayout from "./Admin/layouts/AdminLayout";
 import VendorList from "./Admin/Pages/List/VendorList";
 import AdminHome from "./Admin/Pages/AdminHome";
 import DeliveryboyList from "./Admin/Pages/List/DeliveryboyList";
-import CustomerList from "./Admin/Pages/List/CustomerList"
-import OrderReviewList from "./Admin/Pages/List/OrderReviewList"
+import CustomerList from "./Admin/Pages/List/CustomerList";
+import OrderReviewList from "./Admin/Pages/List/OrderReviewList";
 
 //Vendor imports
 import VendorHomePage from "./vendor/Pages/VendorHomePage";
@@ -42,11 +42,10 @@ import DeliveredOrderedList from "./DeliveryBoy/components/DeliveredOrderHistory
 import VendorDetail from "./components/VendorDetail";
 import NavBar from "./components/navbar/navbar";
 
-
 function App() {
   return (
     <div className="App">
-       <NavBar />
+      <NavBar />
 
       <Routes>
         <Route path="/" element={<HomePage />} />
@@ -58,15 +57,14 @@ function App() {
         <Route path="/vendor/menu" element={<VendorDetail />} />
         <Route path="/cart" element={<Cart />} />
 
-          {/* Admin routes with sidebar and Navbar*/}
-          <Route element={<AdminLayout/>}>
-            <Route path="/adminhome" element={<AdminHome/>}/>
-            <Route path="/vendorlist" element={<VendorList />} />
-            <Route path="/deliveryboylist" element={<DeliveryboyList/>}/>
-            <Route path="/customerlist" element={<CustomerList/>}/>
-            <Route path="/orderreviewlist" element={<OrderReviewList/>}/>
-          </Route>
-          
+        {/* Admin routes with sidebar and Navbar*/}
+        <Route element={<AdminLayout />}>
+          <Route path="/adminhome" element={<AdminHome />} />
+          <Route path="/vendorlist" element={<VendorList />} />
+          <Route path="/deliveryboylist" element={<DeliveryboyList />} />
+          <Route path="/customerlist" element={<CustomerList />} />
+          <Route path="/orderreviewlist" element={<OrderReviewList />} />
+        </Route>
 
         {/* Vendor routes with Sidebar */}
         <Route element={<VendorLayout />}>
@@ -80,7 +78,7 @@ function App() {
           />
           <Route path="/review" element={<Review />} />
           <Route path="/addbreakfastmenu" element={<AddBreakfastMenu />} />
-          <Route path="/list" element={<OrderList />} />
+          <Route path="/menulist" element={<OrderList />} />
         </Route>
 
         <Route element={<DbLayout />}>

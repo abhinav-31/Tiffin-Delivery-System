@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 import { login } from "../../services/user";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
-import { loginAction } from "../../features/userSlice";
+import { loginAction } from "../../redux/userSlice";
 import { useNavigate } from "react-router-dom";
 
 function LoginModal({ onClose, onToggleRegister }) {

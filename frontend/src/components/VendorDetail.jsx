@@ -46,37 +46,95 @@
 // };
 
 // export default VendorDetail;
-import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom"; // Use useLocation to get the email from state
-import { fetchVendorMenu } from "../services/VendorService";
-import MenuCard from "../components/MenuCard"; // Component to display menu items
-import "./VendorDetails.css"; // Import your CSS for styling
+//-----------------------------------------
+// this is running code trying redux that's why commented
+
+// import React, { useEffect, useState } from "react";
+// import { useLocation } from "react-router-dom"; // Use useLocation to get the email from state
+// import { fetchVendorMenu } from "../services/VendorService";
+// import MenuCard from "../components/MenuCard"; // Component to display menu items
+// import "./VendorDetails.css"; // Import your CSS for styling
+
+// const VendorDetail = () => {
+//   const location = useLocation(); // Get location state
+//   console.log("location:- " + location);
+//   const { email, businessName } = location.state || {}; // Get email and businessName from state
+//   const [menuItems, setMenuItems] = useState([]);
+//   const [error, setError] = useState(null);
+
+//   useEffect(() => {
+//     const getVendorMenu = async () => {
+//       if (email) {
+//         console.log(email);
+//         console.log(businessName);
+//         const result = await fetchVendorMenu(email);
+//         if (result.status === "error") {
+//           setError(result.error);
+//         } else {
+//           setMenuItems(result);
+//         }
+//       } else {
+//         setError({ message: "No vendor email provided" });
+//       }
+//     };
+
+//     getVendorMenu();
+//   }, [email]);
+
+//   if (error) {
+//     return <div>Error: {error.message}</div>;
+//   }
+
+//   return (
+//     <div className="vendor-detail">
+//       {/* <h2 className="vendor-business-name">{businessName}</h2> */}
+//       <div className="menu-list">
+//         <h2>{businessName}</h2>
+//         <div className="menu-items">
+//           {menuItems.map((menu) => (
+//             <MenuCard key={menu.name} menu={menu} />
+//           ))}
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default VendorDetail;
+// src/components/VendorDetail.js
+
+import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { fetchVendorMenu } from '../services/VendorService';
+import MenuCard from '../components/MenuCard';
+import { setVendorEmail } from '../redux/vendorSlice';
+import './VendorDetails.css';
 
 const VendorDetail = () => {
-  const location = useLocation(); // Get location state
-  console.log("location:- " + location);
-  const { email, businessName } = location.state || {}; // Get email and businessName from state
+  const location = useLocation();
+  const dispatch = useDispatch();
+  const { email, businessName } = location.state || {};
   const [menuItems, setMenuItems] = useState([]);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const getVendorMenu = async () => {
       if (email) {
-        console.log(email);
-        console.log(businessName);
+        dispatch(setVendorEmail(email)); // Store email in Redux
         const result = await fetchVendorMenu(email);
-        if (result.status === "error") {
+        if (result.status === 'error') {
           setError(result.error);
         } else {
           setMenuItems(result);
         }
       } else {
-        setError({ message: "No vendor email provided" });
+        setError({ message: 'No vendor email provided' });
       }
     };
 
     getVendorMenu();
-  }, [email]);
+  }, [email, dispatch]);
 
   if (error) {
     return <div>Error: {error.message}</div>;
@@ -84,15 +142,14 @@ const VendorDetail = () => {
 
   return (
     <div className="vendor-detail">
-      {/* <h2 className="vendor-business-name">{businessName}</h2> */}
+      <div><h2>{businessName}</h2></div>
+      <div></div>
       <div className="menu-list">
-        <h2>{businessName}</h2>
-        <div className="menu-items">
-          {menuItems.map((menu) => (
-            <MenuCard key={menu.name} menu={menu} />
-          ))}
-        </div>
+        {menuItems.map((menu) => (
+          <MenuCard key={menu.name} menu={menu} />
+        ))}
       </div>
+      <div></div>
     </div>
   );
 };

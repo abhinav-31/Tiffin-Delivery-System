@@ -5,14 +5,13 @@ import { useSelector, useDispatch } from "react-redux";
 import LoginModal from "../login/loginModal";
 import RegisterModal from "../register/registerModal";
 import { Link, useNavigate } from "react-router-dom";
-import { logoutAction } from "../../features/userSlice"; // Import the logout action
+import { logoutAction } from "../../redux/userSlice"; // Import the logout action
 
 function NavBar() {
   const navigate = useNavigate();
   const dispatch = useDispatch(); // Use dispatch to update the Redux state
   const cart = useSelector((state) => state.cart || { items: [] });
   const loginStatus = useSelector((state) => state.user.loginStatus);
-  console.log(loginStatus);
   const [loginModal, setLoginModal] = useState(false);
   const [registerModal, setRegisterModal] = useState(false);
 

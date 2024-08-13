@@ -1,12 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import './DeliveredOrderHistory.css';
-import { fetchDeliveredOrdersHistory } from '../../../services/vendor_api';
-import { toast } from 'react-toastify';
-import { currency } from '../../assets/assets';
+import React, { useEffect, useState } from "react";
+import "./DeliveredOrderHistory.css";
+import {
+  fetchDeliveredOrdersHistory,
+  getVendorIdFromSessionStorage,
+} from "../../../services/vendor_api";
+import { toast } from "react-toastify";
+import { currency } from "../../assets/assets";
 
-const DeliveredOrderHistory = ({ vendorId }) => {
+const DeliveredOrderHistory = () => {
   const [orders, setOrders] = useState([]);
-
+  const vendorId = getVendorIdFromSessionStorage();
   const fetchOrders = async () => {
     try {
       const response = await fetchDeliveredOrdersHistory(vendorId);
@@ -28,10 +31,10 @@ const DeliveredOrderHistory = ({ vendorId }) => {
   }, [vendorId]);
 
   return (
-    <div className='order-history'>
+    <div className="order-history">
       <h2>Delivered Order History</h2>
-      <div className='order-history-table'>
-        <div className='order-history-header'>
+      <div className="order-history-table">
+        <div className="order-history-header">
           <b>Order ID</b>
           <b>Customer ID</b>
           <b>Amount</b>
@@ -40,10 +43,13 @@ const DeliveredOrderHistory = ({ vendorId }) => {
         </div>
         {orders.length > 0 ? (
           orders.map((order) => (
-            <div key={order.id} className='order-history-row'>
+            <div key={order.id} className="order-history-row">
               <p>{order.id}</p>
               <p>{order.customerId}</p>
-              <p>{currency}{order.amount}</p>
+              <p>
+                {currency}
+                {order.amount}
+              </p>
               <p>{order.status}</p>
               <p>{order.paymentMethod}</p>
             </div>

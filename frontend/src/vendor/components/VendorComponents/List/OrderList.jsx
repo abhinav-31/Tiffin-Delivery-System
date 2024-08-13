@@ -1,13 +1,9 @@
-import React, { useEffect, useState } from 'react'
-import './OrderList.css'
-import { url, currency } from '../../../assets/assets'
-import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import './OrderList.css';
 import { toast } from 'react-toastify';
-import {fetchOrders} from '../../../../services/vendor_api'
-
+import { fetchOrders } from '../../../../services/vendor_api';
 
 const OrderList = () => {
-
   const [orderlist, setList] = useState([]);
 
   useEffect(() => {
@@ -17,6 +13,7 @@ const OrderList = () => {
         setList(data);
       } catch (error) {
         console.error('Error fetching orders:', error);
+        toast.error('Failed to fetch orders. Please try again later.');
       }
     };
     getOrders();
@@ -33,24 +30,27 @@ const OrderList = () => {
           <b>Category</b>
           <b>Price</b>
           <b>Quantity</b> {/* Add Quantity Column */}
-          {/* <b>Action</b> */}
         </div>
-        {orderlist.map((order, index) => (
-          <div key={order.id||index} className='list-table-format'>
-            <p>{index+1}</p>
-            {/* <img src={order.image} alt={order.name} /> */}
-            <img src={order.image || 'https://via.placeholder.com/100'} alt={order.name || 'No Image Available'} />
-
-            <p>{order.name}</p>
-            <p>{order.category}</p>
-            <p>{order.price}</p>
-            <p>{order.quantity}</p> {/* Display the Quantity */}
-            {/* <p className='cursor' onClick={() => removeFood(item._id)}>x</p> */}
-          </div>
-        ))}
+        {orderlist.length > 0 ? (
+          orderlist.map((order, index) => (
+            <div key={order.id || index} className='list-table-format'>
+              <p>{index + 1}</p>
+              <img
+                src={order.image || 'https://via.placeholder.com/100'}
+                alt={order.name || 'No Image Available'}
+              />
+              <p>{order.name}</p>
+              <p>{order.category}</p>
+              <p>{order.price}</p>
+              <p>{order.quantity}</p> {/* Display the Quantity */}
+            </div>
+          ))
+        ) : (
+          <p>No orders available.</p>
+        )}
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default OrderList;

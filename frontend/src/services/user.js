@@ -38,7 +38,7 @@ export async function login(email, password) {
   };
 
   // make API call
-  const response = await axios.post(`${config.url}/user/login`, body);
+  const response = await axios.post(`${config.url}/users/signin`, body);
 
   // read JSON data (response)
   // console.log(response);

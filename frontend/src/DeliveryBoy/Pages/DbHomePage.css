@@ -1,160 +1,89 @@
-.vendor-home {
-  background-color: #f0f0f0;
-  padding: 20px 0;
-}
-
-.vendor-section {
-  border: 1px solid #ccc;
+/* Overall Container */
+/* .order-history {
+  background-color: #f8f9fa;
+  padding: 20px;
   border-radius: 8px;
-  transition: box-shadow 0.3s ease;
-}
+} */
 
-.vendor-section:hover {
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.btn-success {
-  background-color: #28a745;
-  border-color: #28a745;
-}
-
-.btn-danger {
-  background-color: #dc3545;
-  border-color: #dc3545;
-}
-
-.card {
-  border-radius: 12px;
-  border: none;
-}
-
-.card-body {
-  padding: 20px;
-}
-
-h2 {
-  color: #333;
-}
-
-h4 {
-  margin-bottom: 0.5rem;
-}
-
-.card-img-top {
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
-  height: 200px;
-  object-fit: cover;
-}
-
-.vendor-home {
-  background-color: #f8f9fa;
-  padding: 20px 0;
-}
-
-.card {
-  border-radius: 10px;
-}
-
-.card-body {
-  padding: 20px;
-}
-
-.vendor-section {
-  background-color: #ffffff;
-  border: 1px solid #dee2e6;
-  border-radius: 10px;
-  overflow: hidden;
-}
-
-.vendor-section img {
-  border-bottom: 1px solid #dee2e6;
-}
-
-.menu-section {
-  margin-top: 20px;
-}
-
-.table {
-  margin-top: 10px;
-}
-
-.table th,
-.table td {
-  text-align: center;
-}
-
-/* .btn {
-    width: 100%;
-  } */
-
-.vendor-home {
-  background-color: #f8f9fa;
-  padding: 20px 0;
-}
-
-.card {
-  border-radius: 10px;
-}
-
-.card-body {
-  padding: 20px;
-}
-
-.vendor-section {
-  background-color: #ffffff;
-  border: 1px solid #dee2e6;
-  border-radius: 10px;
-  overflow: hidden;
-}
-
-.vendor-section img {
-  border-bottom: 1px solid #dee2e6;
-}
-
-.menu-section {
-  margin-top: 20px;
-}
-
-.table {
-  margin-top: 10px;
-}
-
-.table th,
-.table td {
-  text-align: center;
-}
-
-
+/* Order History Table */
 .order-history-table {
   display: grid;
-  grid-template-columns: 0.5fr 1fr 1fr 0.5fr 1fr 1fr 2fr;
-  gap: 10px; 
+  grid-template-columns: 0.5fr 1fr 1fr 0.6fr 1fr 1fr 2fr;
+  gap: 10px;
+  background-color: #ffffff;
+  border: 1px solid #dee2e6;
+  border-radius: 10px;
+  overflow: hidden;
 }
 
-/* DbHomePage.css */
-
+/* Order History Rows */
 .order-history-row p.status-placed {
-  color: #007bff; /*Blue color for 'PLACED' status*/
-  
+  color: #007bff; /* Blue color for 'PLACED' status */
 }
 
-.button-container {
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
+.order-history-row p.status-delivered {
+  color: rgb(5, 189, 5); /* Green color for 'DELIVERED' status */
 }
+
+/* No Orders Found Message */
+.no-orders {
+  position: absolute;
+  top: 50%;
+  left: 60%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: #fa5050;
+  font-size: 1.2em;
+}
+
 
 .mark-delivered-btn {
-  background-color: green;
+  background-color: #28a745;
+  border-color: #28a745;
   color: white;
   border: none;
   padding: 10px 20px;
   font-size: 16px;
   cursor: pointer;
   border-radius: 5px;
+  margin-top: auto;
 }
 
 .mark-delivered-btn:hover {
-  background-color: darkgreen;
+  background-color: #218838;
+}
+
+/* Delivery Address Styling */
+.delivery-address p {
+  margin: 2px 0;
+}
+
+/* Page Title */
+h2 {
+  color: #333;
+}
+
+/* Horizontal Rule */
+hr {
+  margin: 20px 0;
+  border: 1px solid #dee2e6;
+}
+
+
+.order-history {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  min-height: 80vh; 
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center the button horizontally */
+}
+
+.order-history-table {
+  width: 100%; /* Ensure table takes full width */
+}
+
+.button-container {
+  margin-top: 20px;
 }

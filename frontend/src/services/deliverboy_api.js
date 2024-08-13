@@ -29,8 +29,15 @@ export const fetchPlacedOrdersHistory = async (deliveryboyId) => {
 // Update order status
 export const updateOrderStatus = async (orderId, status) => {
   try {
-    await axiosInstance.patch(
-      `/orders/changeStatus/${orderId}?status=${status}`
+    const token = sessionStorage.getItem("token");
+    await axiosInstance.put(
+      `/orders/changeStatus/${orderId}?status=${status}`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`, // Include the JWT token in the headers
+        },
+      }
     );
   } catch (error) {
     console.error("Error updating order status:", error);

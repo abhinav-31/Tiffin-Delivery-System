@@ -59,7 +59,16 @@ public class OrderServiceImpl implements OrderService {
   @Autowired
   ModelMapper mapper;
 
-  private static final List<String> reference = List.of("411057", "411157", "411058", "411059", "411060", "411061", "411557", "411082", "411997", "411050");
+  private static final List<String> reference = List.of("411057",
+		    "411157",
+		    "411068",
+		    "411055",
+		    "411060",
+		    "411061",
+		    "411557",
+		    "411082",
+		    "411997",
+		    "411050");
   private static final int[][] distMatrix = {{0, 5, 2, 8, 3, 7, 1, 9, 4, 6}, {7, 0, 3, 10, 5, 8, 6, 2, 9, 1}, {9, 6, 0, 4, 7, 2, 8, 5, 10, 3}, {5, 8, 1, 0, 2, 4, 7, 6, 3, 9}, {3, 2, 7, 9, 0, 1, 10, 8, 6, 4}, {1, 4, 6, 5, 3, 0, 9, 7, 2, 8}, {10, 3, 4, 6, 9, 2, 0, 1, 7, 5}, {6, 7, 9, 1, 8, 3, 5, 0, 2, 10}, {8, 10, 5, 7, 4, 9, 2, 3, 0, 6}, {2, 9, 8, 3, 6, 5, 4, 10, 1, 0}};
 
   @Override
@@ -237,6 +246,8 @@ public class OrderServiceImpl implements OrderService {
         dto.setOrderId(order.getId());
         Payment earnedAmount = paymentRepository.findByOrder(order).orElseThrow(() -> new ResourceNotFoundException("Order not found"));
         dto.setPaymentMethod(earnedAmount.getPaymentMethod());
+        System.out.println(order.getDeliveryAddress().getZipcode());
+        System.out.println(order.getVendor().getAddresses().getFirst().getZipcode());
         int deliveryDistance = deliveryDistanceBetweenVendorAndCust(order.getDeliveryAddress().getZipcode(), order.getVendor().getAddresses().getFirst().getZipcode());
         dto.setEarnedAmount(deliveryDistance * 0.2);
         list.add(dto);

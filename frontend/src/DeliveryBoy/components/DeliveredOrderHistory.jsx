@@ -66,7 +66,7 @@ const DeliveredOrderHistory = () => {
             </div>
           ))
         ) : (
-          <div className="no-orders">No orders found</div>
+          <div ></div>
         )}
       </div>
     </div>

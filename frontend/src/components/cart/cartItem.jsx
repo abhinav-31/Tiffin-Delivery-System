@@ -110,7 +110,7 @@
 // export default CartItem;
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { removeItem } from "../../redux/cartSlice";
+import { removeItem,updateItemQuantity } from "../../redux/cartSlice";
 import Counter from "./counter";
 
 function CartItem({ cartItem, vendorEmail, updateBill }) {
@@ -130,6 +130,7 @@ function CartItem({ cartItem, vendorEmail, updateBill }) {
       dispatch(removeItem({ vendorEmail, menuId: cartItem.menuId }));
     } else {
       setQuantity(newQuantity);
+      dispatch(updateItemQuantity({ vendorEmail, menuId: cartItem.menuId, quantity: newQuantity }));
     }
   };
 

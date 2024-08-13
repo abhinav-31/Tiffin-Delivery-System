@@ -56,7 +56,7 @@ function Footer() {
               <div className="line"></div>
             </div>
             <div className="col-md-6 text-md-left">
-              <ul className="list-unstyled link-menu nav-left">
+              {/* <ul className="list-unstyled link-menu nav-left">
                 <li>
                   <a href="#">Privacy Policy</a>
                 </li>
@@ -66,7 +66,7 @@ function Footer() {
                 <li>
                   <a href="#">Code of Conduct</a>
                 </li>
-              </ul>
+              </ul> */}
             </div>
             <div className="col-md-6 text-md-right">
               <ul className="list-unstyled social nav-right">

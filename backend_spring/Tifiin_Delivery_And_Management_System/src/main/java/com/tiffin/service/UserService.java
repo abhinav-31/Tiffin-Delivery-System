@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.tiffin.dto.AddressReqDTO;
+import com.tiffin.dto.AddressResDTO;
 import com.tiffin.dto.ApiResponse;
 import com.tiffin.dto.UserSignInReqDTO;
 import com.tiffin.dto.UserSignUpReqDTO;
@@ -29,4 +30,6 @@ public interface UserService {
 	public ApiResponse signIn(@Valid UserSignInReqDTO userSignIn);
 
 	String getUserMail();
+
+	public List<AddressResDTO> getAllCustomerAddresses();
 }

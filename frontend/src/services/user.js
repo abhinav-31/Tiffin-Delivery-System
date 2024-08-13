@@ -58,6 +58,58 @@ export async function registerVendor(data) {
   }
 }
 
+
+export const fetchAddresses = async () => {
+  const token = sessionStorage.getItem('token'); // Get the token from session storage
+  console.log("token:- " + token)
+  if (!token) {
+    throw new Error('No token found');
+  }
+
+  try {
+    const response = await axios.get(`${config.url}/users/getCustomerAddresses`, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    });
+    console.log(response);
+    // Handle non-201 responses
+    if (response.status !== 201) {
+      throw new Error('Failed to fetch addresses');
+    }
+
+    return response.data;
+  } catch (error) {
+    // Handle errors thrown by axios
+    console.error('Error fetching addresses:', error.message);
+    throw error;
+  }
+};
+
+export const registerCustomerAddress = async (addressData, token) => {
+  try {
+    console.log("Token:- " + token)
+    const response = await axios.post(
+      `${config.url}/users/addCustomerAddresses`,
+      addressData,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data; // Assuming the response data contains a 'message' field
+  } catch (error) {
+    console.error('Error adding customer address:', error);
+    throw error; // Re-throw error to be handled in the component
+  }
+};
+
+
+
+
 // export async function login(email, password) {
 //   // body parameters
 //   const body = {

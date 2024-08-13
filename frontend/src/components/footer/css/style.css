@@ -1,4 +1,4 @@
-body {
+/* body {
   font-family: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji",
     "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
@@ -479,4 +479,74 @@ a:hover {
 }
 .footer-39201 .social li a:hover {
   color: #614ad3;
+} */
+html, body {
+  height: 100%;
+  margin: 0;
 }
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+.footer-14398 {
+  margin-top: auto;
+  background-color: #0a0a0a; /* Dark background color */
+  padding: 20px;
+  color: #fff; /* White text color */
+  text-align: center; /* Center text content */
+}
+
+.footer-14398 .container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-14398 .footer-site-logo {
+  color: tomato; /* Tomato color for Tiffinity text */
+  text-decoration: none; /* Remove underline from link */
+}
+
+.footer-14398 .line {
+  border-top: 1px solid #ddd;
+}
+
+.footer-14398 ul {
+  padding: 0;
+  list-style: none; /* Remove default list styling */
+}
+
+.footer-14398 ul li {
+  margin-bottom: 10px;
+}
+
+.footer-14398 .social {
+  display: flex;
+  justify-content: center; /* Center social icons */
+}
+
+.footer-14398 .social li {
+  margin: 0 10px; /* Space out social icons */
+}
+
+.footer-14398 .social a {
+  color: #fff; /* White color for social icons */
+}
+
+.footer-14398 .social .icon-twitter::before {
+  content: "\f099"; /* Font Awesome Twitter icon */
+}
+
+.footer-14398 .social .icon-instagram::before {
+  content: "\f16d"; /* Font Awesome Instagram icon */
+}
+
+.footer-14398 .social .icon-facebook::before {
+  content: "\f09a"; /* Font Awesome Facebook icon */
+}
+
+.footer-14398 .social .icon-pinterest::before {
+  content: "\f0d2"; /* Font Awesome Pinterest icon */
+}
+

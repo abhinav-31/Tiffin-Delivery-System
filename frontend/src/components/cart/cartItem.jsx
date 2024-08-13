@@ -173,11 +173,9 @@ function CartItem({ cartItem, vendorEmail, updateBill }) {
               <p className="text-muted mb-2 font-size-16">Price</p>
               <h5 className="mb-0 mt-2">
                 <span className="text-muted me-2">
-                  <del className="font-size-16 fw-normal">
-                    ₹ {cartItem.menuPrice + 10}
-                  </del>
+                <h5>₹ {itemTotal.toFixed(2)}</h5>
                 </span>
-                ₹ {cartItem.menuPrice}
+               
               </h5>
             </div>
           </div>
@@ -194,12 +192,7 @@ function CartItem({ cartItem, vendorEmail, updateBill }) {
               </div>
             </div>
           </div>
-          <div className="col-md-3">
-            <div className="mt-3">
-              <p className="text-muted mb-2"></p>
-              <h5>₹ {itemTotal.toFixed(2)}</h5>
-            </div>
-          </div>
+          
         </div>
 
         {cartItem.vendorBusinessImage && (

@@ -64,6 +64,7 @@ public class OrderServiceImpl implements OrderService {
 
   @Override
   public ApiResponse addOrder(OrderRequestDTO orderRequest, Long customerId, Long vendorId) {
+	  System.out.println("order aaya:- " + orderRequest);
     User customer = userRepository.findById(customerId).orElseThrow(() -> new ResourceNotFoundException("Customer Not Found"));
     User vendor = userRepository.findById(vendorId).orElseThrow(() -> new ResourceNotFoundException("Vendor Not Found"));
     String vendorPincode = vendor.getAddresses().getFirst().getZipcode();
@@ -99,7 +100,7 @@ public class OrderServiceImpl implements OrderService {
     payment.setOrder(orderPlaced);
     paymentRepository.save(payment);
 
-    return new ApiResponse("New Order added with ID: " + orderPlaced.getId());
+    return new ApiResponse("Order placed successfully!");
   }
 
 //	public Optional<DeliveryBoy> findSuitableDeliveryBoy(String vendorPincode) {

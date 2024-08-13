@@ -89,6 +89,7 @@ export const fetchAddresses = async () => {
 
 export const registerCustomerAddress = async (addressData, token) => {
   try {
+    console.log("Token:- " + token)
     const response = await axios.post(
       `${config.url}/users/addCustomerAddresses`,
       addressData,

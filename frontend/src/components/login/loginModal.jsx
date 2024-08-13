@@ -166,7 +166,7 @@ function LoginModal({ onClose, onToggleRegister }) {
           } else if (role === 'ROLE_DELIVERY_BOY') {
             navigate('/deliveryhome');
           } else {
-            navigate('/'); // Default home page
+            // navigate('/'); // Default home page
           }
           onClose();
         } else {

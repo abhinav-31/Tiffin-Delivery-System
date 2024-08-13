@@ -1,8 +1,10 @@
 import React, { useRef, useEffect } from "react";
 import { toast } from "react-toastify";
 import Zipcode from "./zipcode";
+import { useDispatch } from 'react-redux';
 import { registerCustomerAddress } from "../../services/user";
-import './AddCustomerAddressModal.css'; // Import CSS file
+import { setAddresses} from '../../redux/AddressSlice';
+import "./AddCustomerAddressModal.css"; // Import CSS file
 
 function AddCustomerAddressModal({ addedAddress }) {
   const [addressLine1, setAddressLine1] = React.useState("");
@@ -12,6 +14,7 @@ function AddCustomerAddressModal({ addedAddress }) {
   const [country, setCountry] = React.useState("India");
   const [zipcode, setZipcode] = React.useState("");
   const [phoneNo, setPhoneNo] = React.useState("");
+  const dispatch = useDispatch();
 
   const modalRef = useRef(null);
 
@@ -46,9 +49,11 @@ function AddCustomerAddressModal({ addedAddress }) {
       };
 
       try {
-        const result = await registerCustomerAddress(addressData);
+        const token = sessionStorage.getItem("token");
+        const result = await registerCustomerAddress(addressData, token);
 
-        if (result?.message === "Address added successfully!") {
+        if (result?.message === "New Address Added!!!") {
+            dispatch(setAddresses(addressData));
           toast.success("Address added successfully");
           resetForm();
           addedAddress(); // Close the modal or navigate to another page

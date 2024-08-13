@@ -21,7 +21,8 @@ import com.tiffin.service.OrderService;
 import jakarta.validation.Valid;
 
 @RestController
-@CrossOrigin
+//@CrossOrigin
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/orders")
 public class OrderController {
 

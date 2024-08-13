@@ -15,6 +15,21 @@ export const fetchOrders = async () => {
   }
 };
 
+export const addCustomerReview = async (orderId, customerId, reviewData) => {
+  try {
+    const token = localStorage.getItem('token');
+    const response = await axiosInstance.post(`/orders/addReview/${orderId}/${customerId}`, reviewData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error adding customer review:', error);
+    throw error;
+  }
+};
+
 // Fetch orders history
 // export const fetchOrdersHistory = async (vendorId, status) => {
 //   try {
@@ -33,7 +48,7 @@ export const addMenu = async (vendorId, formData) => {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
-    });
+  });
     return response.data;
   } catch (error) {
     console.error('Error adding menu:', error);
@@ -44,6 +59,7 @@ export const addMenu = async (vendorId, formData) => {
 // Fetch placed orders history
 export const fetchPlacedOrdersHistory = async (vendorId) => {
   try {
+    
     const response = await axiosInstance.get(`/orders/${vendorId}?status=PLACED`);
     return response.data;
   } catch (error) {
@@ -64,12 +80,12 @@ export const fetchDeliveredOrdersHistory = async (vendorId) => {
 };
 
 // Fetch customer reviews
-export const fetchCustomerReviews = async () => {
-  try {
-    const response = await axiosInstance.get('/api/review/list'); // Adjust endpoint as needed
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching customer reviews:', error);
-    throw error;
-  }
-};
+// export const fetchCustomerReviews = async () => {
+//   try {
+//     const response = await axiosInstance.get('/api/review/list'); // Adjust endpoint as needed
+//     return response.data;
+//   } catch (error) {
+//     console.error('Error fetching customer reviews:', error);
+//     throw error;
+//   }
+// };

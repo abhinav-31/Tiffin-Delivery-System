@@ -10,6 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class VendorViewDTO {
+	private Long id;
 	private String email;
 	private String businessName;
 	private double rating;

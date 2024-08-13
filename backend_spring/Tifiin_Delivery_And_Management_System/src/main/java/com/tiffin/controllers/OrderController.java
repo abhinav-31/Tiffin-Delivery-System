@@ -21,37 +21,44 @@ import com.tiffin.service.OrderService;
 import jakarta.validation.Valid;
 
 @RestController
-@CrossOrigin
+//@CrossOrigin
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/orders")
 public class OrderController {
 
-	@Autowired
-	private OrderService orderService;
+  @Autowired
+  private OrderService orderService;
 
-	@PostMapping("/{customerId}/{vendorId}")
-	public ResponseEntity<?> addOrder(@RequestParam PaymentMethod paymentMethod,@RequestBody @Valid OrderRequestDTO orderRequest, @PathVariable Long customerId,
-			@PathVariable Long vendorId) {
-		return ResponseEntity.status(HttpStatus.CREATED)
-				.body(orderService.addOrder(paymentMethod,orderRequest, customerId, vendorId));
-	}
+  @PostMapping("/{customerId}/{vendorId}")
+  public ResponseEntity<?> addOrder(@RequestBody @Valid OrderRequestDTO orderRequest, @PathVariable Long customerId,
+                                    @PathVariable Long vendorId) {
+    return ResponseEntity.status(HttpStatus.CREATED)
+            .body(orderService.addOrder( orderRequest, customerId, vendorId));
+  }
 
-	 @PostMapping("/addReview/{orderId}/{customerId}")
-	    public ResponseEntity<?> addReviewByCustomer(@PathVariable Long orderId, @PathVariable Long customerId, @RequestBody ReviewDTO review){
-	    	return ResponseEntity.status(HttpStatus.CREATED).body(orderService.addReview(orderId,customerId, review));
-	    }
-	
-	@GetMapping("/{vendorId}")
-	public ResponseEntity<?> getOrdersByStatus(@RequestParam OrderStatus status, @PathVariable Long vendorId) {
-		return ResponseEntity.status(HttpStatus.OK).body(orderService.getOrdersByVendorAndStatus(vendorId, status));
-	}
-	
-	@PutMapping("/changeStatus/{orderId}")
-	public ResponseEntity<?> changeOrderStatus(@PathVariable Long orderId){
-		return ResponseEntity.status(HttpStatus.CREATED).body(orderService.changeStatus(orderId));
-	}
-	@GetMapping("/deliveryBoy/{deliveryBoyId}")
-	public ResponseEntity<?> getPlacedForDelivery(@RequestParam OrderStatus status, @PathVariable Long deliveryBoyId) {
-		return ResponseEntity.status(HttpStatus.OK).body(orderService.getPlacedForDelivery(deliveryBoyId, status));
-	}
+  @PostMapping("/addReview/{orderId}/{customerId}")
+  public ResponseEntity<?> addReviewByCustomer(@PathVariable Long orderId, @PathVariable Long customerId, @RequestBody ReviewDTO review) {
+    return ResponseEntity.status(HttpStatus.CREATED).body(orderService.addReview(orderId, customerId, review));
+  }
+
+  @GetMapping("/{vendorId}")
+  public ResponseEntity<?> getOrdersByStatus(@RequestParam OrderStatus status, @PathVariable Long vendorId) {
+    return ResponseEntity.status(HttpStatus.OK).body(orderService.getOrdersByVendorAndStatus(vendorId, status));
+  }
+
+  @PutMapping("/changeStatus/{orderId}")
+  public ResponseEntity<?> changeOrderStatus(@PathVariable Long orderId) {
+    return ResponseEntity.status(HttpStatus.CREATED).body(orderService.changeStatus(orderId));
+  }
+
+  @GetMapping("/deliveryBoy/{deliveryBoyId}")
+  public ResponseEntity<?> getPlacedForDelivery(@RequestParam OrderStatus status, @PathVariable Long deliveryBoyId) {
+    return ResponseEntity.status(HttpStatus.OK).body(orderService.getPlacedForDelivery(deliveryBoyId, status));
+  }
+
+  @GetMapping("/deliveryCharges/{customerPincode}/{vendorPincode}")
+  public ResponseEntity<?> getDeliveryCharges(@RequestParam String customerPincode, @RequestParam String vendorPincode) {
+    return ResponseEntity.status(HttpStatus.OK).body(orderService.deliveryDistanceBetweenVendorAndCust(customerPincode, vendorPincode));
+  }
 
 }

@@ -42,7 +42,7 @@ public class ViewVendorServiceImpl implements ViewVendorService {
 			double avgRating = reviews.stream().mapToDouble(Review::getRating).average().orElse(0.0);
 			// Round the average rating to one decimal place
 			avgRating = Math.round(avgRating * 10.0) / 10.0;
-			return new VendorViewDTO(vendor.getEmail(), vendor.getBusinessName(), avgRating, vendor.getUserImage());
+			return new VendorViewDTO(vendor.getId(),vendor.getEmail(), vendor.getBusinessName(), avgRating, vendor.getUserImage());
 		}).collect(Collectors.toList());
 	}
 

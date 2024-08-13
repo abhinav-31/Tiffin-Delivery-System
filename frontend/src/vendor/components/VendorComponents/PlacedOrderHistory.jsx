@@ -33,38 +33,42 @@ const PlacedOrderHistory = () => {
       <div className="order-list">
         {orders.map((order, index) => (
           <div key={index} className="order-item">
-            <img src={assets.parcel_icon} alt="" />
+            <img src={assets.parcel_icon} alt="Order Icon" />
             <div>
               <p className="order-item-name">
-                {order.customer.firstName + " " + order.customer.lastName}
+                {order.customerAndDeliveryDetails.customer.firstName +
+                  " " +
+                  order.customerAndDeliveryDetails.customer.lastName}
               </p>
               <p className="order-item-food">
                 Delivery By:{" "}
-                {order.deliveryBoy.firstName + " " + order.deliveryBoy.lastName}
+                {order.customerAndDeliveryDetails.deliveryBoy.firstName +
+                  " " +
+                  order.customerAndDeliveryDetails.deliveryBoy.lastName}
               </p>
               <div className="order-item-address">
                 <p>
-                  {order.deliveryAddress.adrLine1 +
+                  {order.customerAndDeliveryDetails.deliveryAddress.adrLine1 +
                     ", " +
-                    order.deliveryAddress.adrLine2}
+                    order.customerAndDeliveryDetails.deliveryAddress.adrLine2}
                 </p>
                 <p>
-                  {order.deliveryAddress.city +
+                  {order.customerAndDeliveryDetails.deliveryAddress.city +
                     ", " +
-                    order.deliveryAddress.state +
+                    order.customerAndDeliveryDetails.deliveryAddress.state +
                     ", " +
-                    order.deliveryAddress.country +
+                    order.customerAndDeliveryDetails.deliveryAddress.country +
                     ", " +
-                    order.deliveryAddress.zipcode}
+                    order.customerAndDeliveryDetails.deliveryAddress.zipcode}
                 </p>
               </div>
               <p className="order-item-phone">
-                {order.deliveryAddress.phoneNo}
+                {order.customerAndDeliveryDetails.deliveryAddress.phoneNo}
               </p>
             </div>
             <p>
               {currency}
-              {order.amount}
+              {order.totalAmount}
             </p>
             <p>
               <span>&#x25cf;</span> <b>PLACED</b>

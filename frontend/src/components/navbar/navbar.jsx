@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import LoginModal from "../login/loginModal";
 import RegisterModal from "../register/registerModal";
 import { Link, useNavigate } from "react-router-dom";
-import { logoutAction } from "../../features/userSlice"; // Import the logout action
+import { logoutAction } from "../../redux/userSlice"; // Import the logout action
 
 function NavBar() {
   const navigate = useNavigate();

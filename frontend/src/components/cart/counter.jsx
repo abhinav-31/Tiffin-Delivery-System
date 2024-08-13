@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import "./counter.css";
-import { removeFromCartAction } from "../../features/cartSlice";
+import { removeFromCartAction } from "../../redux/cartSlice";
 function Counter({ quantity, onQuantityChange }) {
   // const [q, setQ] = useState(quantity);
   const increaseQuant = () => {

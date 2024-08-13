@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
-import { removeFromCartAction } from "../../features/cartSlice";
+import { removeFromCartAction } from "../../redux/cartSlice";
 import React from "react";
 import Counter from "./counter";
 

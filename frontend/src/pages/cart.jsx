@@ -1,47 +1,23 @@
 import "./cart.css";
 import NavBar from "../components/navbar/navbar";
-import React from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import CartItem from "../components/cart/cartItem";
 import { useSelector } from "react-redux";
-import { useEffect, useState, useCallback } from "react";
 import Footer from "../components/footer/footer";
 
 function Cart() {
-  // const cart = useSelector((state) => state.cart);
-  const initialCart = {
-    items: [
-      { id: 1, title: "Chicken thali", itemPrice: 20, quantity: 1, rating: 5 },
-      {
-        id: 2,
-        title: "Maharashtrian thali",
-        itemPrice: 30,
-        quantity: 2,
-        rating: 2,
-      },
-      {
-        id: 3,
-        title: "Chicken legpiece",
-        itemPrice: 40,
-        quantity: 3,
-        rating: 3,
-      },
-      { id: 4, title: "idli sambhar", itemPrice: 50, quantity: 4, rating: 1 },
-    ],
-  };
-
+  const initialCart = useSelector((state) => state.cart.items); // Access cart state from Redux
   const [cart, setCart] = useState(initialCart);
   const [total, setTotal] = useState(0);
   const [subTotal, setSubTotal] = useState(0);
   const [gst, setGst] = useState(0);
 
-  useEffect(() => {
-    calculateBill();
-  }, [cart.items]); // Update bill whenever cart items change
-
   const calculateBill = useCallback(() => {
     let subTotal = 0;
-    cart.items.forEach((item) => {
-      subTotal += item.itemPrice * item.quantity;
+    Object.values(cart).forEach((vendorItems) => {
+      Object.values(vendorItems).forEach((item) => {
+        subTotal += item.itemPrice * item.quantity;
+      });
     });
 
     const calculatedGst = 0.18 * subTotal;
@@ -50,12 +26,17 @@ function Cart() {
     setSubTotal(subTotal);
     setGst(calculatedGst);
     setTotal(calculatedTotal);
-  }, [cart.items]);
+  }, [cart]);
+
+  useEffect(() => {
+    calculateBill();
+    console.log("Cart contents:", cart);
+  }, [cart, calculateBill]); // Update bill whenever cart items change
 
   const updateBill = useCallback(
-    (itemId, newQuantity) => {
+    (vendorEmail, menuId, newQuantity) => {
       const updatedItems = cart.items.map((item) =>
-        item.id === itemId ? { ...item, quantity: newQuantity } : item
+        item.id === menuId ? { ...item, quantity: newQuantity } : item
       );
 
       setCart((prevCart) => ({
@@ -65,6 +46,7 @@ function Cart() {
     },
     [cart.items]
   );
+
   return (
     <div>
       <NavBar />
@@ -74,24 +56,24 @@ function Cart() {
           <div className="col-xl-8">
             <div className="row my-4">
               <div>
-                {/* <CartItem /> */}
-                {cart.items.map((item) => {
-                  return (
-                    <CartItem
-                      key={item.id}
-                      cartItem={item}
-                      updateBill={updateBill}
-                    />
-                  );
-                })}
-
-                {cart.items.length === 0 && (
+                {Object.keys(cart).length > 0 ? (
+                  Object.entries(cart).map(([vendorEmail, vendorItems]) =>
+                    Object.entries(vendorItems).map(([menuId, item]) => (
+                      <CartItem
+                        key={menuId}
+                        cartItem={item}
+                        vendorEmail={vendorEmail}
+                        updateBill={updateBill}
+                      />
+                    ))
+                  )
+                ) : (
                   <h4 className="page-title">
-                    There no menuItems added to cart
+                    There are no menu items added to the cart
                   </h4>
                 )}
               </div>
-              {cart.length !== 0 && (
+              {Object.keys(cart).length !== 0 && (
                 <div>
                   <div className="col-sm-6">
                     <a
@@ -99,7 +81,7 @@ function Cart() {
                       className="btn btn-link text-muted"
                     >
                       <i className="mdi mdi-arrow-left me-1"></i> Continue
-                      Shopping{" "}
+                      Shopping
                     </a>
                   </div>
                 </div>
@@ -149,9 +131,9 @@ function Cart() {
                 </div>
               </div>
             </div>
-            <div className=" m-3 mt-sm-0 ">
-              <a href="ecommerce-checkout.html" className="btn btn-success ">
-                <i className="mdi mdi-cart-outline me-1"></i> Checkout{" "}
+            <div className="m-3 mt-sm-0">
+              <a href="ecommerce-checkout.html" className="btn btn-success">
+                <i className="mdi mdi-cart-outline me-1"></i> Checkout
               </a>
             </div>
           </div>

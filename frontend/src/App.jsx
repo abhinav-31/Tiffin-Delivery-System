@@ -33,16 +33,10 @@ import CustomerFeedback from  "./CustomerFeedback";
 
 // deliveryboy imports
 import "./App.css";
-import DbLayout from "./components/DeliveryBoy/layouts/dbLayouts";
-import DbHomePage from "./components/DeliveryBoy/Pages/DbHomePage";
-import DBReviewPage from "./components/DeliveryBoy/components/Review";
-import DbOrderHistoryPage from "./components/DeliveryBoy/components/OrderHistory";
-import DbHomePage from "./DeliveryBoy/Pages/DbHomePage";
 import DbLayout from "./DeliveryBoy/layouts/dbLayouts";
+import DbHomePage from "./DeliveryBoy/Pages/DbHomePage";
 import DeliveredOrderedList from "./DeliveryBoy/components/DeliveredOrderHistory"
 
-// import DBReviewPage from "./components/DeliveryBoy/components/Review";
-// import DbOrderHistoryPage from "./components/DeliveryBoy/components/OrderHistory";
 import VendorDetail from "./components/VendorDetail";
 import NavBar from "./components/navbar/navbar";
 import MenuList from "./vendor/components/VendorComponents/List/MenuList";
@@ -83,15 +77,12 @@ function App() {
           />
           {/* <Route path="/review" element={<Review />} /> */}
           <Route path="/addbreakfastmenu" element={<AddBreakfastMenu />} />
-          <Route path="/menulist" element={<OrderList />} />
           <Route path="/menulist" element={<MenuList />} />
         </Route>
 
         <Route element={<DbLayout />}>
           <Route path="/deliveryhome" element={<DbHomePage />} />
           <Route path="/deliveredorderlist" element={<DeliveredOrderedList/>}/>
-          {/* <Route path="/dbreview" element={<DBReviewPage />} /> */}
-          {/* <Route path="/dborderhistory" element={<DbOrderHistoryPage />} /> */}
         </Route>
       </Routes>
 

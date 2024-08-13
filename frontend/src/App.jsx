@@ -29,7 +29,7 @@ import AddBreakfastMenu from "./vendor/components/VendorComponents/AddBreakfastM
 import OrderList from "./vendor/components/VendorComponents/List/OrderList";
 import VendorLayout from "./vendor/layouts/vendorLayouts";
 import DeliveredOrderHistory from "./vendor/components/VendorComponents/DeliveredOrderHistory ";
-import CustomerFeedback from  "./CustomerFeedback.css";
+import CustomerFeedback from  "./CustomerFeedback";
 
 import "./App.css";
 import DbLayout from "./components/DeliveryBoy/layouts/dbLayouts";
@@ -37,13 +37,12 @@ import DbHomePage from "./components/DeliveryBoy/Pages/DbHomePage";
 import DBReviewPage from "./components/DeliveryBoy/components/Review";
 import DbOrderHistoryPage from "./components/DeliveryBoy/components/OrderHistory";
 
-
 function App() {
   return (
     <div className="App">
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/CustomerFeedback" element={<CustomerFeedback/>}/>
+        <Route path="/customerfeedback" element={<CustomerFeedback />} />
         <Route path="/login" element={<LoginModal />} />
         {/* <Route path="/home" element={<Home />} /> */}
         <Route path="/register" element={<RegisterModal />} />

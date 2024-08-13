@@ -1,8 +1,9 @@
 import axios from 'axios';
+import config from '../config';
 
 // Create an axios instance with a base URL
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:7073', // Update this to match your backend URL
+  baseURL: config.url, // Update this to match your backend URL
 });
 
 // Fetch Vendors Function

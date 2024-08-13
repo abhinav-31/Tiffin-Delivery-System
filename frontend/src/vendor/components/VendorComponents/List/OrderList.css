@@ -67,4 +67,8 @@
     margin-top: 5px;
     text-align: left;
   }
+
+  .list {
+    margin-top: 400px; /* Adds space on top of the container */
+  }
 }

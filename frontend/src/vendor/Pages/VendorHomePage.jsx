@@ -20,26 +20,17 @@ const VendorHomePage = () => {
         <div className="card">
           <h2>View Orders</h2>
           <p>Keep track of your current orders and manage them effectively.</p>
-          <Link to="/vieworder" className="btn btn-primary">
-            View Orders
-          </Link>
+          <Link to='/menulist' className='btn btn-primary'>View Orders</Link>
         </div>
-        <div className="card">
-          <h2>Order History</h2>
-          <p>Review past orders and analyze trends to improve your service.</p>
-          <Link to="/orderhistory" className="btn btn-primary">
-            Order History
-          </Link>
+        <div className='card'>
+          <h2>Placed Order History</h2>
+          <p>Review past placed orders and analyze trends to improve your service.</p>
+          <Link to='/PlacedOrderHistory' className='btn btn-primary'>Placed Order History</Link>
         </div>
-        <div className="card">
-          <h2>Reviews & Feedback</h2>
-          <p>
-            Check the reviews and feedback from your customers to enhance your
-            offerings.
-          </p>
-          <Link to="/review" className="btn btn-primary">
-            View Reviews
-          </Link>
+        <div className='card'>
+          <h2>Delivered Order History</h2>
+          <p>Check the history of delivered orders and analyze your delivery efficiency.</p>
+          <Link to='/DeliveredOrderHistory' className='btn btn-primary'>Delivered Order History</Link>
         </div>
       </div>
     </div>

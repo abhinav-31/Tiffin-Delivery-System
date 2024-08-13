@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import './VendorList.css'
 import { fetchVendors } from '../../../services/admin_api';
 
-const List = () => {
+const VendorList = () => {
 
     const [vendorList, setVendors] = useState([]);
 
@@ -47,4 +47,4 @@ const List = () => {
     )
 }
 
-export default List
+export default VendorList;

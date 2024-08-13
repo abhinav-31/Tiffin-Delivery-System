@@ -4,18 +4,18 @@ import { fetchDeliveryboys } from '../../../services/admin_api';
 
 const DeliveryboyList = () => {
 
-    const [deliveryboyList, setVendors] = useState([]);
+    const [deliveryboyList, setDeliveryboys] = useState([]);
 
     useEffect(() => {
-        const getVendors = async () => {
+        const getDeliveryboys = async () => {
           try {
             const data = await fetchDeliveryboys();
-            setVendors(data);
+            setDeliveryboys(data);
           } catch (error) {
             console.error('Error fetching vendors:', error);
           }
         };
-        getVendors();
+        getDeliveryboys();
       }, []);
 
     return (
@@ -30,7 +30,6 @@ const DeliveryboyList = () => {
                     <b>Contact No.</b>
                 </div>
                 {deliveryboyList.map((deliveryboy, index) => {
-                    console.log(deliveryboyList);
                     return (
                         <div key={deliveryboy.email || index} className='list-table-format'>
                             <p>{index + 1}</p>

@@ -40,7 +40,7 @@ public class SecurityConfig {
                         "/viewMenuOfVendor/{vendorId}",
                         "/admin/allReviews",
                         "/home/vendorMenuList",
-                "/orders/{vendorId}",
+                        "/orders/{vendorId}",
         };
 
         private static final String[] VENDOR_ENDPOINTS = {
@@ -51,7 +51,8 @@ public class SecurityConfig {
         private static final String[] CUSTOMER_ENDPOINTS = {
                         "/users/addCustomerAddresses**",
                         "/orders/{customerId}/{vendorId}",
-                        "/orders/addReview/{orderId}/{customerId}"
+                        "/orders/addReview/{orderId}/{customerId}",
+                        "/users/getCustomerAddresses"
         };
 
         private static final String[] DELIVERY_BOY_ENDPOINTS = {

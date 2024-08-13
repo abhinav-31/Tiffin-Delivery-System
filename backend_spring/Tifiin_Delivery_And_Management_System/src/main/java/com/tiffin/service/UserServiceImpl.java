@@ -3,6 +3,7 @@ package com.tiffin.service;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import com.tiffin.custom_exceptions.UserException;
 import org.modelmapper.ModelMapper;
@@ -14,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.tiffin.custom_exceptions.ResourceNotFoundException;
 import com.tiffin.dto.AddressReqDTO;
+import com.tiffin.dto.AddressResDTO;
 import com.tiffin.dto.ApiResponse;
 import com.tiffin.dto.UserSignInReqDTO;
 import com.tiffin.dto.UserSignUpReqDTO;
@@ -88,7 +90,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public ApiResponse addCustomerAddresses(AddressReqDTO address) {
-		System.out.println(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+//		System.out.println(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 		User u = userRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString()).orElseThrow(()-> new ResourceNotFoundException("no user found"));
 		
 		if (u != null) {
@@ -96,7 +98,7 @@ public class UserServiceImpl implements UserService {
 		} else {
 			new ResourceNotFoundException("User does not exist!");
 		}
-		System.out.println(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
+//		System.out.println(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
 		return new ApiResponse("New Address Added!!!");
 	}
 
@@ -112,6 +114,23 @@ public class UserServiceImpl implements UserService {
 	public ApiResponse signIn(@Valid UserSignInReqDTO userSignIn) {
 
 		return new ApiResponse("User Validated");
+	}
+
+	@Override
+	public List<AddressResDTO> getAllCustomerAddresses() {
+	    User customer = userRepository.findByEmail(getUserMail())
+	        .orElseThrow(() -> new ResourceNotFoundException("No user found"));
+	    // Convert List<Address> to List<AddressResDTO>
+	    return customer.getAddresses().stream()
+	        .map(address -> new AddressResDTO(
+	            address.getAdrLine1(),
+	            address.getAdrLine2(),
+	            address.getCity(),
+	            address.getState(),
+	            address.getCountry(),
+	            address.getZipcode(),
+	            address.getPhoneNo()))
+	        .collect(Collectors.toList());
 	}
 
 }

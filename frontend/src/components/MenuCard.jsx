@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./MenuCard.css"; // Import your CSS file
 import { useDispatch, useSelector } from "react-redux";
 import { addItem, removeItem, updateItemQuantity } from "../redux/cartSlice"; // Update with your actual slice path
@@ -10,8 +10,8 @@ const MenuCard = ({ menu }) => {
 
   const menuItem = cartItems[vendorEmail]?.[menu.id] || { quantity: 0 };
   const quantity = menuItem.quantity;
-  const isAdded = quantity > 0;
-
+  // const isAdded = quantity > 0;
+  const [isAdded, setIsAdded] = useState(false);
   const handleAddClick = () => {
     if (isAdded) {
       dispatch(removeItem({ vendorEmail, menuId: menu.id }));
@@ -27,6 +27,7 @@ const MenuCard = ({ menu }) => {
         })
       );
     }
+    setIsAdded(!isAdded);
   };
 
   const handleQuantityChange = (change) => {
@@ -61,7 +62,7 @@ const MenuCard = ({ menu }) => {
               <button
                 className="quantity-button"
                 onClick={() => handleQuantityChange(-1)}
-                disabled={quantity === 1}
+                // disabled={quantity === 1}
               >
                 -
               </button>

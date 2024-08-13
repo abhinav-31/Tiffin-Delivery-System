@@ -7,6 +7,7 @@ import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -94,7 +95,11 @@ public class UserController {
 		return ResponseEntity.status(HttpStatus.ACCEPTED)
 				.body(new SignInResDTO(jwtUtils.generateJwtToken(authentication), "Successful Auth!", role, email, id));
 	}
-
+	
+	@GetMapping("/getCustomerAddresses")
+	public ResponseEntity<?> getCustomerAddress(){
+		return ResponseEntity.status(HttpStatus.CREATED).body(userService.getAllCustomerAddresses());
+	}
 	// @PostMapping("/vendorSignIn")
 	// public ResponseEntity<?> signInVendor(@RequestBody @Valid UserSignInReqDTO
 	// userSignIn) {

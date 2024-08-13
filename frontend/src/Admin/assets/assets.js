@@ -9,11 +9,10 @@ export const url = "http://localhost:4000";
 export const currency = "₹";
 
 export const assets ={
-    logo,
+    
     add_icon,
     order_icon,
-    profile_image,
-    upload_area,
+    
     parcel_icon,
     home_icon,
     list_icon,

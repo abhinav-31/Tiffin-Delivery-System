@@ -6,6 +6,8 @@ import LoginModal from "../login/loginModal";
 import RegisterModal from "../register/registerModal";
 import { Link, useNavigate } from "react-router-dom";
 import { logoutAction } from "../../redux/userSlice"; // Import the logout action
+import { toast } from "react-toastify";
+
 
 function NavBar() {
   const navigate = useNavigate();
@@ -41,7 +43,13 @@ function NavBar() {
     // Navigate to the homepage or login page
     navigate("/");
   };
-
+const handleCartClick = () => {
+  if (!loginStatus) {
+    toast.error("Please Sign In!");
+  } else {
+    navigate("/cart");
+  }
+};
   return (
     <div className="">
       <div
@@ -71,9 +79,10 @@ function NavBar() {
             </ul>
             <div className="d-flex">
               <div>
-                <Link to="/cart">
+
                   <button
                     type="button"
+                     onClick={handleCartClick}
                     className="btn btn-secondary position-relative rounded-5 me-3"
                   >
                     <svg
@@ -90,7 +99,7 @@ function NavBar() {
                       {cart.items.length}
                     </span>
                   </button>
-                </Link>
+               
                 <div className="btn-group">
                   <button
                     type="button"
@@ -176,6 +185,7 @@ function NavBar() {
           />
         )}
       </div>
+      
     </div>
   );
 }

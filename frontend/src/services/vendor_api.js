@@ -94,43 +94,45 @@
 //   }
 // };
 
-
-
-import axios from 'axios';
-import { toast } from 'react-toastify';
-import {jwt_decode} from 'jwt-decode';
+import axios from "axios";
+import { toast } from "react-toastify";
+import config from "../config";
 
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:7073',
+  baseURL: config.url,
 });
 
-const getVendorIdFromToken = () => {
-  const token = sessionStorage.getItem('token');
-  if (!token) return null;
-
-  try {
-    const decodedToken = jwt_decode(token);
-    return decodedToken.vendorId; // Ensure vendorId is present in the token payload
-  } catch (error) {
-    console.error('Error decoding token:', error);
-    toast.error('Failed to decode token. Please log in again.');
+export const getVendorIdFromSessionStorage = () => {
+  const vendorId = sessionStorage.getItem("id");
+  if (!vendorId) {
+    toast.error("Vendor ID not found. Please log in again.");
     return null;
   }
+  return vendorId;
 };
+
+// Example usage of axiosInstance and getVendorIdFromSessionStorage
+axiosInstance.interceptors.request.use((config) => {
+  const vendorId = getVendorIdFromSessionStorage();
+  if (vendorId) {
+    config.headers["Vendor-ID"] = vendorId; // Include vendor ID in the request headers if needed
+  }
+  return config;
+});
 
 // Fetch orders
 export const fetchOrders = async () => {
   try {
-    const token = sessionStorage.getItem('token');
-    const response = await axiosInstance.get('/menus', {
+    const token = sessionStorage.getItem("token");
+    const response = await axiosInstance.get("/menus", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
     return response.data;
   } catch (error) {
-    console.error('Error fetching orders:', error);
-    toast.error('Failed to fetch orders. Please try again later.');
+    console.error("Error fetching orders:", error);
+    toast.error("Failed to fetch orders. Please try again later.");
     throw error;
   }
 };
@@ -138,60 +140,72 @@ export const fetchOrders = async () => {
 // Add menu
 export const addMenu = async (formData) => {
   try {
-    const token = sessionStorage.getItem('token');
-    const vendorId = getVendorIdFromToken();
-    if (!vendorId) throw new Error('Vendor ID not found in token.');
+    const token = sessionStorage.getItem("token");
+    const vendorId = getVendorIdFromSessionStorage();
+    if (!vendorId) throw new Error("Vendor ID not found in token.");
 
-    const response = await axiosInstance.post(`/menus/addMenu/${vendorId}`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await axiosInstance.post(
+      `/menus/addMenu/${vendorId}`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     return response.data;
   } catch (error) {
-    console.error('Error adding menu:', error);
-    toast.error('Failed to add menu. Please try again later.');
+    console.error("Error adding menu:", error);
+    toast.error("Failed to add menu. Please try again later.");
     throw error;
   }
 };
 
 // Fetch placed orders history
-export const fetchPlacedOrdersHistory = async () => {
+export const fetchPlacedOrdersHistory = async (vendorId) => {
   try {
-    const token = sessionStorage.getItem('token');
-    const vendorId = getVendorIdFromToken();
-    if (!vendorId) throw new Error('Vendor ID not found in token.');
-
-    const response = await axiosInstance.get(`/orders/${vendorId}?status=PLACED`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const token = sessionStorage.getItem("token");
+    if (!vendorId) throw new Error("Vendor ID not found in token.");
+    const response = await axiosInstance.get(
+      `/orders/${vendorId}?status=PLACED`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    console.log(response.data);
     return response.data;
   } catch (error) {
-    console.error('Error fetching placed orders history:', error);
-    toast.error('Failed to fetch placed orders history. Please try again later.');
+    console.error("Error fetching placed orders history:", error);
+    toast.error(
+      "Failed to fetch placed orders history. Please try again later."
+    );
     throw error;
   }
 };
 
 // Fetch delivered orders history
-export const fetchDeliveredOrdersHistory = async () => {
+export const fetchDeliveredOrdersHistory = async (vendorId) => {
   try {
-    const token = sessionStorage.getItem('token');
-    const vendorId = getVendorIdFromToken();
-    if (!vendorId) throw new Error('Vendor ID not found in token.');
+    const token = sessionStorage.getItem("token");
+    if (!vendorId) throw new Error("Vendor ID not found in token.");
 
-    const response = await axiosInstance.get(`/orders/${vendorId}?status=DELIVERED`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await axiosInstance.get(
+      `/orders/${vendorId}?status=DELIVERED`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     return response.data;
   } catch (error) {
-    console.error('Error fetching delivered orders history:', error);
-    toast.error('Failed to fetch delivered orders history. Please try again later.');
+    console.error("Error fetching delivered orders history:", error);
+    toast.error(
+      "Failed to fetch delivered orders history. Please try again later."
+    );
     throw error;
   }
 };
@@ -199,16 +213,16 @@ export const fetchDeliveredOrdersHistory = async () => {
 // Fetch customer reviews
 export const fetchCustomerReviews = async () => {
   try {
-    const token = sessionStorage.getItem('token');
-    const response = await axiosInstance.get('/api/review/list', {
+    const token = sessionStorage.getItem("token");
+    const response = await axiosInstance.get("/api/review/list", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
     return response.data;
   } catch (error) {
-    console.error('Error fetching customer reviews:', error);
-    toast.error('Failed to fetch customer reviews. Please try again later.');
+    console.error("Error fetching customer reviews:", error);
+    toast.error("Failed to fetch customer reviews. Please try again later.");
     throw error;
   }
 };

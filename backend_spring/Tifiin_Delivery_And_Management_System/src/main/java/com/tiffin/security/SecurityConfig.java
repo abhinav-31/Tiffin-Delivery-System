@@ -39,12 +39,13 @@ public class SecurityConfig {
                         "/home",
                         "/viewMenuOfVendor/{vendorId}",
                         "/admin/allReviews",
-                        "/home/vendorMenuList"
+                        "/home/vendorMenuList",
+                "/orders/{vendorId}",
         };
 
         private static final String[] VENDOR_ENDPOINTS = {
                         "/menus/**",
-                        "/orders/{vendorId}",
+
                         "/users/welcome"
         };
 

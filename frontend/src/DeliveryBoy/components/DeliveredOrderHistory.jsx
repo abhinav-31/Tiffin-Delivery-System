@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./DeliveredOrderHistory.css";
+import "./DeliveredOrderHistory";
 import { toast } from "react-toastify";
 import { fetchDeliveredOrdersHistory } from "../../services/deliverboy_api"; // Adjust path as needed
 import { currency } from "../assets/assets";
@@ -22,51 +22,55 @@ const DeliveredOrderHistory = () => {
   }, [deliveryboyId]);
 
   return (
-    <div className="order-history">
-      <h2>Delivered Order History</h2>
-      <hr />
-      <div className="order-history-table">
-        <div className="order-history-header">
-          <b>Order ID</b>
-          <b>Customer Name</b>
-          <b>Vendor Name</b>
-          <b>Earned</b>
-          <b>Status</b>
-          <b>Payment Method</b>
-          <b>Delivery Address</b>
-        </div>
+    <div className="db-homepage-container">
+      <div className="db-homepage-header">
+        <h2>Delivered Order History</h2>
+      </div>
+      <div className="db-homepage-content">
         {orders.length > 0 ? (
-          orders.map((order, index) => (
-            <div key={index} className="order-history-row">
-              <p>{order.orderId}</p>
-              <p>
-                {order.customer.firstName} {order.customer.lastName}
-              </p>
-              <p>{order.vendor.businessName}</p>
-              <p>
-                {currency}
-                {order.earnedAmount.toFixed(2)}
-              </p>
-              <p className="status-delivered">DELIVERED</p>
-              <p>{order.paymentMethod}</p>
-              <div className="delivery-address">
-                <p>
-                  {order.deliveryAddress.adrLine1},{" "}
-                  {order.deliveryAddress.adrLine2}
-                </p>
-                <p>
-                  {order.deliveryAddress.city}, {order.deliveryAddress.state}
-                </p>
-                <p>
-                  {order.deliveryAddress.country},{" "}
-                  {order.deliveryAddress.zipcode}
-                </p>
-                <p>Phone: {order.deliveryAddress.phoneNo}</p>
-              </div>
-            </div>
-          ))
+          <table className="db-homepage-table">
+            <thead>
+              <tr>
+                <th>Order ID</th>
+                <th>Customer Name</th>
+                <th>Vendor Name</th>
+                <th>Earned</th>
+                <th>Status</th>
+                <th>Payment Method</th>
+                <th>Delivery Address</th>
+              </tr>
+            </thead>
+            <tbody>
+              {orders.map((order, index) => (
+                <tr key={index}>
+                  <td>{order.orderId}</td>
+                  <td>
+                    {order.customer.firstName} {order.customer.lastName}
+                  </td>
+                  <td>{order.vendor.businessName}</td>
+                  <td>
+                    {currency}
+                    {order.earnedAmount.toFixed(2)}
+                  </td>
+                  <td className="status-delivered">DELIVERED</td>
+                  <td>{order.paymentMethod}</td>
+                  <td>
+                    {order.deliveryAddress.adrLine1},{" "}
+                    {order.deliveryAddress.adrLine2}
+                    <br />
+                    {order.deliveryAddress.city}, {order.deliveryAddress.state}
+                    <br />
+                    {order.deliveryAddress.country},{" "}
+                    {order.deliveryAddress.zipcode}
+                    <br />
+                    Phone: {order.deliveryAddress.phoneNo}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         ) : (
-          <div ></div>
+          <p className="no-orders">No delivered orders found.</p>
         )}
       </div>
     </div>

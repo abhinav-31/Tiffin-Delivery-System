@@ -40,7 +40,7 @@ public class SecurityConfig {
                         "/viewMenuOfVendor/{vendorId}",
                         "/admin/allReviews",
                         "/home/vendorMenuList",
-                "/deliveryCharges/{customerPincode}/{vendorPincode}"
+                        "/deliveryCharges/{customerPincode}/{vendorPincode}"
         };
 
         private static final String[] VENDOR_ENDPOINTS = {

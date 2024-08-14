@@ -12,8 +12,6 @@ const PlacedOrderHistory = () => {
   const [buttonVisible, setButtonVisible] = useState(true);
   const deliveryboyId = sessionStorage.getItem("id"); // Retrieve the correct item from sessionStorage
 
-  console.log("Delivery Boy ID:", deliveryboyId); // Log deliveryboyId
-
   const loadPlacedOrders = async () => {
     try {
       const data = await fetchPlacedOrdersHistory(deliveryboyId);
@@ -29,10 +27,8 @@ const PlacedOrderHistory = () => {
   }, [deliveryboyId]);
 
   const handleMarkAsDelivered = async () => {
-    console.log("Mark as Delivered button clicked");
     try {
       const updatePromises = orders.map(async (order) => {
-        console.log(`Updating order ${order.orderId} to DELIVERED`);
         await updateOrderStatus(order.orderId, "DELIVERED");
       });
       await Promise.all(updatePromises);
@@ -41,40 +37,43 @@ const PlacedOrderHistory = () => {
       localStorage.setItem("buttonVisible", "false");
       loadPlacedOrders(); // Refresh the order list
     } catch (error) {
-      console.error("Error in handleMarkAsDelivered:", error);
       toast.error("Error updating order status!");
     }
   };
 
   return (
-    <div className="order-history">
+    <div className="db-homepage-container">
       <h2>Delivery Home Page</h2>
       <hr />
-      <div className="order-history-table">
-        <div className="order-history-header">
-          <b>Order ID</b>
-          <b>Customer Name</b>
-          <b>Vendor Name</b>
-          <b>Earned</b>
-          <b>Status</b>
-          <b>Payment Method</b>
-          <b>Delivery Address</b>
-        </div>
+      <div className="db-homepage-content">
         {orders.length > 0 ? (
           orders.map((order, index) => (
-            <div key={index} className="order-history-row">
-              <p>{order.orderId}</p>
+            <div key={index} className="db-homepage-card">
               <p>
-                {order.customer?.firstName} {order.customer?.lastName}
+                <strong>Order ID:</strong> {order.orderId}
               </p>
-              <p>{order.vendor?.businessName}</p>
               <p>
-                {currency}
+                <strong>Customer Name:</strong> {order.customer?.firstName}{" "}
+                {order.customer?.lastName}
+              </p>
+              <p>
+                <strong>Vendor Name:</strong> {order.vendor?.businessName}
+              </p>
+              <p>
+                <strong>Earned:</strong> {currency}
                 {order.earnedAmount}
               </p>
-              <p className="status-placed">PLACED</p>
-              <p>{order.paymentMethod}</p>
+              <p>
+                <strong>Status:</strong>{" "}
+                <span className="status-placed">PLACED</span>
+              </p>
+              <p>
+                <strong>Payment Method:</strong> {order.paymentMethod}
+              </p>
               <div className="delivery-address">
+                <p>
+                  <strong>Delivery Address:</strong>
+                </p>
                 <p>
                   {order.deliveryAddress?.adrLine1},{" "}
                   {order.deliveryAddress?.adrLine2}
@@ -91,7 +90,7 @@ const PlacedOrderHistory = () => {
             </div>
           ))
         ) : (
-          <div></div>
+          <p className="no-orders">No placed orders found.</p>
         )}
       </div>
       {buttonVisible && (

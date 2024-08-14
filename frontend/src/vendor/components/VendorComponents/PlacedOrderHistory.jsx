@@ -11,7 +11,7 @@ const PlacedOrderHistory = () => {
   const [orders, setOrders] = useState([]);
   const vendorId = getVendorIdFromSessionStorage();
 
-  const loadPlacedOrders = async () => {
+  const fetchOrders = async () => {
     try {
       const data = await fetchPlacedOrdersHistory(vendorId);
       setOrders(data);
@@ -22,7 +22,7 @@ const PlacedOrderHistory = () => {
 
   useEffect(() => {
     if (vendorId) {
-      loadPlacedOrders();
+      fetchOrders();
     } else {
       toast.error("Vendor ID is missing");
     }
@@ -30,18 +30,31 @@ const PlacedOrderHistory = () => {
 
   return (
     <div className="list add flex-col">
+      <h2>Current Orders</h2>
       {orders.length > 0 ? (
         <div className="order-list">
           {orders.map((order, index) => (
             <div key={index} className="order-item">
-              <img src={assets.parcel_icon} alt="Order Icon" />
-              <div className="order-item-details">
+              <div>
+                <img src={assets.open_box} alt="Order Icon" />
+                <p className="order-item-name">
+                  {order.menuItems.map((menuItem, index) => (
+                    <span key={index}>
+                      {menuItem.quantity} x {menuItem.menuItemName}
+                      {index < order.menuItems.length - 1 && ", "}
+                      <br />
+                    </span>
+                  ))}
+                  <br />
+                </p>
+              </div>
+              <div>
                 <p className="order-item-name">
                   {order.customerAndDeliveryDetails.customer.firstName +
                     " " +
                     order.customerAndDeliveryDetails.customer.lastName}
                 </p>
-                <p className="order-item-food">
+                <p className="order-item-name">
                   Delivery By:{" "}
                   {order.customerAndDeliveryDetails.deliveryBoy.firstName +
                     " " +
@@ -67,18 +80,18 @@ const PlacedOrderHistory = () => {
                   {order.customerAndDeliveryDetails.deliveryAddress.phoneNo}
                 </p>
               </div>
-              <p className="order-item-amount">
+              <p>
                 {currency}
                 {order.totalAmount}
               </p>
-              <p className="order-item-status">
+              <p className="order-status-placed">
                 <span>&#x25cf;</span> <b>PLACED</b>
               </p>
             </div>
           ))}
         </div>
       ) : (
-        <p className="no-orders-message">No current orders.</p>
+        <p>No current orders available.</p>
       )}
     </div>
   );

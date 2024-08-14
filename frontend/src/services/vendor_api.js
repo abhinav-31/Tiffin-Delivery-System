@@ -5,7 +5,9 @@ import config from "../config";
 const axiosInstance = axios.create({
   baseURL: config.url,
 });
-const token = sessionStorage.getItem("token");
+const getToken = () => {
+  return sessionStorage.getItem("token");
+};
 export const getVendorIdFromSessionStorage = () => {
   const vendorId = sessionStorage.getItem("id");
   if (!vendorId) {
@@ -26,9 +28,10 @@ axiosInstance.interceptors.request.use((config) => {
 // Fetch orders
 export const fetchMenus = async (vendorId) => {
   try {
+    // const token = sessionStorage.getItem("token");
     const response = await axiosInstance.get(`/menus/vendor/${vendorId}`, {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${getToken()}`,
       },
     });
     console.log(response.data);
@@ -47,7 +50,7 @@ export const addCustomerReview = async (orderId, customerId, reviewData) => {
       reviewData,
       {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${getToken()}`,
         },
       }
     );
@@ -61,7 +64,6 @@ export const addCustomerReview = async (orderId, customerId, reviewData) => {
 // Add menu
 export const addMenu = async (vendorId, formData) => {
   try {
-    const token = sessionStorage.getItem("token");
     console.log(formData);
     const response = await axiosInstance.post(
       `/menus/addMenu/${vendorId}`,
@@ -69,7 +71,7 @@ export const addMenu = async (vendorId, formData) => {
       {
         headers: {
           "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${getToken()}`,
         },
       }
     );
@@ -88,7 +90,7 @@ export const fetchPlacedOrdersHistory = async (vendorId) => {
       `/orders/${vendorId}?status=PLACED`,
       {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${getToken()}`,
         },
       }
     );
@@ -105,14 +107,13 @@ export const fetchPlacedOrdersHistory = async (vendorId) => {
 // Fetch delivered orders history
 export const fetchDeliveredOrdersHistory = async (vendorId) => {
   try {
-    const token = sessionStorage.getItem("token");
     if (!vendorId) throw new Error("Vendor ID not found in token.");
 
     const response = await axiosInstance.get(
       `/orders/${vendorId}?status=DELIVERED`,
       {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${getToken()}`,
         },
       }
     );
@@ -128,13 +129,12 @@ export const fetchDeliveredOrdersHistory = async (vendorId) => {
 
 export const deleteMenu = async ({ id }) => {
   try {
-    const token = sessionStorage.getItem("token");
     const response = await axiosInstance.post(
       `/menus`,
       { id },
       {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${getToken()}`,
         },
       }
     );
@@ -147,13 +147,12 @@ export const deleteMenu = async ({ id }) => {
 };
 export const updateMenu = async ({ id, price, quantity }) => {
   try {
-    const token = sessionStorage.getItem("token");
     const response = await axiosInstance.post(
       `/menus/updateQuantity`, // Assuming your endpoint follows this pattern
       { id, price, quantity },
       {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${getToken()}`,
         },
       }
     );

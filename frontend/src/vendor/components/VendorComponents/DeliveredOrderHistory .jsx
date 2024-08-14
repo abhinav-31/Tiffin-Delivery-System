@@ -35,14 +35,26 @@ const DeliveredOrderHistory = () => {
         <div className="order-list">
           {orders.map((order, index) => (
             <div key={index} className="order-item">
-              <img src={assets.parcel_icon} alt="Order Icon" />
+              <div>
+                <img src={assets.parcel_icon} alt="Order Icon" />
+                <p className="order-item-name">
+                  {order.menuItems.map((menuItem, index) => (
+                    <span key={index}>
+                      {menuItem.quantity} x {menuItem.menuItemName}
+                      {index < order.menuItems.length - 1 && ", "}
+                      <br />
+                    </span>
+                  ))}
+                  <br />
+                </p>
+              </div>
               <div>
                 <p className="order-item-name">
                   {order.customerAndDeliveryDetails.customer.firstName +
                     " " +
                     order.customerAndDeliveryDetails.customer.lastName}
                 </p>
-                <p className="order-item-food">
+                <p className="order-item-name">
                   Delivery By:{" "}
                   {order.customerAndDeliveryDetails.deliveryBoy.firstName +
                     " " +
@@ -72,7 +84,7 @@ const DeliveredOrderHistory = () => {
                 {currency}
                 {order.totalAmount}
               </p>
-              <p>
+              <p className="order-status-delivered">
                 <span>&#x25cf;</span> <b>DELIVERED</b>
               </p>
             </div>

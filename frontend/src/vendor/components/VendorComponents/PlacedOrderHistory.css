@@ -1,59 +1,46 @@
-.order-history {
+/* DeliveredOrderHistory.css */
+
+/* Main container */
+.order-status-placed {
+  color: green;
+}
+.delivered-order-history {
   padding: 20px;
-  max-width: 1200px;
-  margin: 0 auto;
 }
 
+/* Styling for order list */
 .order-list {
   display: flex;
   flex-direction: column;
 }
 
+/* Styling for each order item */
 .order-item {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  margin-bottom: 15px;
   padding: 10px;
-  border-bottom: 1px solid #ddd;
-  margin-bottom: 10px;
-  background-color: #fff;
+  border: 1px solid #ccc;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Image styling */
 .order-item img {
   width: 50px;
   height: 50px;
-  object-fit: cover;
-  border-radius: 50%;
-  margin-right: 10px;
+  margin-right: 15px;
 }
 
-.order-item-details {
+/* Address and details styling */
+.order-item div {
   flex: 1;
 }
 
-.order-item-name,
-.order-item-food,
-.order-item-address,
-.order-item-phone {
-  margin: 5px 0;
-}
-
-.order-item-amount {
-  font-weight: bold;
-  color: #333;
-}
-
-.order-item-status {
-  color: #4caf50;
-  font-weight: bold;
-}
-
+/* Message for no orders */
 .no-orders-message {
   text-align: center;
-  font-size: 18px;
-  color: #888;
+  font-size: 16px;
+  color: #666;
 }
 .list-table-format {
   display: grid;

@@ -1,89 +1,101 @@
-/* Overall Container */
-/* .order-history {
-  background-color: #f8f9fa;
-  padding: 20px;
-  border-radius: 8px;
-} */
+/* DbHomePage.css */
 
-/* Order History Table */
-.order-history-table {
-  display: grid;
-  grid-template-columns: 0.5fr 1fr 1fr 0.6fr 1fr 1fr 2fr;
-  gap: 10px;
-  background-color: #ffffff;
-  border: 1px solid #dee2e6;
+/* Main container styling */
+.db-homepage-container {
+  padding: 30px;
+  margin: 40px auto;
+  max-width: 800px;
+  background-color: #f0f2f5;
   border-radius: 10px;
-  overflow: hidden;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Order History Rows */
-.order-history-row p.status-placed {
-  color: #007bff; /* Blue color for 'PLACED' status */
-}
-
-.order-history-row p.status-delivered {
-  color: rgb(5, 189, 5); /* Green color for 'DELIVERED' status */
-}
-
-/* No Orders Found Message */
-.no-orders {
-  position: absolute;
-  top: 50%;
-  left: 60%;
-  transform: translate(-50%, -50%);
+/* Header styling */
+.db-homepage-container h2 {
   text-align: center;
-  color: #fa5050;
-  font-size: 1.2em;
+  margin-bottom: 20px;
+  font-size: 2em;
+  color: #333;
 }
 
+/* Content layout */
+.db-homepage-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
 
+/* Order card styling */
+.db-homepage-card {
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
+  border: 1px solid #ddd;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.db-homepage-card:hover {
+  transform: scale(1.01);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.db-homepage-card p {
+  margin: 8px 0;
+  font-size: 1em;
+  color: #555;
+}
+
+.db-homepage-card strong {
+  color: #000;
+}
+
+/* Status styling */
+.status-placed {
+  color: orange;
+  font-weight: bold;
+}
+
+/* No orders message */
+.no-orders {
+  text-align: center;
+  font-size: 1.2em;
+  color: #888;
+}
+
+/* Button styling */
 .mark-delivered-btn {
-  background-color: #28a745;
-  border-color: #28a745;
-  color: white;
-  border: none;
+  display: block;
+  margin: 20px auto;
   padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
+  font-size: 1em;
+  color: #fff;
+  background-color: #28a745;
+  border: none;
   border-radius: 5px;
-  margin-top: auto;
+  cursor: pointer;
+  transition: background-color 0.2s;
 }
 
 .mark-delivered-btn:hover {
   background-color: #218838;
 }
 
-/* Delivery Address Styling */
-.delivery-address p {
-  margin: 2px 0;
-}
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .db-homepage-container {
+    padding: 20px;
+  }
 
-/* Page Title */
-h2 {
-  color: #333;
-}
+  .db-homepage-container h2 {
+    font-size: 1.5em;
+  }
 
-/* Horizontal Rule */
-hr {
-  margin: 20px 0;
-  border: 1px solid #dee2e6;
-}
+  .db-homepage-card {
+    padding: 15px;
+  }
 
-
-.order-history {
-  background-color: #f8f9fa;
-  padding: 20px;
-  border-radius: 8px;
-  min-height: 80vh; 
-  display: flex;
-  flex-direction: column;
-  align-items: center; /* Center the button horizontally */
-}
-
-.order-history-table {
-  width: 100%; /* Ensure table takes full width */
-}
-
-.button-container {
-  margin-top: 20px;
+  .db-homepage-card p {
+    font-size: 0.9em;
+  }
 }

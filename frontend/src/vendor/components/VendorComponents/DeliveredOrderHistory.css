@@ -1,6 +1,9 @@
 /* DeliveredOrderHistory.css */
 
 /* Main container */
+.order-status-delivered {
+  color: gold;
+}
 .delivered-order-history {
   padding: 20px;
 }

@@ -35,7 +35,7 @@ import CustomerFeedback from "./CustomerFeedback";
 import "./App.css";
 import DbLayout from "./DeliveryBoy/layouts/dbLayouts";
 import DbHomePage from "./DeliveryBoy/Pages/DbHomePage";
-import DeliveredOrderedList from "./DeliveryBoy/components/DeliveredOrderHistory";
+import DeliveredOrderedList from "./DeliveryBoy/components/DeliveredOrderHistory"
 
 import VendorDetail from "./components/VendorDetail";
 import NavBar from "./components/navbar/navbar";
@@ -82,10 +82,7 @@ function App() {
 
         <Route element={<DbLayout />}>
           <Route path="/deliveryhome" element={<DbHomePage />} />
-          <Route
-            path="/deliveredorderlist"
-            element={<DeliveredOrderedList />}
-          />
+          <Route path="/deliveredorderlist" element={<DeliveredOrderedList/>}/>
         </Route>
       </Routes>
 

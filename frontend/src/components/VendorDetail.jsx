@@ -108,20 +108,22 @@ import { useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { fetchVendorMenu } from '../services/VendorService';
 import MenuCard from '../components/MenuCard';
-import { setVendorEmail } from '../redux/vendorSlice';
+import { setVendorEmail, setVendorId } from '../redux/vendorSlice';
 import './VendorDetails.css';
 
 const VendorDetail = () => {
   const location = useLocation();
   const dispatch = useDispatch();
-  const { email, businessName } = location.state || {};
+  const { email, businessName, id } = location.state || {};
   const [menuItems, setMenuItems] = useState([]);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const getVendorMenu = async () => {
       if (email) {
-        dispatch(setVendorEmail(email)); // Store email in Redux
+        dispatch(setVendorEmail(email)); // Store vendor email and it id in Redux
+        dispatch(setVendorId(id));
+        console.log("id of vndor:- " + id);
         const result = await fetchVendorMenu(email);
         if (result.status === 'error') {
           setError(result.error);

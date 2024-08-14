@@ -22,7 +22,7 @@ import jakarta.validation.Valid;
 
 @RestController
 //@CrossOrigin
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin
 @RequestMapping("/orders")
 public class OrderController {
 

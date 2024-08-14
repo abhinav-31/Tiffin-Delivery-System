@@ -21,9 +21,10 @@ import "./Vendor.css"; // Import your CSS file
 function VendorList({ vendors }) {
   const navigate = useNavigate();
   console.log("vendors list:- " + vendors);
-  const handleVendorClick = (email, businessName) => {
+  const handleVendorClick = (email, businessName, id) => {
     console.log("bn= " + email);
-    navigate("/vendor/menu", { state: { email, businessName } }); // Send email in state
+    console.log("vendorid " + id);
+    navigate("/vendor/menu", { state: { email, businessName, id} }); // Send email in state
   };
 
   return (
@@ -32,7 +33,7 @@ function VendorList({ vendors }) {
         <Vendor
           key={index}
           property={vendor}
-          onClick={() => handleVendorClick(vendor.email, vendor.businessName)}
+          onClick={() => handleVendorClick(vendor.email, vendor.businessName, vendor.id)}
         />
       ))}
     </div>

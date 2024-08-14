@@ -108,7 +108,7 @@ public class OrderServiceImpl implements OrderService {
     payment.setOrder(orderPlaced);
     paymentRepository.save(payment);
 
-    return new ApiResponse("New Order added with ID: " + orderPlaced.getId());
+    return new ApiResponse("Order placed successfully!");
   }
 
 //	public Optional<DeliveryBoy> findSuitableDeliveryBoy(String vendorPincode) {

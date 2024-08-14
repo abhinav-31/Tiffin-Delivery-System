@@ -11,8 +11,11 @@ const vendorSlice = createSlice({
     setVendorEmail: (state, action) => {
       state.email = action.payload;
     },
+    setVendorId: (state,action)=>{
+      state.id = action.payload;
+    }
   },
 });
 
-export const { setVendorEmail } = vendorSlice.actions;
+export const { setVendorEmail, setVendorId } = vendorSlice.actions;
 export default vendorSlice.reducer;

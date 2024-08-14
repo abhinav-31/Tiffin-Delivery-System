@@ -6,6 +6,8 @@ import LoginModal from "../login/loginModal";
 import RegisterModal from "../register/registerModal";
 import { Link, useNavigate } from "react-router-dom";
 import { logoutAction } from "../../redux/userSlice"; // Import the logout action
+import { toast } from "react-toastify";
+
 
 function NavBar() {
   const navigate = useNavigate();
@@ -45,20 +47,13 @@ function NavBar() {
     // Navigate to the homepage or login page
     navigate("/");
   };
-
-  const getProfileLink = () => {
-    switch (role) {
-      case "ROLE_ADMIN":
-        return "/adminhome";
-      case "ROLE_VENDOR":
-        return "/vendorhomepage";
-      case "ROLE_DELIVERY_BOY":
-        return "/deliveryhome";
-      default:
-        return "/";
-    }
-  };
-
+const handleCartClick = () => {
+  if (!loginStatus) {
+    toast.error("Please Sign In!");
+  } else {
+    navigate("/cart");
+  }
+};
   return (
     <div className="">
       <div
@@ -87,10 +82,11 @@ function NavBar() {
               </li>
             </ul>
             <div className="d-flex">
-              {role === "ROLE_CUSTOMER" && (
+              <div>
                 <Link to="/cart">
                   <button
                     type="button"
+                     onClick={handleCartClick}
                     className="btn btn-secondary position-relative rounded-5 me-3"
                   >
                     <svg
@@ -108,9 +104,7 @@ function NavBar() {
                     </span>
                   </button>
                 </Link>
-              )}
-              <div className="btn-group">
-                <Link to={getProfileLink()}>
+                <div className="btn-group">
                   <button
                     type="button"
                     className="btn btn-secondary rounded-start-pill"
@@ -195,6 +189,7 @@ function NavBar() {
           />
         )}
       </div>
+      
     </div>
   );
 }

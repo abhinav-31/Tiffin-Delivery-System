@@ -88,7 +88,6 @@ public class OrderServiceImpl implements OrderService {
     // when suitable delivery boy found -> set status to BUSY
     orderPlaced.setDeliveryAddress(mapper.map(orderRequest.getAddress(), Address.class));
     orderPlaced.setStatus(OrderStatus.PLACED);
-    System.out.println(orderPlaced);
     orderRepository.save(orderPlaced);
     for (MenuDTO menuDTO : orderRequest.getMenuItems()) {
       Menu menu = menuRepository.findById(menuDTO.getId()).orElseThrow(() -> new ResourceNotFoundException("Menu not found with id " + menuDTO.getId()));

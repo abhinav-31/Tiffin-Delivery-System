@@ -7,8 +7,6 @@ import RegisterModal from "../register/registerModal";
 import { Link, useNavigate } from "react-router-dom";
 import { logoutAction } from "../../redux/userSlice"; // Import the logout action
 import { toast } from "react-toastify";
-
-
 function NavBar() {
   const navigate = useNavigate();
   const dispatch = useDispatch(); // Use dispatch to update the Redux state
@@ -47,13 +45,26 @@ function NavBar() {
     // Navigate to the homepage or login page
     navigate("/");
   };
-const handleCartClick = () => {
-  if (!loginStatus) {
-    toast.error("Please Sign In!");
-  } else {
-    navigate("/cart");
-  }
-};
+  const handleCartClick = () => {
+    if (!loginStatus) {
+      toast.error("Please Sign In!");
+    } else {
+      navigate("/cart");
+    }
+  };
+  const getProfileLink = () => {
+    switch (role) {
+      case "ROLE_ADMIN":
+        return "/adminhome";
+      case "ROLE_VENDOR":
+        return "/vendorhomepage";
+      case "ROLE_DELIVERY_BOY":
+        return "/deliveryhome";
+      default:
+        return "/";
+    }
+  };
+
   return (
     <div className="">
       <div
@@ -82,29 +93,30 @@ const handleCartClick = () => {
               </li>
             </ul>
             <div className="d-flex">
-              <div>
-                <Link to="/cart">
-                  <button
-                    type="button"
-                     onClick={handleCartClick}
-                    className="btn btn-secondary position-relative rounded-5 me-3"
+              <Link to="/cart">
+                <button
+                  type="button"
+                  onClick={handleCartClick}
+                  className="btn btn-secondary position-relative rounded-5 me-3"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fillRule="currentColor"
+                    className="bi bi-cart"
+                    viewBox="0 0 16 16"
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      fillRule="currentColor"
-                      className="bi bi-cart"
-                      viewBox="0 0 16 16"
-                    >
-                      <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"></path>
-                    </svg>
-                    <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                      {cart.items.length}
-                    </span>
-                  </button>
-                </Link>
-                <div className="btn-group">
+                    <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"></path>
+                  </svg>
+                  <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                    {cart.items.length}
+                  </span>
+                </button>
+              </Link>
+
+              <div className="btn-group">
+                <Link to={getProfileLink()}>
                   <button
                     type="button"
                     className="btn btn-secondary rounded-start-pill"
@@ -189,7 +201,6 @@ const handleCartClick = () => {
           />
         )}
       </div>
-      
     </div>
   );
 }

@@ -1,9 +1,9 @@
 import React, { useRef, useEffect } from "react";
 import { toast } from "react-toastify";
 import Zipcode from "./zipcode";
-import { useDispatch } from 'react-redux';
+import { useDispatch } from "react-redux";
 import { registerCustomerAddress } from "../../services/user";
-import { setAddresses} from '../../redux/AddressSlice';
+import { setAddresses } from "../../redux/AddressSlice";
 import "./AddCustomerAddressModal.css"; // Import CSS file
 
 function AddCustomerAddressModal({ addedAddress }) {
@@ -35,8 +35,8 @@ function AddCustomerAddressModal({ addedAddress }) {
       toast.warning("Enter address line 2");
     } else if (zipcode.length === 0) {
       toast.warning("Select zipcode");
-    } else if (phoneNo.length === 0) {
-      toast.warning("Enter contact number");
+    } else if (phoneNo.length === 0 || phoneNo.length < 9) {
+      toast.warning("Enter 10 digit contact no.");
     } else {
       const addressData = {
         adrLine1: addressLine1,
@@ -53,7 +53,7 @@ function AddCustomerAddressModal({ addedAddress }) {
         const result = await registerCustomerAddress(addressData, token);
 
         if (result?.message === "New Address Added!!!") {
-            dispatch(setAddresses(addressData));
+          dispatch(setAddresses(addressData));
           toast.success("Address added successfully");
           resetForm();
           addedAddress(); // Close the modal or navigate to another page

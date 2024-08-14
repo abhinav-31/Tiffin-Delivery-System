@@ -355,7 +355,7 @@ function Cart() {
     const orderRequest = {
       menuItems: Object.entries(cart).flatMap(([vendorEmail, vendorItems]) =>
         Object.entries(vendorItems).map(([menuId, item]) => ({
-          menuId: parseInt(menuId),
+          id: parseInt(menuId),
           quantity: item.quantity,
         }))
       ),

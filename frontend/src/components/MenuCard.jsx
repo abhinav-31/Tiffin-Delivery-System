@@ -89,6 +89,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addItem, removeItem, updateItemQuantity } from "../redux/cartSlice";
 import "./MenuCard.css";
+import { assets } from "../Admin/assets/assets";
 
 const MenuCard = ({ menu }) => {
   const dispatch = useDispatch();

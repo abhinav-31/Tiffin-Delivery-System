@@ -150,6 +150,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<finalName>tiffinity-backend</finalName>
 	</build>
 
 </project>

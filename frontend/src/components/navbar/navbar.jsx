@@ -48,7 +48,9 @@ function NavBar() {
   const handleCartClick = () => {
     if (!loginStatus) {
       toast.error("Please Sign In!");
+      // console.log("hello");
     } else {
+      console.log("hello");
       navigate("/cart");
     }
   };
@@ -93,7 +95,7 @@ function NavBar() {
               </li>
             </ul>
             <div className="d-flex">
-              <Link to="/cart">
+              
                 <button
                   type="button"
                   onClick={handleCartClick}
@@ -113,7 +115,7 @@ function NavBar() {
                     {cart.items.length}
                   </span>
                 </button>
-              </Link>
+             
 
               <div className="btn-group">
                 <Link to={getProfileLink()}>

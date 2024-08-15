@@ -13,9 +13,13 @@ function Counter({ quantity, onQuantityChange, vendorEmail, menuId }) {
 
   const decreaseQuant = () => {
     const newQuantity = quantity - 1;
-    if (newQuantity <= 0) {
+    console.log("afdasf:- "+newQuantity);
+    if (newQuantity === 0) {
+      onQuantityChange(newQuantity);
       // Remove item from cart when quantity reaches zero
       dispatch(removeItem({ vendorEmail, menuId }));
+      console.log("menu id asdfa: "+menuId)
+     
     } else {
       onQuantityChange(newQuantity);
     }

@@ -129,6 +129,7 @@ const VendorDetail = () => {
           setError(result.error);
         } else {
           setMenuItems(result);
+          console.log("hamara menu items"+result);
         }
       } else {
         setError({ message: 'No vendor email provided' });
@@ -148,6 +149,7 @@ const VendorDetail = () => {
       <div></div>
       <div className="menu-list">
         {menuItems.map((menu) => (
+        console.log(menu),
           <MenuCard key={menu.name} menu={menu} />
         ))}
       </div>

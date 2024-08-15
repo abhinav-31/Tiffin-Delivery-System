@@ -180,15 +180,15 @@ public class OrderServiceImpl implements OrderService {
   }
 
   @Override
-  public ApiResponse addReview(Long orderId, Long customerId, ReviewDTO addReview) {
-    User customer = userRepository.findById(customerId).orElseThrow(() -> new ResourceNotFoundException("Customer Not Found"));
+  public ApiResponse addReview(Long orderId, ReviewDTO addReview) {
+	  User customer = userRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString()).orElseThrow(()-> new ResourceNotFoundException("no user found"));
     Order order = orderRepository.findOrderByIdAndStatus(orderId, OrderStatus.DELIVERED).orElseThrow(() -> new ResourceNotFoundException("No order exist"));
     Review review = mapper.map(addReview, Review.class);
     review.setCustomer(customer);
     review.setOrder(order);
     review.setVendor(order.getVendor());
     reviewRepository.save(review);
-    return new ApiResponse("Review Added for order id " + order.getId() + " by customer : " + customer.getFirstName());
+    return new ApiResponse("Review Added Successfully");
 
   }
 
@@ -278,7 +278,7 @@ public class OrderServiceImpl implements OrderService {
 //	}
 
   @Override
-  public List<CustomerOrderHistoryResDTO> getCustomerOrderHistory() {
+  public List<CustomerOrderHisResDTO> getCustomerOrderHistory() {
 	  System.out.println(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
       User user = userRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString())
                                 .orElseThrow(() -> new ResourceNotFoundException("No user found"));
@@ -292,7 +292,7 @@ public class OrderServiceImpl implements OrderService {
               System.out.println("Order :- " + order);
 
               // Get order details
-              List<CustomerOrderHistoryResDTO> orderHistoryList = orderDetailsRepository.findByOrder(order).stream()
+              List<CustomerOrderHisResDTO> orderHistoryList = orderDetailsRepository.findByOrder(order).stream()
                   .map(orderDetail -> {
                       Menu menu = menuRepository.findById(orderDetail.getMenuItem().getId())
                                                .orElseThrow(() -> new ResourceNotFoundException("Menu Not Found"));
@@ -304,7 +304,7 @@ public class OrderServiceImpl implements OrderService {
                                                         .orElseThrow(() -> new ResourceNotFoundException("Payment Not Found"));
                       double totalAmount = payment.getAmount();
 
-                      return new CustomerOrderHistoryResDTO(order.getId(),vendorBusinessName, menuName, quantity, totalAmount);
+                      return new CustomerOrderHisResDTO(order.getId(),vendorBusinessName, menuName, quantity, totalAmount);
                   })
                   .collect(Collectors.toList());
 

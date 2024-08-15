@@ -35,9 +35,9 @@ public class OrderController {
             .body(orderService.addOrder( orderRequest, customerId, vendorId));
   }
 
-  @PostMapping("/addReview/{orderId}/{customerId}")
-  public ResponseEntity<?> addReviewByCustomer(@PathVariable Long orderId, @PathVariable Long customerId, @RequestBody ReviewDTO review) {
-    return ResponseEntity.status(HttpStatus.CREATED).body(orderService.addReview(orderId, customerId, review));
+  @PostMapping("/addReview/{orderId}")
+  public ResponseEntity<?> addReviewByCustomer(@PathVariable Long orderId, @RequestBody ReviewDTO review) {
+    return ResponseEntity.status(HttpStatus.CREATED).body(orderService.addReview(orderId, review));
   }
 
   @GetMapping("/{vendorId}")

@@ -20,6 +20,7 @@ const OrderReviewList = () => {
     const getOrderReviews = async () => {
       try {
         const data = await fetchOrderreviews();
+        console.log(data);
         setOrderreviews(data);
       } catch (error) {
         console.error("Error fetching order reviews:", error);
@@ -43,9 +44,9 @@ const OrderReviewList = () => {
           return (
             <div key={orderreview.id || index} className="list-table-format">
               <p>{index + 1}</p>
-              <p>{orderreview.created_time}</p>
-              <p>{orderreview.updated_time}</p>
-              <p>{orderreview.comment}</p>
+              <p>{orderreview.customerName}</p>
+              <p>{orderreview.orderId}</p>
+              <p>{orderreview.reviewMessage}</p>
               {/* <p>{orderreview.rating}</p> */}
               <p>{renderStars(orderreview.rating)}</p>
             </div>

@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CustomerOrderHistoryResDTO {
+public class CustomerOrderHisResDTO {
 	private Long id; // order id
 	private String vendorBusinessName; 
 	private String menuName;

@@ -59,7 +59,8 @@ export const fetchOrderreviews = async () => {
     const token = sessionStorage.getItem('token'); // Retrieve the JWT token from sessionStorage
     const response = await axiosInstance.get('/admin/allReviews', {
       headers: {
-        Authorization: `Bearer ${token}`, // Include the JWT token in the headers
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`, // Include the JWT token in the headers
       },
     });
     return response.data;

@@ -140,4 +140,85 @@
       display: none;
     }
   }
-  
+  /* General Table Styles */
+.orders-table,
+.addresses-table {
+  width: 100%;
+  max-width: 800px;
+  margin: 20px auto;
+  border-collapse: collapse;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.orders-table th,
+.orders-table td,
+.addresses-table th,
+.addresses-table td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: center; /* Center text */
+}
+
+.orders-table th,
+.addresses-table th {
+  background-color: #f4f4f4;
+  color: #333;
+  font-weight: bold;
+}
+
+.orders-table tr:nth-child(even),
+.addresses-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.orders-table tr:hover,
+.addresses-table tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Index Column */
+.orders-table th:first-child,
+.addresses-table th:first-child {
+  width: 60px; /* Adjust width for index column */
+}
+
+.orders-table td:first-child,
+.addresses-table td:first-child {
+  width: 60px; /* Adjust width for index column */
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .orders-table,
+  .addresses-table {
+    font-size: 0.8rem; /* Smaller font size for smaller screens */
+  }
+
+  .orders-table th,
+  .addresses-table th,
+  .orders-table td,
+  .addresses-table td {
+    padding: 8px; /* Reduce padding */
+  }
+
+  .orders-table th:first-child,
+  .addresses-table th:first-child,
+  .orders-table td:first-child,
+  .addresses-table td:first-child {
+    width: auto; /* Allow index column to adjust width on smaller screens */
+  }
+}
+.review-button {
+  font-size: 1rem;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  background-color: #e26e0e; /* Medium blue */
+  color: white;
+}
+
+.review-button:hover {
+  background-color: #0056b3; /* Darker blue */
+}

@@ -1,0 +1,74 @@
+.review-modal .modal-dialog {
+    position: absolute;
+    top: 300px; /* 300px from the top */
+    left: 50%;
+    transform: translateX(-50%); /* Center horizontally */
+}
+
+.review-modal .modal-content {
+    background: #f5f5f7;
+    padding: 20px;
+    border-radius: 5px;
+    max-width: 600px;
+    min-width: 300px;
+}
+
+.rating-stars {
+    font-size: 1.5rem;
+    color: #ddd;
+    position: relative;
+    display: inline-block;
+}
+
+.rating-stars .star {
+    margin-right: 0.2rem;
+    cursor: pointer;
+    position: relative;
+}
+
+.rating-stars .star.filled {
+    color: #ffc107; /* Golden color for filled stars */
+}
+
+.rating-stars .star::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #333;
+    color: #fff;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.2s;
+    visibility: hidden;
+}
+
+.rating-stars .star:hover::after {
+    opacity: 1;
+    visibility: visible;
+}
+
+.rating-stars .star:focus {
+    outline: none;
+    color: #ffc107; /* Golden color for focused stars */
+}
+
+.review-modal .modal-footer {
+    display: flex;
+    justify-content: space-between; /* Distribute space between buttons */
+    align-items: center; /* Center items vertically */
+    padding: 10px; /* Adjust padding as needed */
+  }
+  
+  .review-modal .modal-footer .btn-primary {
+    margin-right: auto; /* Pushes the submit button to the left */
+  }
+  
+  .review-modal .modal-footer .btn-secondary {
+    margin-left: auto; /* Pushes the close button to the right */
+  }
+  

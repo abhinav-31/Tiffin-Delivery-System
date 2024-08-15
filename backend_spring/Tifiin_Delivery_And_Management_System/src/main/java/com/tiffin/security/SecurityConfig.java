@@ -40,7 +40,7 @@ public class SecurityConfig {
                         "/viewMenuOfVendor/{vendorId}",
                         "/admin/allReviews",
                         "/home/vendorMenuList",
-                        
+                        "/orders/customerOrderHistory**",
                         "/deliveryCharges/{customerPincode}/{vendorPincode}"
         };
 
@@ -53,9 +53,9 @@ public class SecurityConfig {
         private static final String[] CUSTOMER_ENDPOINTS = {
                         "/users/addCustomerAddresses**",
                         "/orders/{customerId}/{vendorId}",
-                        "/orders/addReview/{orderId}/{customerId}",
+                        "/orders/addReview/{orderId}",
                         "/users/getCustomerAddresses",
-                        "/orders/customerOrderHistory**"
+                        
                        
                         
         };

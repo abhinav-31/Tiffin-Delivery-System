@@ -6,13 +6,14 @@ import com.tiffin.dto.*;
 import com.tiffin.enums.OrderStatus;
 import com.tiffin.enums.PaymentMethod;
 
+
 public interface OrderService {
 
 	ApiResponse addOrder(OrderRequestDTO orderRequest, Long customerId, Long vendorId);
 
 	ApiResponse changeStatus(Long orderId);
 
-	ApiResponse addReview(Long orderId, Long customerId, ReviewDTO review);
+	ApiResponse addReview(Long orderId, ReviewDTO review);
 
 	List<OrderDetailsResDTO> getOrdersByVendorAndStatus(Long vendorId, OrderStatus status);
 
@@ -20,5 +21,5 @@ public interface OrderService {
 
 	public int deliveryDistanceBetweenVendorAndCust(String vendorPincode, String customerPincode);
 
-	List<CustomerOrderHistoryResDTO> getCustomerOrderHistory();
+	List<CustomerOrderHisResDTO> getCustomerOrderHistory();
 }

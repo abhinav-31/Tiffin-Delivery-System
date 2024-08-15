@@ -4,47 +4,69 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "./ProfilePage.css";
 import NavBar from "../navbar/navbar";
-import { updateProfile, fetchOrdersHistory } from "../../services/user"; // Ensure this import matches your file structure
-
+import {
+  updateProfile,
+  fetchOrdersHistory,
+  fetchAddresses,
+} from "../../services/user";
+import ReviewModal from "./ReviewModal";
+import { addReview } from "../../services/OrderService";
 function ProfilePage() {
   const [activeTab, setActiveTab] = useState(""); // All tabs inactive initially
   const [editName, setEditName] = useState("");
   const [editEmail, setEditEmail] = useState("");
   const [editMode, setEditMode] = useState(false); // For toggling edit mode
   const [orders, setOrders] = useState([]); // To store orders
-  const [loadingOrders, setLoadingOrders] = useState(false); // Loading state for orders
   const [ordersError, setOrdersError] = useState(""); // Error state for orders
+  const [addresses, setAddresses] = useState([]); // To store addresses
+  const [addressesError, setAddressesError] = useState(""); // Error state for addresses
   const navigate = useNavigate();
+  const [reviewModal, setReviewModal] = useState(false);
+  const [submittedReviews, setSubmittedReviews] = useState({}); 
 
   const name = sessionStorage.getItem("name");
   const email = sessionStorage.getItem("email");
-
-  const addresses = useSelector((state) => state.address);
-
   const loginStatus = sessionStorage.getItem("loginStatus");
+  const [orderId, setOrderId] = useState();
+
   useEffect(() => {
     if (loginStatus !== "true") {
       toast.info("Please Sign In to View Profile");
-      navigate('/login'); // Redirect to login if not signed in
+      navigate("/login"); // Redirect to login if not signed in
     }
   }, [loginStatus, navigate]);
 
   useEffect(() => {
     if (activeTab === "orders") {
       const fetchOrders = async () => {
-        setLoadingOrders(true);
         try {
           const result = await fetchOrdersHistory();
-          setOrders(result.orders || []);
+          console.log("Fetched orders:", result);
+          setOrders(result);
           toast.success("Orders fetched successfully!");
         } catch (error) {
           setOrdersError("Failed to fetch orders");
           toast.error("Failed to fetch orders");
-        } finally {
-          setLoadingOrders(false);
         }
       };
       fetchOrders();
+    } else if (activeTab === "address") {
+      const fetchAddressesData = async () => {
+        try {
+          const addressesData = await fetchAddresses();
+          console.log("Fetched addresses:", addressesData);
+          if (addressesData.length === 0) {
+            toast.info("No addresses found. Please add your address.");
+          } else {
+            setAddresses(addressesData);
+            toast.success("Addresses fetched successfully");
+          }
+        } catch (error) {
+          setAddressesError("Failed to fetch addresses. Please try again.");
+          toast.error("Failed to fetch addresses. Please try again.");
+        }
+      };
+      fetchAddressesData();
     }
   }, [activeTab]);
 
@@ -74,13 +96,32 @@ function ProfilePage() {
   };
 
   const handleReviewClick = (orderId) => {
-    // Redirect to review page or show a modal
-    navigate(`/orders/review/${orderId}`);
+    console.log("in review handle");
+    setOrderId(orderId);
+    setReviewModal(true);
+  };
+
+  const handleReviewSubmit = async (reviewData) => {
+    try {
+      const response = await addReview(orderId, reviewData);
+      if (response["message"] === "Review Added Successfully") {
+        toast.success("Review submitted successfully!");
+        setReviewModal(false);
+        setSubmittedReviews((prev) => ({ ...prev, [orderId]: true }));
+      }
+    } catch (error) {
+      toast.error("Failed to submit review");
+    }
+  };
+
+  const handleReviewClose = () => {
+    setReviewModal(false);
+    setOrderId(null);
   };
 
   return (
     <div>
-      <NavBar /> {/* Ensure the NavBar is included */}
+      <NavBar />
       <div className="profile-container">
         <div className="row">
           <div className="sidebar">
@@ -112,7 +153,7 @@ function ProfilePage() {
             </div>
           </div>
           <div className="col">
-            <h1 className="name">Welcome {name} to Tiffinity</h1> {/* Always shown */}
+            <h1 className="name">Welcome {name} to Tiffinity</h1>
             <div className="profile-section">
               {activeTab === "profile" && (
                 <div className="profile-table">
@@ -160,7 +201,10 @@ function ProfilePage() {
                             </button>
                           ) : (
                             <div className="action-buttons">
-                              <button className="update-button green" onClick={handleSaveClick}>
+                              <button
+                                className="update-button green"
+                                onClick={handleSaveClick}
+                              >
                                 Save
                               </button>
                               <button
@@ -172,7 +216,6 @@ function ProfilePage() {
                             </div>
                           )}
                         </td>
-                        <td></td>
                       </tr>
                     </tbody>
                   </table>
@@ -181,9 +224,7 @@ function ProfilePage() {
               {activeTab === "orders" && (
                 <div>
                   <h2>Your Orders</h2>
-                  {loadingOrders ? (
-                    <p>Loading...</p>
-                  ) : ordersError ? (
+                  {ordersError ? (
                     <p>{ordersError}</p>
                   ) : orders.length === 0 ? (
                     <p>No orders found</p>
@@ -191,6 +232,7 @@ function ProfilePage() {
                     <table className="orders-table">
                       <thead>
                         <tr>
+                          <th>#</th> {/* Index Column */}
                           <th>Order ID</th>
                           <th>Vendor</th>
                           <th>Menu Item</th>
@@ -201,7 +243,8 @@ function ProfilePage() {
                       </thead>
                       <tbody>
                         {orders.map((order, index) => (
-                          <tr key={index}>
+                          <tr key={order.id}>
+                            <td>{index + 1}</td> {/* Display Index */}
                             <td>{order.id}</td>
                             <td>{order.vendorBusinessName}</td>
                             <td>{order.menuName}</td>
@@ -209,10 +252,13 @@ function ProfilePage() {
                             <td>${order.totalAmount.toFixed(2)}</td>
                             <td>
                               <button
-                                className="review-button primary"
+                                className="review-button"
                                 onClick={() => handleReviewClick(order.id)}
+                                disabled={submittedReviews[order.id]} // Disable button if review is submitted
                               >
-                                Review
+                                {submittedReviews[order.id]
+                                  ? "Submitted"
+                                  : "Review"}
                               </button>
                             </td>
                           </tr>
@@ -224,18 +270,40 @@ function ProfilePage() {
               )}
               {activeTab === "address" && (
                 <div>
-                  <h2>Address Book</h2>
-                  {addresses.length === 0 ? (
+                  <h2>Your Addresses</h2>
+                  {addressesError ? (
+                    <p>{addressesError}</p>
+                  ) : addresses.length === 0 ? (
                     <p>No addresses found</p>
                   ) : (
-                    <ul>
-                      {addresses.map((address, index) => (
-                        <li key={index}>
-                          {address.street}, {address.city}, {address.state},{" "}
-                          {address.zip}
-                        </li>
-                      ))}
-                    </ul>
+                    <table className="addresses-table">
+                      <thead>
+                        <tr>
+                          <th>#</th> {/* Index Column */}
+                          <th>Address Line 1</th>
+                          <th>Address Line 2</th>
+                          <th>City</th>
+                          <th>State</th>
+                          <th>Country</th>
+                          <th>Zip Code</th>
+                          <th>Phone Number</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {addresses.map((address, index) => (
+                          <tr key={address.id}>
+                            <td>{index + 1}</td> {/* Display Index */}
+                            <td>{address.adrLine1}</td>
+                            <td>{address.adrLine2}</td>
+                            <td>{address.city}</td>
+                            <td>{address.state}</td>
+                            <td>{address.country}</td>
+                            <td>{address.zipcode}</td>
+                            <td>{address.phoneNo}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
                   )}
                 </div>
               )}
@@ -243,6 +311,14 @@ function ProfilePage() {
           </div>
         </div>
       </div>
+      {reviewModal && (
+        <ReviewModal
+          isOpen={reviewModal}
+          orderId={orderId}
+          onClose={handleReviewClose}
+          onSubmit={handleReviewSubmit}
+        />
+      )}
     </div>
   );
 }

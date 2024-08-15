@@ -20,11 +20,14 @@ public class CustomUserDetails implements UserDetails {
     public Long getUserId(){
         return user.getId();
     }
+    public String getFirstName() {
+    	return user.getFirstName();
+    }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(user.getRole().name()));
     }
-
+    
     @Override
     public String getPassword() {
         return user.getPassword();

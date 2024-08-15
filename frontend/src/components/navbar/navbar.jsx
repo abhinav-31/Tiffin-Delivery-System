@@ -4,22 +4,23 @@ import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import LoginModal from "../login/loginModal";
 import RegisterModal from "../register/registerModal";
-import { Link, useNavigate } from "react-router-dom";
-import { logoutAction } from "../../redux/userSlice"; // Import the logout action
+import { useNavigate } from "react-router-dom"; // Removed Link import
+import { logoutAction } from "../../redux/userSlice";
 import { toast } from "react-toastify";
+
 function NavBar() {
   const navigate = useNavigate();
-  const dispatch = useDispatch(); // Use dispatch to update the Redux state
+  const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart || { items: [] });
   const loginStatus = useSelector((state) => state.user.loginStatus);
   const [loginModal, setLoginModal] = useState(false);
   const [registerModal, setRegisterModal] = useState(false);
 
-  const role = sessionStorage.getItem("role"); // Get user role from session storage
+  const role = sessionStorage.getItem("role");
 
   const communicateModal = () => {
-    setLoginModal(!loginModal); // Close login modal
-    setRegisterModal(!registerModal); // Open register modal
+    setLoginModal(!loginModal);
+    setRegisterModal(!registerModal);
   };
 
   const toggleLoginModal = () => {
@@ -33,50 +34,74 @@ function NavBar() {
   };
 
   const handleLogout = () => {
-    // Clear session storage
     sessionStorage.removeItem("token");
     sessionStorage.removeItem("email");
     sessionStorage.removeItem("role");
     sessionStorage.removeItem("id");
+    sessionStorage.removeItem("name");
     sessionStorage.setItem("loginStatus", false);
-    // Update the Redux state to log out the user
     dispatch(logoutAction());
-
-    // Navigate to the homepage or login page
     navigate("/");
   };
+
   const handleCartClick = () => {
     if (!loginStatus) {
       toast.error("Please Sign In!");
-      // console.log("hello");
     } else {
-      console.log("hello");
       navigate("/cart");
     }
   };
-  const getProfileLink = () => {
-    switch (role) {
-      case "ROLE_ADMIN":
-        return "/adminhome";
-      case "ROLE_VENDOR":
-        return "/vendorhomepage";
-      case "ROLE_DELIVERY_BOY":
-        return "/deliveryhome";
-      default:
-        return "/";
+
+  const handleProfileClick = () => {
+    // const profileLink = getProfileLink();
+    // navigate(profileLink);
+    if(!loginStatus){
+      toast.error("Please Sign to View Profile!")
+    } else{
+      if(role === "ROLE_ADMIN"){
+        navigate("/adminhome")
+      } else if(role === "ROLE_VENDOR"){
+        navigate("/vendorhomepage")
+      }else if(role === "ROLE_DELIVERY_BOY"){
+        navigate("/deliveryhome")
+      } else {
+        navigate("/ProfilePage");
+      }
+      
     }
   };
 
+  // const getProfileLink = () => {
+  //   switch (role) {
+  //     case "ROLE_ADMIN":
+  //       return "/adminhome";
+  //     case "ROLE_VENDOR":
+  //       return "/vendorhomepage";
+  //     case "ROLE_DELIVERY_BOY":
+  //       return "/deliveryhome";
+  //     default:
+  //       return "/ProfilePage";
+  //   }
+  // };
+
+  const handleAboutUsClick = () => {
+    navigate("/about-us");
+  };
+
   return (
-    <div className="">
+    <div>
       <div
         className="navbar navbar-expand-md fixed-top navbar-dark bg-dark"
         style={{ color: "red" }}
       >
         <div className="container-fluid">
-          <Link to="/" className="navbar-brand">
+          <button
+            className="navbar-brand btn btn-link"
+            onClick={() => navigate("/")}
+            style={{ color: "tomato", textDecoration: "none" }}
+          >
             Tiffinity
-          </Link>
+          </button>
           <button
             className="navbar-toggler rounded-5"
             type="button"
@@ -95,50 +120,47 @@ function NavBar() {
               </li>
             </ul>
             <div className="d-flex">
-              
+              <button
+                type="button"
+                onClick={handleCartClick}
+                className="btn btn-secondary position-relative rounded-5 me-3"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fillRule="currentColor"
+                  className="bi bi-cart"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"></path>
+                </svg>
+                <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                  {cart.items.length}
+                </span>
+              </button>
+
+              <div className="btn-group">
                 <button
                   type="button"
-                  onClick={handleCartClick}
-                  className="btn btn-secondary position-relative rounded-5 me-3"
+                  onClick={handleProfileClick}
+                  className="btn btn-secondary rounded-start-pill"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="16"
                     height="16"
                     fillRule="currentColor"
-                    className="bi bi-cart"
+                    className="bi bi-person-circle"
                     viewBox="0 0 16 16"
                   >
-                    <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"></path>
+                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"></path>
+                    <path
+                      fillRule="evenodd"
+                      d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"
+                    ></path>
                   </svg>
-                  <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                    {cart.items.length}
-                  </span>
                 </button>
-             
-
-              <div className="btn-group">
-                <Link to={getProfileLink()}>
-                  <button
-                    type="button"
-                    className="btn btn-secondary rounded-start-pill"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      fillRule="currentColor"
-                      className="bi bi-person-circle"
-                      viewBox="0 0 16 16"
-                    >
-                      <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"></path>
-                      <path
-                        fillRule="evenodd"
-                        d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"
-                      ></path>
-                    </svg>
-                  </button>
-                </Link>
                 <button
                   type="button"
                   className="btn btn-secondary dropdown-toggle rounded-end-pill"
@@ -170,16 +192,19 @@ function NavBar() {
                     <li>
                       <button
                         className="dropdown-item"
-                        onClick={handleLogout} // Handle logout on click
+                        onClick={handleLogout}
                       >
                         Logout
                       </button>
                     </li>
                   )}
                   <li>
-                    <Link className="dropdown-item" to="/about-us">
+                    <button
+                      className="dropdown-item"
+                      onClick={handleAboutUsClick}
+                    >
                       About us
-                    </Link>
+                    </button>
                   </li>
                 </ul>
               </div>

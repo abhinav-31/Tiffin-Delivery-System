@@ -1,0 +1,143 @@
+.profile-container {
+    padding-top: 58px;
+  }
+  
+  .name {
+    padding-top: 19px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+  }
+  
+  .profile-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  
+  .profile-table {
+    padding-left: 145px;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    border-collapse: collapse;
+  }
+  
+  .profile-table td {
+    padding: 10px;
+  }
+  
+  .label {
+    font-weight: bold;
+    text-align: right;
+    padding-right: 20px;
+  }
+  
+  .profile-input {
+    display: block;
+    width: 100%;
+    max-width: 400px;
+    margin: 10px 0;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1.5px solid #A9A9A9;
+    border-radius: 5px;
+    outline: none;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .profile-input:focus {
+    border-color: tomato;
+  }
+  
+  .update-button {
+    font-size: 1rem;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px; /* Ensure space between inputs and button */
+  }
+  
+  .update-button.yellow {
+    background-color: yellow;
+    color: black;
+  }
+  
+  .update-button.yellow:hover {
+    background-color: #f0e68c; /* Slightly darker yellow */
+  }
+  
+  .update-button.green {
+    background-color: green;
+    color: white;
+  }
+  
+  .update-button.green:hover {
+    background-color: #006400; /* Slightly darker green */
+  }
+  
+  .update-button.red {
+    background-color: red;
+    color: white;
+  }
+  
+  .update-button.red:hover {
+    background-color: #cc0000; /* Slightly darker red */
+  }
+  
+  .action-buttons {
+    display: flex;
+    padding-left: 81px;
+    gap: 10px;
+  }
+  
+  .sidebar {
+    width: 18%;
+    min-height: 100vh;
+    border: 1.5px solid #A9A9A9;
+    border-top: 0;
+  }
+  
+  .sidebar-options {
+    padding-top: 94px;
+    padding-left: 20%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .sidebar-option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border: 1px solid #A9A9A9;
+    border-right: 0;
+    padding: 8px 10px;
+    border-radius: 15px 0px 0px 15px;
+    cursor: pointer;
+  }
+  
+  .sidebar {
+    font-size: max(1vw, 10px);
+  }
+  
+  .sidebar-option img {
+    width: 20px;
+  }
+  
+  .sidebar-option.active {
+    background-color: #fff0ed;
+    border-color: tomato;
+  }
+  
+  @media (max-width: 900px) {
+    .sidebar-option p {
+      display: none;
+    }
+  }
+  

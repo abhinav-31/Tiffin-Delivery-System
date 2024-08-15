@@ -21,7 +21,6 @@ import com.tiffin.service.OrderService;
 import jakarta.validation.Valid;
 
 @RestController
-//@CrossOrigin
 @CrossOrigin
 @RequestMapping("/orders")
 public class OrderController {
@@ -59,6 +58,11 @@ public class OrderController {
   @GetMapping("/deliveryCharges/{customerPincode}/{vendorPincode}")
   public ResponseEntity<?> getDeliveryCharges(@RequestParam String customerPincode, @RequestParam String vendorPincode) {
     return ResponseEntity.status(HttpStatus.OK).body(orderService.deliveryDistanceBetweenVendorAndCust(customerPincode, vendorPincode));
+  }
+  
+  @GetMapping("/customerOrderHistory")
+  ResponseEntity<?> getCustomerOrderHistory(){
+	  return ResponseEntity.status(HttpStatus.CREATED).body(orderService.getCustomerOrderHistory());
   }
 
 }

@@ -58,7 +58,24 @@ export async function registerVendor(data) {
   }
 }
 
-
+export const fetchOrdersHistory = async () => {
+  const token = sessionStorage.getItem('token');
+  console.log(token)
+  if (!token) {
+    throw new Error('Missing token');
+  }
+  try {
+    const response = await axios.get(`${config.url}/orders/customerOrderHistory`, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    })
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
 export const fetchAddresses = async () => {
   const token = sessionStorage.getItem('token'); // Get the token from session storage
   console.log("token:- " + token)
@@ -110,20 +127,7 @@ export const registerCustomerAddress = async (addressData, token) => {
 
 
 
-// export async function login(email, password) {
-//   // body parameters
-//   const body = {
-//     email,
-//     password,
-//   };
 
-//   // make API call
-//   const response = await axios.post(`${config.url}/users/signin`, body);
-//   // read JSON data (response)
-//   return response.data;
-// }
-
-// Login function with improved error handling
 export async function login(email, password) {
   const body = {
     email,
@@ -132,6 +136,7 @@ export async function login(email, password) {
 
   try {
     const response = await axios.post(`${config.url}/users/signin`, body);
+    console.log(response.data);
     return response.data;
   } catch (error) {
     handleError(error, 'Error during login');
@@ -154,3 +159,27 @@ function handleError(error, defaultMessage) {
     throw new Error(error.response.data.message || defaultMessage);
   }
 }
+
+
+// Function to update the profile
+export const updateProfile = async (name, email, token) => {
+  try {
+    const response = await axios.put(
+      `${config.url}/users/updateProfile`, // Endpoint for updating the profile
+      {
+        name,
+        email,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`, // Adding token to the Authorization header
+        },
+      }
+    );
+    return response.data; // Return the response data
+  } catch (error) {
+    // Handle the error by throwing it to be caught in the component
+    throw error.response?.data || "An error occurred while updating the profile.";
+  }
+};
+

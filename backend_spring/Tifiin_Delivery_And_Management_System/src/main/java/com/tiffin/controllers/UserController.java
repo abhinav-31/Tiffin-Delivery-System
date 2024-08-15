@@ -13,6 +13,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,10 +48,6 @@ public class UserController {
 	@Autowired
 	private AuthenticationManager authManager;
 
-	@GetMapping("/welcome")
-	public String welcome() {
-		return "Welcome";
-	}
 
 	@PostMapping("/signup")
 	public ResponseEntity<?> signUpCustomer(@RequestBody @Valid UserSignUpReqDTO userSignup) {
@@ -90,14 +87,16 @@ public class UserController {
 		String role = userDetails.getAuthorities().toString().replaceAll("[\\[\\]]", "");
 		String email = userDetails.getUsername();
 		Long id = userDetails.getUserId();
+		String name = userDetails.getFirstName();
 		// This method should return the user's role
 
 		return ResponseEntity.status(HttpStatus.ACCEPTED)
-				.body(new SignInResDTO(jwtUtils.generateJwtToken(authentication), "Successful Auth!", role, email, id));
+				.body(new SignInResDTO(jwtUtils.generateJwtToken(authentication), "Successful Auth!", role, email, id, name));
 	}
 	
 	@GetMapping("/getCustomerAddresses")
 	public ResponseEntity<?> getCustomerAddress(){
+		System.out.println(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
 		return ResponseEntity.status(HttpStatus.CREATED).body(userService.getAllCustomerAddresses());
 	}
 	// @PostMapping("/vendorSignIn")

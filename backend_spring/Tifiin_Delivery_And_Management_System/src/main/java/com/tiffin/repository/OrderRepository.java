@@ -26,4 +26,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 	List<Order> findByVendorAndStatus(User vendor, OrderStatus status);
 
 	List<Order> findByDeliveryBoy(DeliveryBoy deliveryDetails);
+	
+	@Query("SELECT o FROM Order o where o.customer=:u and o.status=:delivered")
+	List<Order> findAllDeliveredOrder(User u, OrderStatus delivered);
 }

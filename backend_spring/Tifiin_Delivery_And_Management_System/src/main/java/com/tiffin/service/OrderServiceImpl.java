@@ -10,10 +10,10 @@ import com.tiffin.dto.*;
 import org.hibernate.Hibernate;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.tiffin.custom_exceptions.ResourceNotFoundException;
-import com.tiffin.dto.ReviewDTO;
 import com.tiffin.entities.Address;
 import com.tiffin.entities.DeliveryBoy;
 import com.tiffin.entities.Menu;
@@ -277,7 +277,44 @@ public class OrderServiceImpl implements OrderService {
 //		}).collect(Collectors.toList());
 //	}
 
-// order delivered
+  @Override
+  public List<CustomerOrderHistoryResDTO> getCustomerOrderHistory() {
+	  System.out.println(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
+      User user = userRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString())
+                                .orElseThrow(() -> new ResourceNotFoundException("No user found"));
+      System.out.println("user : "+user);
+      return orderRepository.findAllDeliveredOrder(user, OrderStatus.DELIVERED).stream()
+          .flatMap(order -> {
+              // Get vendor business name
+              User vendor = userRepository.findById(order.getVendor().getId())
+                                          .orElseThrow(() -> new ResourceNotFoundException("Vendor Not Found"));
+              String vendorBusinessName = vendor.getBusinessName();
+              System.out.println("Order :- " + order);
+
+              // Get order details
+              List<CustomerOrderHistoryResDTO> orderHistoryList = orderDetailsRepository.findByOrder(order).stream()
+                  .map(orderDetail -> {
+                      Menu menu = menuRepository.findById(orderDetail.getMenuItem().getId())
+                                               .orElseThrow(() -> new ResourceNotFoundException("Menu Not Found"));
+                      String menuName = menu.getName();
+                      int quantity = orderDetail.getQuantity();
+
+                      // Get payment details
+                      Payment payment = paymentRepository.findByOrder(order)
+                                                        .orElseThrow(() -> new ResourceNotFoundException("Payment Not Found"));
+                      double totalAmount = payment.getAmount();
+
+                      return new CustomerOrderHistoryResDTO(order.getId(),vendorBusinessName, menuName, quantity, totalAmount);
+                  })
+                  .collect(Collectors.toList());
+
+              return orderHistoryList.stream();
+          })
+          .collect(Collectors.toList());
+  }
+
+
+// order delivered)
   // change order status to DELIVERED
   // change delivery boy status to AVAILABLE + set new pincode as
   // order->deliveryaddress->'s pincode

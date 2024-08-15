@@ -40,6 +40,7 @@ public class SecurityConfig {
                         "/viewMenuOfVendor/{vendorId}",
                         "/admin/allReviews",
                         "/home/vendorMenuList",
+                        
                         "/deliveryCharges/{customerPincode}/{vendorPincode}"
         };
 
@@ -53,7 +54,10 @@ public class SecurityConfig {
                         "/users/addCustomerAddresses**",
                         "/orders/{customerId}/{vendorId}",
                         "/orders/addReview/{orderId}/{customerId}",
-                        "/users/getCustomerAddresses"
+                        "/users/getCustomerAddresses",
+                        "/orders/customerOrderHistory**"
+                       
+                        
         };
 
         private static final String[] DELIVERY_BOY_ENDPOINTS = {

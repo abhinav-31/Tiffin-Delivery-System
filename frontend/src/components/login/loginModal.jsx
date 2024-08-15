@@ -34,7 +34,7 @@
 //         sessionStorage.setItem("loginStatus", true);
 //         dispatch(loginAction());
 //         toast.success(`Welcome, ${email}!`); // Display role-based message
-        
+
 //         if (role === "ROLE_ADMIN") {
 //           navigate("/adminhome"); // Navigate to admin-specific page
 //         } else if (role === "ROLE_VENDOR") {
@@ -102,14 +102,14 @@
 // }
 // export default LoginModal;
 // LoginModal.js
-import React, { useState, useRef } from 'react';
-import { login } from '../../services/user';
-import { toast } from 'react-toastify';
-import { useDispatch } from 'react-redux';
-import { loginAction } from '../../redux/userSlice';
-import { setAddresses} from '../../redux/AddressSlice';
-import { useNavigate } from 'react-router-dom';
-import { fetchAddresses } from '../../services/user';
+import React, { useState, useRef } from "react";
+import { login } from "../../services/user";
+import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { loginAction } from "../../redux/userSlice";
+import { setAddresses } from "../../redux/AddressSlice";
+import { useNavigate } from "react-router-dom";
+import { fetchAddresses } from "../../services/user";
 
 function LoginModal({ onClose, onToggleRegister }) {
   const dispatch = useDispatch();
@@ -117,8 +117,8 @@ function LoginModal({ onClose, onToggleRegister }) {
   const modalRef = useRef();
 
   // State members
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const closeModal = (e) => {
     if (modalRef.current === e.target) onClose();
@@ -127,53 +127,56 @@ function LoginModal({ onClose, onToggleRegister }) {
   const onLogin = async () => {
     // Client-side validation
     if (email.length === 0) {
-      toast.warning('Enter email');
+      toast.warning("Enter email");
     } else if (password.length === 0) {
-      toast.warning('Enter password');
+      toast.warning("Enter password");
     } else {
       try {
         const result = await login(email, password);
-        if (result.message === 'Successful Auth!') {
-          const { jwt, email, role, id } = result;
-          sessionStorage.setItem('token', jwt);
-          sessionStorage.setItem('email', email);
-          sessionStorage.setItem('role', role);
-          sessionStorage.setItem('id', id);
-          sessionStorage.setItem('loginStatus', true);
+        console.log(result);
+        if (result.message === "Successful Auth!") {
+          const { jwt, email, role, id, name } = result;
+          sessionStorage.setItem("token", jwt);
+          sessionStorage.setItem("email", email);
+          sessionStorage.setItem("role", role);
+          sessionStorage.setItem("id", id);
+          sessionStorage.setItem("name",name);
+          sessionStorage.setItem("loginStatus", true);
+          console.log("name " + result.name);
           dispatch(loginAction());
-          toast.success(`Welcome, ${email}!`);
+          toast.success(`Welcome, ${name}!`);
 
           // Fetch addresses after successful login
-          if (role === 'ROLE_CUSTOMER') {
+          if (role === "ROLE_CUSTOMER") {
             try {
               const addresses = await fetchAddresses();
-              console.log(addresses)
+              console.log(addresses);
               if (addresses.length === 0) {
-                toast.info('No addresses found. Please add your address.');
+                toast.info("No addresses found. Please add your address.");
               } else {
                 dispatch(setAddresses(addresses));
               }
             } catch (error) {
-              toast.error('Failed to fetch addresses. Please try again.');
+              toast.error("Failed to fetch addresses. Please try again.");
             }
           }
 
           // Navigate based on role
-          if (role === 'ROLE_ADMIN') {
-            navigate('/adminhome');
-          } else if (role === 'ROLE_VENDOR') {
-            navigate('/vendorhomepage');
-          } else if (role === 'ROLE_DELIVERY_BOY') {
-            navigate('/deliveryhome');
+          if (role === "ROLE_ADMIN") {
+            navigate("/adminhome");
+          } else if (role === "ROLE_VENDOR") {
+            navigate("/vendorhomepage");
+          } else if (role === "ROLE_DELIVERY_BOY") {
+            navigate("/deliveryhome");
           } else {
             // navigate('/'); // Default home page
           }
           onClose();
         } else {
-          toast.error('Invalid email or password');
+          toast.error("Invalid email or password");
         }
       } catch (error) {
-        toast.error('An error occurred while logging in. Please try again.');
+        toast.error("An error occurred while logging in. Please try again.");
       }
     }
   };

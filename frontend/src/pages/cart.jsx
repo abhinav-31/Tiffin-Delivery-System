@@ -37,7 +37,7 @@ function Cart() {
     });
 
     const calculatedGst = 0.18 * subTotal;
-   
+
     const calculatedTotal = subTotal + calculatedGst + 25;
 
     setSubTotal(subTotal);

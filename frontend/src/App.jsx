@@ -40,6 +40,7 @@ import DeliveredOrderedList from "./DeliveryBoy/components/DeliveredOrderHistory
 import VendorDetail from "./components/VendorDetail";
 import NavBar from "./components/navbar/navbar";
 import MenuList from "./vendor/components/VendorComponents/List/MenuList";
+import ProfilePage from "./components/login/ProilePage";
 
 function App() {
   return (
@@ -50,6 +51,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/customerfeedback" element={<CustomerFeedback />} />
         <Route path="/login" element={<LoginModal />} />
+        <Route path="/ProfilePage" element={<ProfilePage/>} />
         {/* <Route path="/home" element={<Home />} /> */}
         <Route path="/register" element={<RegisterModal />} />
         <Route path="/registerAsDB" element={<RegisterAsDB />} />

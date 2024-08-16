@@ -59,16 +59,17 @@ public class UserController {
 
 	@PostMapping("/deliveryBoySignup")
 	public ResponseEntity<?> signUpDeliveryBoy(@RequestBody @Valid DeliveryBoySignUpReqDTO deliveryBoySignUpReqDTO) {
-		return ResponseEntity.status(HttpStatus.CREATED).body(userService.saveDeliveryBoy(deliveryBoySignUpReqDTO.getUserSignUpReqDTO(), deliveryBoySignUpReqDTO.getAddressReqDTO()));
+		return ResponseEntity.status(HttpStatus.CREATED).body(userService
+				.saveDeliveryBoy(deliveryBoySignUpReqDTO.getUserSignUpReqDTO(), deliveryBoySignUpReqDTO.getAddressReqDTO()));
 	}
 
 	@PostMapping(value = "/vendorSignup", consumes = "multipart/form-data")
 	public ResponseEntity<?> signUpVendor(@RequestPart String userSignup, @RequestPart String address,
 			@RequestParam MultipartFile image) throws IOException {
-		System.out.println("email " + userSignup);
+		// System.out.println("email " + userSignup);
 		// ObjectMapper mapper = new ObjectMapper();
 		VendorSignUpReqDTO vendorSignup = mapper.readValue(userSignup, VendorSignUpReqDTO.class);
-		System.out.println("vendDTO " + vendorSignup);
+		// System.out.println("vendDTO " + vendorSignup);
 		AddressReqDTO addressDTO = mapper.readValue(address, AddressReqDTO.class);
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(userService.saveVendor(vendorSignup, addressDTO, image));
@@ -95,9 +96,9 @@ public class UserController {
 		return ResponseEntity.status(HttpStatus.ACCEPTED)
 				.body(new SignInResDTO(jwtUtils.generateJwtToken(authentication), "Successful Auth!", role, email, id));
 	}
-	
+
 	@GetMapping("/getCustomerAddresses")
-	public ResponseEntity<?> getCustomerAddress(){
+	public ResponseEntity<?> getCustomerAddress() {
 		return ResponseEntity.status(HttpStatus.CREATED).body(userService.getAllCustomerAddresses());
 	}
 	// @PostMapping("/vendorSignIn")

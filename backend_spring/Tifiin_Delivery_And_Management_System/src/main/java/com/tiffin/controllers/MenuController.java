@@ -24,18 +24,21 @@ public class MenuController {
   @Autowired
   private MenuService menuService;
 
-  //	@PostMapping(value = "/addMenu/{vendorId}", consumes = "multipart/form-data")
-//	public ResponseEntity<?> uploadImage(@PathVariable Long vendorId, @RequestParam MultipartFile image,
-//			@RequestParam MenuReqDTO menuDTO) throws IOException {
-//		return ResponseEntity.status(HttpStatus.CREATED).body(menuService.addMenu(menuDTO, vendorId, image));
-//		// System.out.println("Image file uploaded successfully for emp " +
-//		// Menu.getFirstName());
-//	}
+  // @PostMapping(value = "/addMenu/{vendorId}", consumes = "multipart/form-data")
+  // public ResponseEntity<?> uploadImage(@PathVariable Long vendorId,
+  // @RequestParam MultipartFile image,
+  // @RequestParam MenuReqDTO menuDTO) throws IOException {
+  // return
+  // ResponseEntity.status(HttpStatus.CREATED).body(menuService.addMenu(menuDTO,
+  // vendorId, image));
+  // // System.out.println("Image file uploaded successfully for emp " +
+  // // Menu.getFirstName());
+  // }
   @PostMapping(value = "/addMenu/{vendorId}", consumes = "multipart/form-data")
   public ResponseEntity<?> uploadImage(@PathVariable Long vendorId, @RequestParam("image") MultipartFile image,
-                                       @RequestParam("name") String name, @RequestParam("description") String description,
-                                       @RequestParam("price") Double price, @RequestParam("category") String category,
-                                       @RequestParam("quantity") Integer quantity) throws IOException {
+      @RequestParam("name") String name, @RequestParam("description") String description,
+      @RequestParam("price") Double price, @RequestParam("category") String category,
+      @RequestParam("quantity") Integer quantity) throws IOException {
 
     // Create MenuReqDTO from request parameters
     MenuReqDTO menuDTO = new MenuReqDTO();
@@ -54,6 +57,7 @@ public class MenuController {
     MenuReqDTO updatedMenu = menuService.updateMenu(id, menuDTO);
     return ResponseEntity.ok(updatedMenu);
   }
+
   @PostMapping
   public ResponseEntity<ApiResponse> deleteMenu(@RequestBody MenuDTO menuDTO) {
     return ResponseEntity.status(HttpStatus.CREATED).body(menuService.deleteMenu(menuDTO));
@@ -76,6 +80,7 @@ public class MenuController {
     List<MenuResWithImageDTO> menus = menuService.getMenuByVendorId(vendorId);
     return ResponseEntity.ok(menus);
   }
+
   @PostMapping("/updateQuantity")
   public ResponseEntity<ApiResponse> updateMenuQuantity(@RequestBody MenuDTO menuDTO) {
     return ResponseEntity.status(HttpStatus.CREATED).body(menuService.updateMenuQuantity(menuDTO));

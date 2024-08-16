@@ -21,7 +21,7 @@ import com.tiffin.service.OrderService;
 import jakarta.validation.Valid;
 
 @RestController
-//@CrossOrigin
+// @CrossOrigin
 @CrossOrigin
 @RequestMapping("/orders")
 public class OrderController {
@@ -31,13 +31,14 @@ public class OrderController {
 
   @PostMapping("/{customerId}/{vendorId}")
   public ResponseEntity<?> addOrder(@RequestBody @Valid OrderRequestDTO orderRequest, @PathVariable Long customerId,
-                                    @PathVariable Long vendorId) {
+      @PathVariable Long vendorId) {
     return ResponseEntity.status(HttpStatus.CREATED)
-            .body(orderService.addOrder( orderRequest, customerId, vendorId));
+        .body(orderService.addOrder(orderRequest, customerId, vendorId));
   }
 
   @PostMapping("/addReview/{orderId}/{customerId}")
-  public ResponseEntity<?> addReviewByCustomer(@PathVariable Long orderId, @PathVariable Long customerId, @RequestBody ReviewDTO review) {
+  public ResponseEntity<?> addReviewByCustomer(@PathVariable Long orderId, @PathVariable Long customerId,
+      @RequestBody ReviewDTO review) {
     return ResponseEntity.status(HttpStatus.CREATED).body(orderService.addReview(orderId, customerId, review));
   }
 
@@ -57,8 +58,10 @@ public class OrderController {
   }
 
   @GetMapping("/deliveryCharges/{customerPincode}/{vendorPincode}")
-  public ResponseEntity<?> getDeliveryCharges(@RequestParam String customerPincode, @RequestParam String vendorPincode) {
-    return ResponseEntity.status(HttpStatus.OK).body(orderService.deliveryDistanceBetweenVendorAndCust(customerPincode, vendorPincode));
+  public ResponseEntity<?> getDeliveryCharges(@RequestParam String customerPincode,
+      @RequestParam String vendorPincode) {
+    return ResponseEntity.status(HttpStatus.OK)
+        .body(orderService.deliveryDistanceBetweenVendorAndCust(customerPincode, vendorPincode));
   }
 
 }

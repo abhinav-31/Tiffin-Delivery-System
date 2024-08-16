@@ -30,14 +30,15 @@ public class OrderController {
 
   @PostMapping("/{customerId}/{vendorId}")
   public ResponseEntity<?> addOrder(@RequestBody @Valid OrderRequestDTO orderRequest, @PathVariable Long customerId,
-                                    @PathVariable Long vendorId) {
+      @PathVariable Long vendorId) {
     return ResponseEntity.status(HttpStatus.CREATED)
-            .body(orderService.addOrder( orderRequest, customerId, vendorId));
+        .body(orderService.addOrder(orderRequest, customerId, vendorId));
   }
 
-  @PostMapping("/addReview/{orderId}")
-  public ResponseEntity<?> addReviewByCustomer(@PathVariable Long orderId, @RequestBody ReviewDTO review) {
-    return ResponseEntity.status(HttpStatus.CREATED).body(orderService.addReview(orderId, review));
+  @PostMapping("/addReview/{orderId}/{customerId}")
+  public ResponseEntity<?> addReviewByCustomer(@PathVariable Long orderId, @PathVariable Long customerId,
+      @RequestBody ReviewDTO review) {
+    return ResponseEntity.status(HttpStatus.CREATED).body(orderService.addReview(orderId, customerId, review));
   }
 
   @GetMapping("/{vendorId}")
@@ -56,13 +57,20 @@ public class OrderController {
   }
 
   @GetMapping("/deliveryCharges/{customerPincode}/{vendorPincode}")
-  public ResponseEntity<?> getDeliveryCharges(@RequestParam String customerPincode, @RequestParam String vendorPincode) {
-    return ResponseEntity.status(HttpStatus.OK).body(orderService.deliveryDistanceBetweenVendorAndCust(customerPincode, vendorPincode));
+  public ResponseEntity<?> getDeliveryCharges(@RequestParam String customerPincode,
+      @RequestParam String vendorPincode) {
+    return ResponseEntity.status(HttpStatus.OK)
+        .body(orderService.deliveryDistanceBetweenVendorAndCust(customerPincode, vendorPincode));
   }
-  
+
   @GetMapping("/customerOrderHistory")
-  ResponseEntity<?> getCustomerOrderHistory(){
-	  return ResponseEntity.status(HttpStatus.CREATED).body(orderService.getCustomerOrderHistory());
+  ResponseEntity<?> getCustomerOrderHistory() {
+    return ResponseEntity.status(HttpStatus.CREATED).body(orderService.getCustomerOrderHistory());
+  }
+
+  @GetMapping("/customerOrderHistory")
+  ResponseEntity<?> getCustomerOrderHistory() {
+    return ResponseEntity.status(HttpStatus.CREATED).body(orderService.getCustomerOrderHistory());
   }
 
 }

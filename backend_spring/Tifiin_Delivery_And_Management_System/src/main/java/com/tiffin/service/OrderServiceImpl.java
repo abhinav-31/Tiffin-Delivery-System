@@ -60,26 +60,32 @@ public class OrderServiceImpl implements OrderService {
   ModelMapper mapper;
 
   private static final List<String> reference = List.of("411057",
-		    "411157",
-		    "411058",
-		    "411059",
-		    "411060",
-		    "411061",
-		    "411557",
-		    "411082",
-		    "411997",
-		    "411050");
-  private static final int[][] distMatrix = {{0, 5, 2, 8, 3, 7, 1, 9, 4, 6}, {7, 0, 3, 10, 5, 8, 6, 2, 9, 1}, {9, 6, 0, 4, 7, 2, 8, 5, 10, 3}, {5, 8, 1, 0, 2, 4, 7, 6, 3, 9}, {3, 2, 7, 9, 0, 1, 10, 8, 6, 4}, {1, 4, 6, 5, 3, 0, 9, 7, 2, 8}, {10, 3, 4, 6, 9, 2, 0, 1, 7, 5}, {6, 7, 9, 1, 8, 3, 5, 0, 2, 10}, {8, 10, 5, 7, 4, 9, 2, 3, 0, 6}, {2, 9, 8, 3, 6, 5, 4, 10, 1, 0}};
+      "411157",
+      "411058",
+      "411059",
+      "411060",
+      "411061",
+      "411557",
+      "411082",
+      "411997",
+      "411050");
+  private static final int[][] distMatrix = { { 0, 5, 2, 8, 3, 7, 1, 9, 4, 6 }, { 7, 0, 3, 10, 5, 8, 6, 2, 9, 1 },
+      { 9, 6, 0, 4, 7, 2, 8, 5, 10, 3 }, { 5, 8, 1, 0, 2, 4, 7, 6, 3, 9 }, { 3, 2, 7, 9, 0, 1, 10, 8, 6, 4 },
+      { 1, 4, 6, 5, 3, 0, 9, 7, 2, 8 }, { 10, 3, 4, 6, 9, 2, 0, 1, 7, 5 }, { 6, 7, 9, 1, 8, 3, 5, 0, 2, 10 },
+      { 8, 10, 5, 7, 4, 9, 2, 3, 0, 6 }, { 2, 9, 8, 3, 6, 5, 4, 10, 1, 0 } };
 
   @Override
   public ApiResponse addOrder(OrderRequestDTO orderRequest, Long customerId, Long vendorId) {
-    User customer = userRepository.findById(customerId).orElseThrow(() -> new ResourceNotFoundException("Customer Not Found"));
-    User vendor = userRepository.findById(vendorId).orElseThrow(() -> new ResourceNotFoundException("Vendor Not Found"));
+    User customer = userRepository.findById(customerId)
+        .orElseThrow(() -> new ResourceNotFoundException("Customer Not Found"));
+    User vendor = userRepository.findById(vendorId)
+        .orElseThrow(() -> new ResourceNotFoundException("Vendor Not Found"));
     String vendorPincode = vendor.getAddresses().getFirst().getZipcode();
     Order orderPlaced = new Order();
     orderPlaced.setCustomer(customer);
     orderPlaced.setVendor(vendor);
-    DeliveryBoy d = findSuitableDeliveryBoy(vendorPincode).orElseThrow(() -> new ResourceNotFoundException("No delivery boy found"));
+    DeliveryBoy d = findSuitableDeliveryBoy(vendorPincode)
+        .orElseThrow(() -> new ResourceNotFoundException("No delivery boy found"));
     orderPlaced.setDeliveryBoy(d);
     d.setStatus(DeliveryStatus.BUSY); // delivery boy has become busy for ongoing delivery
 
@@ -90,7 +96,8 @@ public class OrderServiceImpl implements OrderService {
     orderPlaced.setStatus(OrderStatus.PLACED);
     orderRepository.save(orderPlaced);
     for (MenuDTO menuDTO : orderRequest.getMenuItems()) {
-      Menu menu = menuRepository.findById(menuDTO.getId()).orElseThrow(() -> new ResourceNotFoundException("Menu not found with id " + menuDTO.getId()));
+      Menu menu = menuRepository.findById(menuDTO.getId())
+          .orElseThrow(() -> new ResourceNotFoundException("Menu not found with id " + menuDTO.getId()));
 
       OrderDetails orderDetails = new OrderDetails();
       orderDetails.setMenuItem(menu);
@@ -110,31 +117,35 @@ public class OrderServiceImpl implements OrderService {
     return new ApiResponse("Order placed successfully!");
   }
 
-//	public Optional<DeliveryBoy> findSuitableDeliveryBoy(String vendorPincode) {
-//		Optional<DeliveryBoy> minDistDeliveryBoy = Optional.empty();
-//		List<String> reference = List.of("411057","411157", "411058", "411059", "411060", "411061", "411557", "411082",
-//				"411997", "411050");
-//		int[][] distMatrix = { { 0, 5, 2, 8, 3, 7, 1, 9, 4, 6 }, { 7, 0, 3, 10, 5, 8, 6, 2, 9, 1 },
-//				{ 9, 6, 0, 4, 7, 2, 8, 5, 10, 3 }, { 5, 8, 1, 0, 2, 4, 7, 6, 3, 9 }, { 3, 2, 7, 9, 0, 1, 10, 8, 6, 4 },
-//				{ 1, 4, 6, 5, 3, 0, 9, 7, 2, 8 }, { 10, 3, 4, 6, 9, 2, 0, 1, 7, 5 }, { 6, 7, 9, 1, 8, 3, 5, 0, 2, 10 },
-//				{ 8, 10, 5, 7, 4, 9, 2, 3, 0, 6 }, { 2, 9, 8, 3, 6, 5, 4, 10, 1, 0 } };
-//		List<DeliveryBoy> availableDeliveryBoys = deliveryBoyRepository.findByStatus(DeliveryStatus.AVAILABLE);
-//		int vendorPincodeIndex = reference.indexOf(vendorPincode);
-//		int deliveryBoyPincodeIndex;
-//		int min = Integer.MAX_VALUE;
-//		for (DeliveryBoy d : availableDeliveryBoys) {
-//			deliveryBoyPincodeIndex = reference.indexOf(d.getCurrentPincode());
-//			if (distMatrix[deliveryBoyPincodeIndex][vendorPincodeIndex] < min) {
-//				min = distMatrix[deliveryBoyPincodeIndex][vendorPincodeIndex];
-//				minDistDeliveryBoy = Optional.of(d);
-//			}
-//		}
-//
-//		return minDistDeliveryBoy;
-//	}
+  // public Optional<DeliveryBoy> findSuitableDeliveryBoy(String vendorPincode) {
+  // Optional<DeliveryBoy> minDistDeliveryBoy = Optional.empty();
+  // List<String> reference = List.of("411057","411157", "411058", "411059",
+  // "411060", "411061", "411557", "411082",
+  // "411997", "411050");
+  // int[][] distMatrix = { { 0, 5, 2, 8, 3, 7, 1, 9, 4, 6 }, { 7, 0, 3, 10, 5, 8,
+  // 6, 2, 9, 1 },
+  // { 9, 6, 0, 4, 7, 2, 8, 5, 10, 3 }, { 5, 8, 1, 0, 2, 4, 7, 6, 3, 9 }, { 3, 2,
+  // 7, 9, 0, 1, 10, 8, 6, 4 },
+  // { 1, 4, 6, 5, 3, 0, 9, 7, 2, 8 }, { 10, 3, 4, 6, 9, 2, 0, 1, 7, 5 }, { 6, 7,
+  // 9, 1, 8, 3, 5, 0, 2, 10 },
+  // { 8, 10, 5, 7, 4, 9, 2, 3, 0, 6 }, { 2, 9, 8, 3, 6, 5, 4, 10, 1, 0 } };
+  // List<DeliveryBoy> availableDeliveryBoys =
+  // deliveryBoyRepository.findByStatus(DeliveryStatus.AVAILABLE);
+  // int vendorPincodeIndex = reference.indexOf(vendorPincode);
+  // int deliveryBoyPincodeIndex;
+  // int min = Integer.MAX_VALUE;
+  // for (DeliveryBoy d : availableDeliveryBoys) {
+  // deliveryBoyPincodeIndex = reference.indexOf(d.getCurrentPincode());
+  // if (distMatrix[deliveryBoyPincodeIndex][vendorPincodeIndex] < min) {
+  // min = distMatrix[deliveryBoyPincodeIndex][vendorPincodeIndex];
+  // minDistDeliveryBoy = Optional.of(d);
+  // }
+  // }
+  //
+  // return minDistDeliveryBoy;
+  // }
 
   public Optional<DeliveryBoy> findSuitableDeliveryBoy(String vendorPincode) {
-
 
     int vendorPincodeIndex = reference.indexOf(vendorPincode);
     if (vendorPincodeIndex == -1) {
@@ -148,11 +159,13 @@ public class OrderServiceImpl implements OrderService {
       int deliveryBoyPincodeIndex = reference.indexOf(d.getCurrentPincode());
       if (deliveryBoyPincodeIndex == -1) {
         // Log the unsupported pincode for further investigation
-        System.out.println("Unsupported pincode for delivery boy: " + d.getCurrentPincode());
+        // System.out.println("Unsupported pincode for delivery boy: " +
+        // d.getCurrentPincode());
         continue; // Skip delivery boys with unsupported pincodes
       }
 
-      if (deliveryBoyPincodeIndex >= 0 && deliveryBoyPincodeIndex < distMatrix.length && vendorPincodeIndex >= 0 && vendorPincodeIndex < distMatrix[0].length) {
+      if (deliveryBoyPincodeIndex >= 0 && deliveryBoyPincodeIndex < distMatrix.length && vendorPincodeIndex >= 0
+          && vendorPincodeIndex < distMatrix[0].length) {
         int distance = distMatrix[deliveryBoyPincodeIndex][vendorPincodeIndex];
         if (distance < min) {
           min = distance;
@@ -160,13 +173,13 @@ public class OrderServiceImpl implements OrderService {
         }
       } else {
         // Log if indices are out of bounds
-        System.out.println("Out of bounds index for delivery boy's pincode: " + d.getCurrentPincode());
+        // System.out.println("Out of bounds index for delivery boy's pincode: " +
+        // d.getCurrentPincode());
       }
     }
 
     return minDistDeliveryBoy;
   }
-
 
   @Override
   public ApiResponse changeStatus(Long orderId) {
@@ -180,9 +193,11 @@ public class OrderServiceImpl implements OrderService {
   }
 
   @Override
-  public ApiResponse addReview(Long orderId, ReviewDTO addReview) {
-	  User customer = userRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString()).orElseThrow(()-> new ResourceNotFoundException("no user found"));
-    Order order = orderRepository.findOrderByIdAndStatus(orderId, OrderStatus.DELIVERED).orElseThrow(() -> new ResourceNotFoundException("No order exist"));
+  public ApiResponse addReview(Long orderId, Long customerId, ReviewDTO addReview) {
+    User customer = userRepository.findById(customerId)
+        .orElseThrow(() -> new ResourceNotFoundException("Customer Not Found"));
+    Order order = orderRepository.findOrderByIdAndStatus(orderId, OrderStatus.DELIVERED)
+        .orElseThrow(() -> new ResourceNotFoundException("No order exist"));
     Review review = mapper.map(addReview, Review.class);
     review.setCustomer(customer);
     review.setOrder(order);
@@ -195,7 +210,8 @@ public class OrderServiceImpl implements OrderService {
   @Override
   public List<OrderDetailsResDTO> getOrdersByVendorAndStatus(Long vendorId, OrderStatus status) {
     List<OrderDetailsResDTO> list = new ArrayList<>();
-    User vendor = userRepository.findById(vendorId).orElseThrow(() -> new ResourceNotFoundException("Vendor not found!!"));
+    User vendor = userRepository.findById(vendorId)
+        .orElseThrow(() -> new ResourceNotFoundException("Vendor not found!!"));
 
     List<Order> orders = orderRepository.findByVendor(vendor);
 
@@ -231,8 +247,10 @@ public class OrderServiceImpl implements OrderService {
   @Override
   public List<OrderDelResDTO> getPlacedForDelivery(Long deliveryBoyId, OrderStatus status) {
     List<OrderDelResDTO> list = new ArrayList<>();
-    User deliveryBoy = userRepository.findById(deliveryBoyId).orElseThrow(() -> new ResourceNotFoundException("Delivery Boy not found!!"));
-    DeliveryBoy delivery_details = deliveryBoyRepository.findByDeliveryBoy(deliveryBoy).orElseThrow(() -> new ResourceNotFoundException("Delivery details not found!!"));
+    User deliveryBoy = userRepository.findById(deliveryBoyId)
+        .orElseThrow(() -> new ResourceNotFoundException("Delivery Boy not found!!"));
+    DeliveryBoy delivery_details = deliveryBoyRepository.findByDeliveryBoy(deliveryBoy)
+        .orElseThrow(() -> new ResourceNotFoundException("Delivery details not found!!"));
 
     List<Order> orders = orderRepository.findByDeliveryBoy(delivery_details);
     for (Order order : orders) {
@@ -243,11 +261,13 @@ public class OrderServiceImpl implements OrderService {
         AddressReqDTO addressDto = mapper.map(order.getDeliveryAddress(), AddressReqDTO.class);
         dto.setDeliveryAddress(addressDto);
         dto.setOrderId(order.getId());
-        Payment earnedAmount = paymentRepository.findByOrder(order).orElseThrow(() -> new ResourceNotFoundException("Order not found"));
+        Payment earnedAmount = paymentRepository.findByOrder(order)
+            .orElseThrow(() -> new ResourceNotFoundException("Order not found"));
         dto.setPaymentMethod(earnedAmount.getPaymentMethod());
-        System.out.println(order.getDeliveryAddress().getZipcode());
-        System.out.println(order.getVendor().getAddresses().getFirst().getZipcode());
-        int deliveryDistance = deliveryDistanceBetweenVendorAndCust(order.getDeliveryAddress().getZipcode(), order.getVendor().getAddresses().getFirst().getZipcode());
+        // System.out.println(order.getDeliveryAddress().getZipcode());
+        // System.out.println(order.getVendor().getAddresses().getFirst().getZipcode());
+        int deliveryDistance = deliveryDistanceBetweenVendorAndCust(order.getDeliveryAddress().getZipcode(),
+            order.getVendor().getAddresses().getFirst().getZipcode());
         dto.setEarnedAmount(deliveryDistance * 0.2);
         list.add(dto);
       }
@@ -260,61 +280,64 @@ public class OrderServiceImpl implements OrderService {
     int customerPincodeIndex = reference.indexOf(customerPincode);
     return distMatrix[customerPincodeIndex][vendorPincodeIndex];
   }
-//	@Override
-//	public List<OrderResDTO> getOrdersByVendorAndStatus(Long vendorId, OrderStatus status) {
-//		User vendor = userRepository.findById(vendorId)
-//				.orElseThrow(() -> new ResourceNotFoundException("Vendor not found"));
-//
-//		List<Order> orders = orderRepository.findByVendorAndStatus(vendor, status);
-//
-//		return orders.stream().map(order -> {
-//			OrderResDTO dto = new OrderResDTO();
-//			dto.setCustomer(mapper.map(order.getCustomer(), UserDTO.class));
-//			dto.setDeliveryBoy(mapper.map(order.getDeliveryBoy().getDeliveryBoy(), UserDTO.class));
-//			AddressReqDTO addressDto = mapper.map(order.getDeliveryAddress(), AddressReqDTO.class);
-//			dto.setDeliveryAddress(addressDto);
-//			return dto;
-//		}).collect(Collectors.toList());
-//	}
+  // @Override
+  // public List<OrderResDTO> getOrdersByVendorAndStatus(Long vendorId,
+  // OrderStatus status) {
+  // User vendor = userRepository.findById(vendorId)
+  // .orElseThrow(() -> new ResourceNotFoundException("Vendor not found"));
+  //
+  // List<Order> orders = orderRepository.findByVendorAndStatus(vendor, status);
+  //
+  // return orders.stream().map(order -> {
+  // OrderResDTO dto = new OrderResDTO();
+  // dto.setCustomer(mapper.map(order.getCustomer(), UserDTO.class));
+  // dto.setDeliveryBoy(mapper.map(order.getDeliveryBoy().getDeliveryBoy(),
+  // UserDTO.class));
+  // AddressReqDTO addressDto = mapper.map(order.getDeliveryAddress(),
+  // AddressReqDTO.class);
+  // dto.setDeliveryAddress(addressDto);
+  // return dto;
+  // }).collect(Collectors.toList());
+  // }
 
   @Override
   public List<CustomerOrderHisResDTO> getCustomerOrderHistory() {
-	  System.out.println(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
-      User user = userRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString())
-                                .orElseThrow(() -> new ResourceNotFoundException("No user found"));
-      System.out.println("user : "+user);
-      return orderRepository.findAllDeliveredOrder(user, OrderStatus.DELIVERED).stream()
-          .flatMap(order -> {
-              // Get vendor business name
-              User vendor = userRepository.findById(order.getVendor().getId())
-                                          .orElseThrow(() -> new ResourceNotFoundException("Vendor Not Found"));
-              String vendorBusinessName = vendor.getBusinessName();
-              System.out.println("Order :- " + order);
+    System.out.println(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
+    User user = userRepository
+        .findByEmail(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString())
+        .orElseThrow(() -> new ResourceNotFoundException("No user found"));
+    System.out.println("user : " + user);
+    return orderRepository.findAllDeliveredOrder(user, OrderStatus.DELIVERED).stream()
+        .flatMap(order -> {
+          // Get vendor business name
+          User vendor = userRepository.findById(order.getVendor().getId())
+              .orElseThrow(() -> new ResourceNotFoundException("Vendor Not Found"));
+          String vendorBusinessName = vendor.getBusinessName();
+          System.out.println("Order :- " + order);
 
-              // Get order details
-              List<CustomerOrderHisResDTO> orderHistoryList = orderDetailsRepository.findByOrder(order).stream()
-                  .map(orderDetail -> {
-                      Menu menu = menuRepository.findById(orderDetail.getMenuItem().getId())
-                                               .orElseThrow(() -> new ResourceNotFoundException("Menu Not Found"));
-                      String menuName = menu.getName();
-                      int quantity = orderDetail.getQuantity();
+          // Get order details
+          List<CustomerOrderHisResDTO> orderHistoryList = orderDetailsRepository.findByOrder(order).stream()
+              .map(orderDetail -> {
+                Menu menu = menuRepository.findById(orderDetail.getMenuItem().getId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Menu Not Found"));
+                String menuName = menu.getName();
+                int quantity = orderDetail.getQuantity();
 
-                      // Get payment details
-                      Payment payment = paymentRepository.findByOrder(order)
-                                                        .orElseThrow(() -> new ResourceNotFoundException("Payment Not Found"));
-                      double totalAmount = payment.getAmount();
+                // Get payment details
+                Payment payment = paymentRepository.findByOrder(order)
+                    .orElseThrow(() -> new ResourceNotFoundException("Payment Not Found"));
+                double totalAmount = payment.getAmount();
 
-                      return new CustomerOrderHisResDTO(order.getId(),vendorBusinessName, menuName, quantity, totalAmount);
-                  })
-                  .collect(Collectors.toList());
+                return new CustomerOrderHisResDTO(order.getId(), vendorBusinessName, menuName, quantity, totalAmount);
+              })
+              .collect(Collectors.toList());
 
-              return orderHistoryList.stream();
-          })
-          .collect(Collectors.toList());
+          return orderHistoryList.stream();
+        })
+        .collect(Collectors.toList());
   }
 
-
-// order delivered)
+  // order delivered)
   // change order status to DELIVERED
   // change delivery boy status to AVAILABLE + set new pincode as
   // order->deliveryaddress->'s pincode

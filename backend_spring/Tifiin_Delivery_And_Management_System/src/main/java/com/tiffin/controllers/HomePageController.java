@@ -21,22 +21,23 @@ import com.tiffin.service.ViewVendorService;
 public class HomePageController {
 	@Autowired
 	private ViewVendorService viewVendorService;
-	
+
 	@GetMapping()
-	public ResponseEntity<?> viewVendor(){
+	public ResponseEntity<?> viewVendor() {
 		return ResponseEntity.status(HttpStatus.CREATED).body(viewVendorService.findAllVendors());
 	}
 
-//	@GetMapping("/vendorMenuList")
-//	public ResponseEntity<?> vendorMenuList(@RequestBody String email){
-//		System.out.println("email : "+email);
-//		return ResponseEntity.status(HttpStatus.ACCEPTED).body(viewVendorService.getVendorMenuList(email));
-//	}
+	// @GetMapping("/vendorMenuList")
+	// public ResponseEntity<?> vendorMenuList(@RequestBody String email){
+	// System.out.println("email : "+email);
+	// return
+	// ResponseEntity.status(HttpStatus.ACCEPTED).body(viewVendorService.getVendorMenuList(email));
+	// }
 	@PostMapping("/vendorMenuList")
 	public ResponseEntity<?> vendorMenuList(@RequestBody Map<String, String> requestBody) {
-	    String email = requestBody.get("email");
-	    System.out.println("email : " + email);
-	    return ResponseEntity.status(HttpStatus.ACCEPTED).body(viewVendorService.getVendorMenuList(email));
+		String email = requestBody.get("email");
+		// System.out.println("email : " + email);
+		return ResponseEntity.status(HttpStatus.ACCEPTED).body(viewVendorService.getVendorMenuList(email));
 	}
 
 }

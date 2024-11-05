@@ -79,6 +79,7 @@ public class MenuController {
     return ResponseEntity.ok(menus);
   }
 
+
   @PostMapping("/updateQuantity")
   public ResponseEntity<ApiResponse> updateMenuQuantity(@RequestBody MenuDTO menuDTO) {
 	  System.out.println("Update menu quantity");

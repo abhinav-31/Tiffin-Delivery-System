@@ -15,4 +15,5 @@ public class VendorViewDTO {
 	private String businessName;
 	private double rating;
 	private byte[] vendorBusinessImage;
+	private String vendorZipcode;
 }

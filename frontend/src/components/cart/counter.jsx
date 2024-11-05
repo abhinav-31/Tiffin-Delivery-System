@@ -1,7 +1,6 @@
-
 import React from "react";
 import { useDispatch } from "react-redux";
-import { removeItem } from "../../redux/cartSlice";
+import { removeItem, updateItemQuantity } from "../../redux/cartSlice";
 import "./counter.css";
 
 function Counter({ quantity, onQuantityChange, vendorEmail, menuId }) {
@@ -12,16 +11,17 @@ function Counter({ quantity, onQuantityChange, vendorEmail, menuId }) {
   };
 
   const decreaseQuant = () => {
+    if (quantity <= 0) return;
     const newQuantity = quantity - 1;
-    console.log("afdasf:- "+newQuantity);
+    onQuantityChange(newQuantity);
     if (newQuantity === 0) {
-      onQuantityChange(newQuantity);
       // Remove item from cart when quantity reaches zero
+      console.log("NEW QUANTITY:- ", newQuantity);
       dispatch(removeItem({ vendorEmail, menuId }));
-      console.log("menu id asdfa: "+menuId)
-     
     } else {
-      onQuantityChange(newQuantity);
+      dispatch(
+        updateItemQuantity({ vendorEmail, menuId, quantity: newQuantity })
+      );
     }
   };
 

@@ -45,8 +45,8 @@ public class Order extends BaseEntity {
 	private Set<OrderDetails> orderDetails = new HashSet<>();
 
 	@Enumerated(EnumType.STRING)
-
 	private OrderStatus status; // e.g., PLACED, DELIVERED
+	
 	@OneToOne(mappedBy = "order")
 	private Payment payment; // Payment details for the order
 

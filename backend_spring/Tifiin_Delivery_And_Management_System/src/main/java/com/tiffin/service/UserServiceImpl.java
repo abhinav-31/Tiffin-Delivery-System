@@ -2,10 +2,8 @@ package com.tiffin.service;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
-import com.tiffin.custom_exceptions.UserException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,11 +11,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tiffin.custom_exceptions.ResourceNotFoundException;
 import com.tiffin.dto.AddressReqDTO;
 import com.tiffin.dto.AddressResDTO;
 import com.tiffin.dto.ApiResponse;
-import com.tiffin.dto.UserSignInReqDTO;
 import com.tiffin.dto.UserSignUpReqDTO;
 import com.tiffin.dto.VendorSignUpReqDTO;
 import com.tiffin.entities.Address;
@@ -29,7 +27,6 @@ import com.tiffin.repository.DeliveryBoyRepository;
 import com.tiffin.repository.UserRepository;
 
 import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
 
 @Service
 @Transactional
@@ -42,6 +39,9 @@ public class UserServiceImpl implements UserService {
 	private ModelMapper mapper;
 
 	@Autowired
+	ObjectMapper objectMapper;
+	
+	@Autowired
 	private PasswordEncoder passwordEncoder;
 
 	@Override
@@ -53,7 +53,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public ApiResponse saveCustomer(UserSignUpReqDTO user) {
 		if(userRepository.existsByEmail(user.getEmail()))
-			return new ApiResponse("Use another email");
+			return new ApiResponse("Email already exist");
 		User u = mapper.map(user, User.class);
 		u.setPassword(passwordEncoder.encode(u.getPassword()));
 		u.setRole(u.getRole());
@@ -74,9 +74,11 @@ public class UserServiceImpl implements UserService {
 		deliveryBoyRepository.save(d);
 		return new ApiResponse("New Delivery Boy Added!!!");
 	}
-
-	@Override
-	public ApiResponse saveVendor(VendorSignUpReqDTO vendor, AddressReqDTO address, MultipartFile image) throws IOException {
+	
+	@Override 
+	public ApiResponse saveVendor(String vendorSignup, String addressDto, MultipartFile image) throws IOException {
+		VendorSignUpReqDTO vendor = objectMapper.readValue(vendorSignup, VendorSignUpReqDTO.class);
+		AddressReqDTO address = objectMapper.readValue(addressDto, AddressReqDTO.class);
 		if(userRepository.existsByEmail(vendor.getEmail()))
 			return new ApiResponse("Use another email") ;
 		User u = mapper.map(vendor, User.class);
@@ -87,33 +89,22 @@ public class UserServiceImpl implements UserService {
 		userRepository.save(u);
 		return new ApiResponse("New Vendor Added!!!");
 	}
-
+	
 	@Override
 	public ApiResponse addCustomerAddresses(AddressReqDTO address) {
-//		System.out.println(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 		User u = userRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString()).orElseThrow(()-> new ResourceNotFoundException("no user found"));
 		
 		if (u != null) {
 			u.addAddress(mapper.map(address, Address.class));
 		} else {
-			new ResourceNotFoundException("User does not exist!");
+			throw new ResourceNotFoundException("User does not exist!");
 		}
-//		System.out.println(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
 		return new ApiResponse("New Address Added!!!");
 	}
 
 	@Override
 	public String getUserMail() {
-		// TODO Auto-generated method stub
 		return SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
-	}
-
-
-
-	@Override
-	public ApiResponse signIn(@Valid UserSignInReqDTO userSignIn) {
-
-		return new ApiResponse("User Validated");
 	}
 
 	@Override

@@ -11,7 +11,7 @@ const vendorSlice = createSlice({
     setVendorEmail: (state, action) => {
       state.email = action.payload;
     },
-    setVendorId: (state,action)=>{
+    setVendorId: (state, action) => {
       state.id = action.payload;
     }
   },

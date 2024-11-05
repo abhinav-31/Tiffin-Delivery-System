@@ -135,13 +135,13 @@ function LoginModal({ onClose, onToggleRegister }) {
         const result = await login(email, password);
         console.log(result);
         if (result.message === "Successful Auth!") {
-          const { jwt, email, role, id, name } = result;
+          const { jwt, email, role, name, id } = result;
           sessionStorage.setItem("token", jwt);
           sessionStorage.setItem("email", email);
           sessionStorage.setItem("role", role);
-          sessionStorage.setItem("id", id);
-          sessionStorage.setItem("name",name);
+          sessionStorage.setItem("name", name);
           sessionStorage.setItem("loginStatus", true);
+          sessionStorage.setItem("id", id);
           console.log("name " + result.name);
           dispatch(loginAction());
           toast.success(`Welcome, ${name}!`);

@@ -1,27 +1,30 @@
 
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import {  removeItem, updateItemQuantity } from "../../redux/cartSlice";
+import { removeItem, updateItemQuantity } from "../../redux/cartSlice";
 import Counter from "./counter";
 
 function CartItem({ menuId, cartItem, vendorEmail, updateBill }) {
   const dispatch = useDispatch();
   const [quantity, setQuantity] = useState(cartItem.quantity);
-  const [itemTotal, setItemTotal] = useState(cartItem.quantity * cartItem.menuPrice);
+  const [itemTotal, setItemTotal] = useState(
+    cartItem.quantity * cartItem.menuPrice
+  );
 
   useEffect(() => {
     setItemTotal(quantity * cartItem.menuPrice);
-    updateBill(vendorEmail, cartItem.menuId, quantity);
-  }, [quantity, cartItem.menuPrice, cartItem.menuId, vendorEmail, updateBill]);
+    updateBill(vendorEmail, menuId, quantity);
+  }, [quantity, cartItem.menuPrice, menuId, vendorEmail, updateBill]);
 
   const handleQuantityChange = (newQuantity) => {
-    console.log("New quantity:- "+ newQuantity);
-    if (newQuantity === 0) {
-      setQuantity(newQuantity);
-      dispatch(removeItem({ vendorEmail, menuId: menuId }));
+    if (newQuantity <= 0) {
+      setQuantity(0);
+      dispatch(removeItem({ vendorEmail, menuId }));
     } else {
       setQuantity(newQuantity);
-      dispatch(updateItemQuantity({ vendorEmail, menuId: menuId, quantity: newQuantity }));
+      dispatch(
+        updateItemQuantity({ vendorEmail, menuId, quantity: newQuantity })
+      );
     }
   };
 

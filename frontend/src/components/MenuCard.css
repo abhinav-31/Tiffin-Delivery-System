@@ -87,7 +87,7 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    
+
     /* Align content to the right */
     width: 110px;
     /* Full width to push content to the right */
@@ -100,7 +100,8 @@
 
 /* Add Button */
 .add-button {
-    background-color: #e77171;;
+    background-color: #e77171;
+    ;
     color: #fff;
     border: none;
     border-radius: 4px;
@@ -127,7 +128,8 @@
     /* Round the corners of the border */
     padding: 2px;
     /* Add padding inside the border */
-    background-color: #f5f1f1;;
+    background-color: #f5f1f1;
+    ;
     /* Background color for better visibility */
     width: fit-content;
     width: 110px;
@@ -157,6 +159,29 @@
     margin: 0 8px;
 }
 
+/* Existing styles for menu-card, menu-card-image, menu-card-content, etc. */
+
+.go-to-cart {
+    position: fixed;
+    bottom: 12px;
+    left: 200;
+    width: 47%;
+    background-color: #f8f8f8;
+    /* Adjust color as needed */
+    
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.go-to-cart button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    /* Adjust color as needed */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+}
 
 /* Media Queries */
 

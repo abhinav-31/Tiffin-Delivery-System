@@ -53,6 +53,7 @@ a {
 
 .circular-button {
   position: fixed;
+  margin-top: 20px;
   bottom: 20px;
   right: 20px;
   width: 60px;

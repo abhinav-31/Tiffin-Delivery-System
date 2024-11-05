@@ -9,7 +9,7 @@ const cartSlice = createSlice({
   reducers: {
     addItem: (state, action) => {
       const { vendorEmail, menuId, menuName, menuPrice, menuImage, quantity } = action.payload;
-      
+
       if (!state.items[vendorEmail]) {
         state.items[vendorEmail] = {};
       }

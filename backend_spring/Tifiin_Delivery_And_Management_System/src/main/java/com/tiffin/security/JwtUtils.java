@@ -38,7 +38,7 @@ public class JwtUtils {
 
     public String generateJwtToken(Authentication authentication) {
         log.info("generate jwt token " + authentication);
-        CustomUserDetails userPrincipal = (CustomUserDetails) authentication.getPrincipal();
+        CustomUserDetails userPrincipal =  (CustomUserDetails) authentication.getPrincipal();
 
         return Jwts.builder()
                 .setSubject(userPrincipal.getUsername()) // Set email as the subject
@@ -54,6 +54,7 @@ public class JwtUtils {
     }
 
     public Claims validateJwtToken(String jwtToken) {
+    	log.info("Validating JWT token");
         return Jwts.parserBuilder()
                 .setSigningKey(key)
                 .build()

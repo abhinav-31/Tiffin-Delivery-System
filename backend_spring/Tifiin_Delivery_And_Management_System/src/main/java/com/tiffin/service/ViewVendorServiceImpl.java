@@ -1,6 +1,5 @@
 package com.tiffin.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -42,7 +41,7 @@ public class ViewVendorServiceImpl implements ViewVendorService {
 			double avgRating = reviews.stream().mapToDouble(Review::getRating).average().orElse(0.0);
 			// Round the average rating to one decimal place
 			avgRating = Math.round(avgRating * 10.0) / 10.0;
-			return new VendorViewDTO(vendor.getId(),vendor.getEmail(), vendor.getBusinessName(), avgRating, vendor.getUserImage());
+			return new VendorViewDTO(vendor.getId(),vendor.getEmail(), vendor.getBusinessName(), avgRating, vendor.getUserImage(),vendor.getAddresses().getFirst().getZipcode());
 		}).collect(Collectors.toList());
 	}
 
@@ -51,7 +50,6 @@ public class ViewVendorServiceImpl implements ViewVendorService {
 	    // Retrieve the vendor by email
 	    User vendor = userRepository.findByEmail(email)
 	        .orElseThrow(() -> new ResourceNotFoundException("Invalid Email!"));
-
 	    return menuRepository.findByVendorAndIsDeletedFalse(vendor).stream()
 	        .map(menu -> mapper.map(menu, MenuResWithImageDTO.class))
 	        .collect(Collectors.toList());

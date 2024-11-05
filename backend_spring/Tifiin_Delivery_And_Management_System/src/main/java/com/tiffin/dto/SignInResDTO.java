@@ -14,6 +14,6 @@ public class SignInResDTO {
 	private String message;
 	private String role;
 	private String email;
-	private Long id;
 	private String name;
+	private Long id;
 }

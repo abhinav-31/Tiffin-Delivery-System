@@ -6,11 +6,10 @@ import { currency } from "../assets/assets";
 
 const DeliveredOrderHistory = () => {
   const [orders, setOrders] = useState([]);
-  const deliveryboyId = sessionStorage.getItem("id"); // Retrieve the correct item from sessionStorage
 
   const loadPlacedOrders = async () => {
     try {
-      const data = await fetchDeliveredOrdersHistory(deliveryboyId);
+      const data = await fetchDeliveredOrdersHistory();
       setOrders(data);
     } catch (error) {
       toast.error("No delivered orders found!");
@@ -19,7 +18,7 @@ const DeliveredOrderHistory = () => {
 
   useEffect(() => {
     loadPlacedOrders();
-  }, [deliveryboyId]);
+  }, []);
 
   return (
     <div className="db-homepage-container">

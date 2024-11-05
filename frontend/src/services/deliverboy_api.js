@@ -7,11 +7,11 @@ const axiosInstance = axios.create({
 });
 
 // Fetch placed orders history
-export const fetchPlacedOrdersHistory = async (deliveryboyId) => {
+export const fetchPlacedOrdersHistory = async () => {
   try {
     const token = sessionStorage.getItem("token");
     const response = await axiosInstance.get(
-      `/orders/deliveryBoy/${deliveryboyId}?status=PLACED`,
+      `/orders/deliveryBoy?status=PLACED`,
       {
         headers: {
           Authorization: `Bearer ${token}`, // Include the JWT token in the headers
@@ -29,6 +29,7 @@ export const fetchPlacedOrdersHistory = async (deliveryboyId) => {
 // Update order status
 export const updateOrderStatus = async (orderId, status) => {
   try {
+    console.log("order status changed")
     const token = sessionStorage.getItem("token");
     await axiosInstance.put(
       `/orders/changeStatus/${orderId}?status=${status}`,
@@ -46,11 +47,11 @@ export const updateOrderStatus = async (orderId, status) => {
 };
 
 // Fetch delivered orders history
-export const fetchDeliveredOrdersHistory = async (deliveryboyId) => {
+export const fetchDeliveredOrdersHistory = async () => {
   try {
     const token = sessionStorage.getItem("token");
     const response = await axiosInstance.get(
-      `/orders/deliveryBoy/${deliveryboyId}?status=DELIVERED`,
+      `/orders/deliveryBoy?status=DELIVERED`,
       {
         headers: {
           Authorization: `Bearer ${token}`, // Include the JWT token in the headers

@@ -43,7 +43,6 @@ public class AddressReqDTO {
 	    @Column(length = 11)
 	    private String phoneNo;
 
-//	    @Column(length = 20)
-//	    private String contactperson;
+
 
 }

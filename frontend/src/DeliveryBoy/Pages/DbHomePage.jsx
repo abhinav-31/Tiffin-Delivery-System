@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./DbHomePage.css";
 import { toast } from "react-toastify";
+import { Stomp } from "@stomp/stompjs";
+import SockJS from "sockjs-client";
 import {
   fetchPlacedOrdersHistory,
   updateOrderStatus,
@@ -10,21 +12,50 @@ import { currency } from "../assets/assets";
 const PlacedOrderHistory = () => {
   const [orders, setOrders] = useState([]);
   const [buttonVisible, setButtonVisible] = useState(true);
-  const deliveryboyId = sessionStorage.getItem("id"); // Retrieve the correct item from sessionStorage
+  // const deliveryboyId = sessionStorage.getItem("id"); // Retrieve the correct item from sessionStorage
 
+  const [notifications, setNotifications] = useState([]);
+  const clientRef = useRef(null); // Create a ref for the Stomp client
   const loadPlacedOrders = async () => {
     try {
-      const data = await fetchPlacedOrdersHistory(deliveryboyId);
+      const data = await fetchPlacedOrdersHistory();
       setOrders(data);
       setButtonVisible(data.length > 0);
     } catch (error) {
       toast.error("No placed orders found!");
     }
   };
+useEffect(()=>{
+  const socket = new SockJS("http://localhost:8081/ws"); // Adjust the URL
+    const client = Stomp.over(socket);
+    clientRef.current = client; // Store the client in the ref
 
+    const connectWebSocket = () => {
+      client.connect({}, (frame) => {
+        console.log("Connected: " + frame);
+        const deliveryboyId = sessionStorage.getItem("id"); // Replace with actual vendor ID logic
+
+        // Subscribe to the vendor-specific topic only once
+        client.subscribe(`/topic/deliveryBoy/${deliveryboyId}`, (message) => {
+          const orderMessage = message.body;
+          setNotifications((prev) => [...prev, orderMessage]);
+          // alert(`New order notification: ${orderMessage}`); // Alert for demonstration
+          toast.success(`New order notification: ${orderMessage}`);
+        });
+      });
+    };
+
+    connectWebSocket();
+
+    // Clean up the connection on component unmount
+    return () => {
+      client.disconnect();
+      clientRef.current = null; // Clear the ref
+    };
+},[])
   useEffect(() => {
     loadPlacedOrders();
-  }, [deliveryboyId]);
+  }, []);
 
   const handleMarkAsDelivered = async () => {
     try {

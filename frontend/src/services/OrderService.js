@@ -4,11 +4,13 @@ import axios from 'axios';
 import { createError, createUrl } from './Utils';
 
 // Function to place an order
-export const placeOrder = async (customerId, vendorId, token, orderRequest) => {
+export const placeOrder = async (vendorId, token, orderRequest) => {
     try {
         const BASE_URL = createUrl('orders');
+        console.log(token);
+        const path = 'addOrder';
         const response = await axios.post(
-            `${BASE_URL}/${customerId}/${vendorId}`,
+            `${BASE_URL}/${path}/${vendorId}`,
             orderRequest,
             {
                 headers: {
@@ -23,9 +25,9 @@ export const placeOrder = async (customerId, vendorId, token, orderRequest) => {
     }
 };
 
-export const addReview = async(orderId, reviewData) =>{
-    try{
-        
+export const addReview = async (orderId, reviewData) => {
+    try {
+
         const BASE_URL = createUrl('orders');
         const token = sessionStorage.getItem("token");
         const response = await axios.post(
@@ -39,7 +41,7 @@ export const addReview = async(orderId, reviewData) =>{
             }
         );
         return response.data;
-    }catch(error){
+    } catch (error) {
 
     }
 }

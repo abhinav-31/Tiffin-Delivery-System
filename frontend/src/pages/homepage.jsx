@@ -7,14 +7,13 @@ import Footer from "../components/footer/footer";
 import { fetchVendors } from "../services/VendorService";
 
 function HomePage() {
-  const navigate = useNavigate();
   const [vendors, setVendors] = useState([]);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const getVendors = async () => {
       const result = await fetchVendors();
-      
+
       if (result.status === "error") {
         setError(result.error);
       } else {
@@ -25,15 +24,9 @@ function HomePage() {
     getVendors();
   }, []);
 
-  // const handleVendorClick = (email) => {
-  //   navigate(`/vendor/${email}`); // Use navigate for navigation
-  // };
-
   if (error) {
     return <div>Error: {error.message}</div>;
   }
-
-
 
   return (
     <div className="homepage-container">
@@ -160,7 +153,7 @@ function HomePage() {
                 <div className="motov4_feature_data mt-5 highlight">
                   <h3>Order from your favourite vendors</h3>
                 </div>
-                <VendorsList  vendors={vendors}/>
+                <VendorsList vendors={vendors} />
               </div>
               <section className="services-section ">
                 <div className="row">

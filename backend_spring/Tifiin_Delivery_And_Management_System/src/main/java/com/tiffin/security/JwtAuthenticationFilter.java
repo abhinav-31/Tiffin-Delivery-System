@@ -1,4 +1,4 @@
-package com.tiffin.security;
+ package com.tiffin.security;
 
 import java.io.IOException;
 import java.util.List;
@@ -32,8 +32,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             String jwt = authHeader.substring(7);
             Claims payloadClaims = utils.validateJwtToken(jwt);
             String email = utils.getUserNameFromJwtToken(payloadClaims);
+//            System.out.println(email);
             List<GrantedAuthority> authorities = utils.getAuthoritiesFromClaims(payloadClaims);
-
             UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(email, null, authorities);
             SecurityContextHolder.getContext().setAuthentication(token);
         }

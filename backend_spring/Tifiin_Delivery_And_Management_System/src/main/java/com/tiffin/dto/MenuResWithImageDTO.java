@@ -14,4 +14,5 @@ public class MenuResWithImageDTO {
     private MenuCategory category;
     private Integer quantity;
     private byte[] menuImage;
+    private String vendorZipcode;
 }

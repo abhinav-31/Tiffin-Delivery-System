@@ -13,6 +13,6 @@ public class MenuDTO {
 
     private Long id;
     private int quantity;
-    private int price;
+    private double price;
 
 }

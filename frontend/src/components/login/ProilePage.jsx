@@ -22,7 +22,7 @@ function ProfilePage() {
   const [addressesError, setAddressesError] = useState(""); // Error state for addresses
   const navigate = useNavigate();
   const [reviewModal, setReviewModal] = useState(false);
-  const [submittedReviews, setSubmittedReviews] = useState({}); 
+  const [submittedReviews, setSubmittedReviews] = useState({});
 
   const name = sessionStorage.getItem("name");
   const email = sessionStorage.getItem("email");
@@ -55,10 +55,12 @@ function ProfilePage() {
         try {
           const addressesData = await fetchAddresses();
           console.log("Fetched addresses:", addressesData);
+
           if (addressesData.length === 0) {
             toast.info("No addresses found. Please add your address.");
           } else {
             setAddresses(addressesData);
+            console.log("Addresses state after update:", addressesData);
             toast.success("Addresses fetched successfully");
           }
         } catch (error) {
@@ -243,7 +245,7 @@ function ProfilePage() {
                       </thead>
                       <tbody>
                         {orders.map((order, index) => (
-                          <tr key={order.id}>
+                          <tr key={index}>
                             <td>{index + 1}</td> {/* Display Index */}
                             <td>{order.id}</td>
                             <td>{order.vendorBusinessName}</td>

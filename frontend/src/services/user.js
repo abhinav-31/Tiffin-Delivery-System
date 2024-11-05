@@ -81,7 +81,7 @@ export const fetchAddresses = async () => {
   const token = sessionStorage.getItem('token'); // Get the token from session storage
   console.log("token:- " + token)
   if (!token) {
-    throw new Error('No token found');
+    throw new Error('Missing token');
   }
 
   try {
@@ -93,7 +93,7 @@ export const fetchAddresses = async () => {
     });
     console.log(response);
     // Handle non-201 responses
-    if (response.status !== 201) {
+    if (response.status !== 200) {
       throw new Error('Failed to fetch addresses');
     }
 

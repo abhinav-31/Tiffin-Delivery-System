@@ -9,6 +9,7 @@ import AddCustomerAddressModal from "../components/register/AddCustomerAddressMo
 import { placeOrder } from "../services/OrderService"; // Import the OrderService
 import { generateRandomTransactionId } from "../Utils/utility";
 import { setAddresses } from "../redux/AddressSlice"; // Import the action
+import { clearCart } from "../redux/cartSlice";
 
 function Cart() {
   const navigate = useNavigate();
@@ -29,21 +30,24 @@ function Cart() {
   const [updateQuantity, setUpdateQuantity] = useState(0);
   const calculateBill = useCallback(() => {
     let subTotal = 0;
-    Object.values(cart).forEach((vendorItems) => {
-      Object.values(vendorItems).forEach((item) => {
-        subTotal += item.menuPrice * updateQuantity;
-        console.log(subTotal);
-      });
-    });
+    for (const vendorKey in cart) {
+      // Loop through each vendor in the cart
+      const vendorItems = cart[vendorKey]; // Access vendor's items
 
+      for (const itemKey in vendorItems) {
+        // Loop through each item for the vendor
+        const item = vendorItems[itemKey]; // Access each item
+        subTotal += item.menuPrice * updateQuantity; // Use the updateQuantity as provided
+      }
+    }
     const calculatedGst = 0.18 * subTotal;
-
-    const calculatedTotal = subTotal + calculatedGst + 25;
+    const deliveryCharges = Object.keys(cart).length > 0 ? 10 : 0; // Conditionally set delivery charges
+    const calculatedTotal = subTotal + calculatedGst + deliveryCharges;
 
     setSubTotal(subTotal);
     setGst(calculatedGst);
     setTotal(calculatedTotal);
-  }, [cart]);
+  }, [cart, updateQuantity]);
 
   useEffect(() => {
     calculateBill();
@@ -51,24 +55,28 @@ function Cart() {
 
   const updateBill = useCallback((vendorEmail, menuId, newQuantity) => {
     setUpdateQuantity(newQuantity);
-    console.log("hell0 " + newQuantity);
 
     setCart((prevCart) => {
-      const updatedCart = { ...prevCart };
+      // Create a deep copy of the previous cart state
+      const updatedCart = JSON.parse(JSON.stringify(prevCart));
+
       if (updatedCart[vendorEmail] && updatedCart[vendorEmail][menuId]) {
         if (newQuantity <= 0) {
           // Remove item from cart if quantity is zero or less
           const { [menuId]: _, ...remainingItems } = updatedCart[vendorEmail];
           updatedCart[vendorEmail] = remainingItems;
-          console.log("qerqw: " + newQuantity);
+
           // Remove vendor from cart if it has no items left
           if (Object.keys(updatedCart[vendorEmail]).length === 0) {
             const { [vendorEmail]: _, ...remainingVendors } = updatedCart;
             return remainingVendors;
           }
         } else {
-          updatedCart[vendorEmail][menuId].quantity = newQuantity;
-          console.log("asfasdfasdfasdfasd:- " + newQuantity);
+          // Update the quantity of the item
+          updatedCart[vendorEmail][menuId] = {
+            ...updatedCart[vendorEmail][menuId],
+            quantity: newQuantity,
+          };
         }
       }
 
@@ -99,20 +107,29 @@ function Cart() {
 
   const handleAddAddress = (newAddress) => {
     // Update local addresses state
-    console.log("new address" + newAddress);
     dispatch(setAddresses([...addresses, newAddress])); // Add the new address to the Redux store
-
-    console.log("Addresses from Redux store:", addresses); // Add this to debug
 
     setShowAddAddress(false); // Close the modal
   };
 
   const handlePlaceOrder = async () => {
+    if (Object.keys(cart).length === 0) {
+      toast.info(
+        "Your cart is empty. Please add menu items before placing an order."
+      );
+      return;
+    }
     if (!selectedAddress) {
       toast.error("Please select a delivery address.");
       return;
     }
-
+    // Check if the cart is empty
+    if (Object.keys(cart).length === 0) {
+      toast.error(
+        "Your cart is empty. Please add menu items before placing an order."
+      );
+      return;
+    }
     // Prepare the orderRequest object by correctly mapping the cart items
     const orderRequest = {
       menuItems: Object.entries(cart).flatMap(([vendorEmail, vendorItems]) =>
@@ -130,20 +147,23 @@ function Cart() {
     };
 
     // Retrieve customerId and token from session storage
-    const customerId = sessionStorage.getItem("id");
+    //const customerId = sessionStorage.getItem("id");
     const token = sessionStorage.getItem("token");
 
-    if (!customerId || !token) {
+    // if (!customerId || !token) {
+    //   toast.error("User information is missing. Please log in again.");
+    //   return;
+    // }
+    if (!token) {
       toast.error("User information is missing. Please log in again.");
       return;
     }
 
     try {
-      console.log("Order Request Data:", orderRequest);
-      await placeOrder(customerId, vendorId, token, orderRequest);
+      await placeOrder(vendorId, token, orderRequest);
 
       toast.success("Order placed successfully!");
-      dispatch({ type: "CLEAR_CART" }); // Clear the cart after placing the order
+      dispatch(clearCart()); // Clear the cart after placing the order
       navigate("/"); // Navigate to order confirmation page
     } catch (error) {
       toast.error(error.message);
@@ -154,6 +174,7 @@ function Cart() {
   return (
     <div>
       <NavBar />
+
       <div className="content-container">
         <div className="row container-fluid">
           <div className="col-xl-1"></div>
@@ -273,10 +294,13 @@ function Cart() {
                     <span>GST (18%):</span>
                     <span>{gst.toFixed(2)}</span>
                   </div>
-                  <div className="d-flex justify-content-between">
-                    <span>Delivery Charges:</span>
-                    <span>25.00</span>
-                  </div>
+                  {/* Conditionally render Delivery Charges */}
+                  {Object.keys(cart).length > 0 && (
+                    <div className="d-flex justify-content-between">
+                      <span>Delivery Charges</span>
+                      <span>25.00</span>
+                    </div>
+                  )}
                   <div className="d-flex justify-content-between">
                     <span>Total:</span>
                     <span>{total.toFixed(2)}</span>
@@ -288,8 +312,9 @@ function Cart() {
                       onChange={(e) => setPaymentMethod(e.target.value)}
                     >
                       <option value="GOOGLE_PAY">Google Pay</option>
-                      <option value="PAYPAL">PayPal</option>
-                      <option value="CREDIT_CARD">Credit Card</option>
+                      <option value="PHONE_PAY">Phone Pay</option>
+                      <option value="DEBIT_CARD">Debit Card</option>
+                      <option value="PAYLATER">PAYLATER</option>
                     </select>
                     <button
                       className="btn btn-primary mt-3"

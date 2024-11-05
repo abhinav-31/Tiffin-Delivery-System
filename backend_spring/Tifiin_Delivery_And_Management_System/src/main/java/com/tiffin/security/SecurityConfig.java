@@ -16,12 +16,17 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import static org.springframework.security.config.Customizer.withDefaults;
+//import org.springframework.web.servlet.config.annotation.CorsRegistry;
+//import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @EnableWebSecurity
 @Configuration
 @EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
+
+  
+	
         @Autowired
         private JwtAuthenticationFilter jwtFilter;
 
@@ -31,17 +36,18 @@ public class SecurityConfig {
         private static final String[] PUBLIC_ENDPOINTS = {
                         "/users/vendorSignup",
                         "/users/deliveryBoySignup",
-                        "/users/vendorSignup",
                         "/users/signup",
                         "/users/signin",
                         "/v*/api-doc*/**",
                         "/swagger-ui/**",
                         "/home",
                         "/viewMenuOfVendor/{vendorId}",
-                        "/admin/allReviews",
+                        "/orders/customerOrderHistory",
                         "/home/vendorMenuList",
-                        "/orders/customerOrderHistory**",
-                        "/deliveryCharges/{customerPincode}/{vendorPincode}"
+                        "/deliveryCharges/{customerPincode}/{vendorPincode}",
+                        "/topic/orders/",
+                        "/ws/**",
+                        
         };
 
         private static final String[] VENDOR_ENDPOINTS = {
@@ -52,25 +58,23 @@ public class SecurityConfig {
 
         private static final String[] CUSTOMER_ENDPOINTS = {
                         "/users/addCustomerAddresses**",
-                        "/orders/{customerId}/{vendorId}",
+                        "/orders/addOrder/{vendorId}",
                         "/orders/addReview/{orderId}",
                         "/users/getCustomerAddresses",
-                        
                        
-                        
         };
 
         private static final String[] DELIVERY_BOY_ENDPOINTS = {
                         "/orders/changeStatus/**",
-                        "/orders/deliveryBoy/{deliveryBoyId}"
+                        "/orders/deliveryBoy"
         };
 
         private static final String[] ADMIN_ENDPOINTS = {
-                        "/admin/**"
+                        "/admin/**" ,"/admin/allReviews"
         };
 
         @Bean
-        public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
                 http.cors(withDefaults())
                                 .csrf(csrf -> csrf.disable())
                                 .exceptionHandling(handling -> handling.authenticationEntryPoint(authEntry))
@@ -90,13 +94,13 @@ public class SecurityConfig {
                 return http.build();
         }
 
-        @Bean
-        public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+    @Bean
+    AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
                 return config.getAuthenticationManager();
         }
 
-        @Bean
-        public PasswordEncoder passwordEncoder() {
+    @Bean
+    PasswordEncoder passwordEncoder() {
                 return new BCryptPasswordEncoder();
         }
 }

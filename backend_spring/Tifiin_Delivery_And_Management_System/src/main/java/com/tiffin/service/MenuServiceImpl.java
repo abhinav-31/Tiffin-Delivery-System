@@ -9,6 +9,9 @@ import com.tiffin.entities.Menu;
 import com.tiffin.entities.User;
 import com.tiffin.repository.MenuRepository;
 import com.tiffin.repository.UserRepository;
+
+import jakarta.transaction.Transactional;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +23,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class MenuServiceImpl implements MenuService {
 
     @Autowired
@@ -45,10 +49,15 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public ApiResponse updateMenuQuantity(MenuDTO menuDTO) {
         Menu menu = menuRepository.findById(menuDTO.getId()).orElseThrow(() -> new RuntimeException("Menu not found"));
-        Menu updatedMenu = modelMapper.map(menuDTO, Menu.class);
-        menu.setQuantity(updatedMenu.getQuantity());
-        menu.setPrice(updatedMenu.getPrice());
-        menuRepository.save(menu);
+//        Menu updatedMenu = modelMapper.map(menuDTO, Menu.class);
+//        menu.setQuantity(updatedMenu.getQuantity());
+//        menu.setPrice(updatedMenu.getPrice());
+//        menuRepository.save(menu);
+        menu.setPrice(menuDTO.getPrice());
+        menu.setQuantity(menuDTO.getQuantity());
+//        menu.setPrice(menuDTO.getPrice());
+//       menuRepository.save(menu);
+        System.out.println("Hello update menu");
         return new ApiResponse("Menu updated");
     }
 
@@ -66,8 +75,10 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public ApiResponse deleteMenu(MenuDTO menuDTO) {
         Menu menu = menuRepository.findById(menuDTO.getId()).orElseThrow(() -> new RuntimeException("Menu not found"));
-        menu.setIsDeleted(true);
-        menuRepository.save(menu);
+//        menu.setIsDeleted(true);
+        menuRepository.delete(menu);
+//        menuRepository.save(menu);
+       
         return new ApiResponse("Menu deleted");
     }
 

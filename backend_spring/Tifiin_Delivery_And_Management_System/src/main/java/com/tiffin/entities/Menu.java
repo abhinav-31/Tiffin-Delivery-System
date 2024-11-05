@@ -46,6 +46,7 @@ public class Menu extends BaseEntity {
 	@Lob
 	@Column(columnDefinition = "LongBlob")// => large object , col type : longblob
 	private byte[] menuImage;
+	
 	@OneToMany(mappedBy = "menuItem")
 	private Set<OrderDetails> orderDetails; // Links to OrderDetails to track quantities in orders
 

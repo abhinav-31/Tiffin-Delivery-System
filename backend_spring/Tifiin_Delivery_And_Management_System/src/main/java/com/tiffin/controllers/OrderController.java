@@ -14,10 +14,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tiffin.dto.OrderRequestDTO;
-import com.tiffin.dto.ReviewDTO;
+import com.tiffin.dto.ReviewReqDTO;
 import com.tiffin.enums.OrderStatus;
-import com.tiffin.enums.PaymentMethod;
+import com.tiffin.service.FindDistanceService;
 import com.tiffin.service.OrderService;
+import com.tiffin.service.ReviewService;
+
 import jakarta.validation.Valid;
 
 @RestController
@@ -25,44 +27,52 @@ import jakarta.validation.Valid;
 @RequestMapping("/orders")
 public class OrderController {
 
-  @Autowired
-  private OrderService orderService;
+	@Autowired
+	private OrderService orderService;
+	@Autowired
+	private ReviewService reviewService;
+	@Autowired
+	private FindDistanceService findDistanceService;
 
-  @PostMapping("/{customerId}/{vendorId}")
-  public ResponseEntity<?> addOrder(@RequestBody @Valid OrderRequestDTO orderRequest, @PathVariable Long customerId,
-                                    @PathVariable Long vendorId) {
-    return ResponseEntity.status(HttpStatus.CREATED)
-            .body(orderService.addOrder( orderRequest, customerId, vendorId));
-  }
+//	@RequestMapping(method = RequestMethod.POST)
+	@PostMapping("/addOrder/{vendorId}")
+	public ResponseEntity<?> addOrder(@RequestBody @Valid OrderRequestDTO orderRequest, @PathVariable Long vendorId) {
+		return ResponseEntity.status(HttpStatus.CREATED).body(orderService.addOrder(orderRequest, vendorId));
+	}
 
-  @PostMapping("/addReview/{orderId}")
-  public ResponseEntity<?> addReviewByCustomer(@PathVariable Long orderId, @RequestBody ReviewDTO review) {
-    return ResponseEntity.status(HttpStatus.CREATED).body(orderService.addReview(orderId, review));
-  }
+	// Adding Review for order by customer
+	@PostMapping("/addReview/{orderId}")
+	public ResponseEntity<?> addReviewByCustomer(@PathVariable Long orderId, @RequestBody ReviewReqDTO review) {
+		return ResponseEntity.status(HttpStatus.CREATED).body(reviewService.addReview(orderId, review));
+	}
 
-  @GetMapping("/{vendorId}")
-  public ResponseEntity<?> getOrdersByStatus(@RequestParam OrderStatus status, @PathVariable Long vendorId) {
-    return ResponseEntity.status(HttpStatus.OK).body(orderService.getOrdersByVendorAndStatus(vendorId, status));
-  }
+	@GetMapping("/{vendorId}")
+	public ResponseEntity<?> getOrdersByStatus(@RequestParam OrderStatus status, @PathVariable Long vendorId) {
+		return ResponseEntity.status(HttpStatus.OK).body(orderService.getOrdersByVendorAndStatus(vendorId, status));
+	}
 
-  @PutMapping("/changeStatus/{orderId}")
-  public ResponseEntity<?> changeOrderStatus(@PathVariable Long orderId) {
-    return ResponseEntity.status(HttpStatus.CREATED).body(orderService.changeStatus(orderId));
-  }
+	@PutMapping("/changeStatus/{orderId}")
+	public ResponseEntity<?> changeOrderStatus(@PathVariable Long orderId) {
+		System.out.println("Hello order status");
+		return ResponseEntity.status(HttpStatus.OK).body(orderService.changeStatus(orderId));
+	}
 
-  @GetMapping("/deliveryBoy/{deliveryBoyId}")
-  public ResponseEntity<?> getPlacedForDelivery(@RequestParam OrderStatus status, @PathVariable Long deliveryBoyId) {
-    return ResponseEntity.status(HttpStatus.OK).body(orderService.getPlacedForDelivery(deliveryBoyId, status));
-  }
+	@GetMapping("/deliveryBoy")
+	public ResponseEntity<?> getOrderForDeliveryBoy(@RequestParam OrderStatus status) {
+		System.out.println("order placed 2");
+		return ResponseEntity.status(HttpStatus.OK).body(orderService.getPlacedForDelivery(status));
+	}
 
-  @GetMapping("/deliveryCharges/{customerPincode}/{vendorPincode}")
-  public ResponseEntity<?> getDeliveryCharges(@RequestParam String customerPincode, @RequestParam String vendorPincode) {
-    return ResponseEntity.status(HttpStatus.OK).body(orderService.deliveryDistanceBetweenVendorAndCust(customerPincode, vendorPincode));
-  }
-  
-  @GetMapping("/customerOrderHistory")
-  ResponseEntity<?> getCustomerOrderHistory(){
-	  return ResponseEntity.status(HttpStatus.CREATED).body(orderService.getCustomerOrderHistory());
-  }
+	@GetMapping("/deliveryCharges/{customerPincode}/{vendorPincode}")
+	public ResponseEntity<?> getDeliveryCharges(@RequestParam String customerPincode,
+			@RequestParam String vendorPincode) {
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(findDistanceService.deliveryDistanceBetweenVendorAndCust(customerPincode, vendorPincode));
+	}
+
+	@GetMapping("/customerOrderHistory")
+	ResponseEntity<?> getCustomerOrderHistory() {
+		return ResponseEntity.status(HttpStatus.CREATED).body(orderService.getCustomerOrderHistory());
+	}
 
 }

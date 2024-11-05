@@ -43,23 +43,7 @@ export const fetchMenus = async (vendorId) => {
   }
 };
 
-export const addCustomerReview = async (orderId, customerId, reviewData) => {
-  try {
-    const response = await axiosInstance.post(
-      `/orders/addReview/${orderId}/${customerId}`,
-      reviewData,
-      {
-        headers: {
-          Authorization: `Bearer ${getToken()}`,
-        },
-      }
-    );
-    return response.data;
-  } catch (error) {
-    console.error("Error adding customer review:", error);
-    throw error;
-  }
-};
+
 
 // Add menu
 export const addMenu = async (vendorId, formData) => {

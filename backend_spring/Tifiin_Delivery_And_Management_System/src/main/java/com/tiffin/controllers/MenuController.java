@@ -24,15 +24,8 @@ public class MenuController {
   @Autowired
   private MenuService menuService;
 
-  //	@PostMapping(value = "/addMenu/{vendorId}", consumes = "multipart/form-data")
-//	public ResponseEntity<?> uploadImage(@PathVariable Long vendorId, @RequestParam MultipartFile image,
-//			@RequestParam MenuReqDTO menuDTO) throws IOException {
-//		return ResponseEntity.status(HttpStatus.CREATED).body(menuService.addMenu(menuDTO, vendorId, image));
-//		// System.out.println("Image file uploaded successfully for emp " +
-//		// Menu.getFirstName());
-//	}
   @PostMapping(value = "/addMenu/{vendorId}", consumes = "multipart/form-data")
-  public ResponseEntity<?> uploadImage(@PathVariable Long vendorId, @RequestParam("image") MultipartFile image,
+  public ResponseEntity<?> addMenuWithImage(@PathVariable Long vendorId, @RequestParam("image") MultipartFile image,
                                        @RequestParam("name") String name, @RequestParam("description") String description,
                                        @RequestParam("price") Double price, @RequestParam("category") String category,
                                        @RequestParam("quantity") Integer quantity) throws IOException {
@@ -52,9 +45,10 @@ public class MenuController {
   @PutMapping("/{id}")
   public ResponseEntity<MenuReqDTO> updateMenu(@PathVariable Long id, @RequestBody MenuReqDTO menuDTO) {
     MenuReqDTO updatedMenu = menuService.updateMenu(id, menuDTO);
+    
     return ResponseEntity.ok(updatedMenu);
   }
-  @PostMapping
+  @DeleteMapping
   public ResponseEntity<ApiResponse> deleteMenu(@RequestBody MenuDTO menuDTO) {
     return ResponseEntity.status(HttpStatus.CREATED).body(menuService.deleteMenu(menuDTO));
   }
@@ -78,6 +72,7 @@ public class MenuController {
   }
   @PostMapping("/updateQuantity")
   public ResponseEntity<ApiResponse> updateMenuQuantity(@RequestBody MenuDTO menuDTO) {
+	  System.out.println("Update menu quantity");
     return ResponseEntity.status(HttpStatus.CREATED).body(menuService.updateMenuQuantity(menuDTO));
   }
 }

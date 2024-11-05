@@ -1,20 +1,28 @@
 package com.tiffin.controllers;
 
+import java.io.IOException;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.tiffin.dto.ApiResponse;
 import com.tiffin.dto.MenuDTO;
 import com.tiffin.dto.MenuReqDTO;
 import com.tiffin.dto.MenuResWithImageDTO;
-import com.tiffin.entities.Menu;
 import com.tiffin.enums.MenuCategory;
 import com.tiffin.service.MenuService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
-import java.util.List;
 
 @RestController
 @RequestMapping("/menus")
@@ -70,6 +78,7 @@ public class MenuController {
     List<MenuResWithImageDTO> menus = menuService.getMenuByVendorId(vendorId);
     return ResponseEntity.ok(menus);
   }
+
   @PostMapping("/updateQuantity")
   public ResponseEntity<ApiResponse> updateMenuQuantity(@RequestBody MenuDTO menuDTO) {
 	  System.out.println("Update menu quantity");

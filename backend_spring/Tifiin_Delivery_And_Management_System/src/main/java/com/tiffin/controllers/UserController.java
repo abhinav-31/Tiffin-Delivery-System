@@ -1,6 +1,10 @@
 package com.tiffin.controllers;
 
-import org.springframework.web.bind.annotation.RestController;
+import java.io.IOException;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -8,17 +12,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import jakarta.validation.Valid;
 
-import com.tiffin.dto.*;
+import com.tiffin.dto.AddressReqDTO;
+import com.tiffin.dto.DeliveryBoySignUpReqDTO;
+import com.tiffin.dto.SignInResDTO;
+import com.tiffin.dto.UserSignInReqDTO;
+import com.tiffin.dto.UserSignUpReqDTO;
 import com.tiffin.service.AuthenticationService;
 import com.tiffin.service.UserService;
-import java.io.IOException;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.HttpStatus;
+import jakarta.validation.Valid;
 
 @RestController
 @CrossOrigin
@@ -58,6 +63,7 @@ public class UserController {
 		SignInResDTO response = authenticationService.authenticateUser(userSignIn);
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
 	}
+
 
 	@GetMapping("/getCustomerAddresses")
 	public ResponseEntity<?> getCustomerAddress() {

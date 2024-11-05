@@ -1,0 +1,38 @@
+version: "3.8"
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: tiffinity-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD:-root}
+      MYSQL_DATABASE: tiffinity
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - app-network
+
+  spring-boot-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: spring-boot-app
+    depends_on:
+      - mysql
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://tiffinity-mysql:3306/tiffinity
+      SPRING_DATASOURCE_USERNAME: ${MYSQL_USER:-root}
+      SPRING_DATASOURCE_PASSWORD: ${MYSQL_PASSWORD:-root}
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  mysql-data:
